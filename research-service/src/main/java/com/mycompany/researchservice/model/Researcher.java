@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Table(name = "researchers")
 public class Researcher {
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
 
