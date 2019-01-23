@@ -1,0 +1,18 @@
+version: "3.5"
+
+services:
+
+  research-mysql:
+    build: docker/mysql
+    container_name: research-mysql
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=researchdb
+      - MYSQL_USERNAME=root
+      - MYSQL_PASSWORD=secret
+    healthcheck:
+      test: "mysqladmin ping -u root -p$${MYSQL_ROOT_PASSWORD}"
+      start_period: 30s
