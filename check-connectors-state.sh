@@ -4,7 +4,10 @@ echo "-------------------------------"
 echo "Connector and their tasks state"
 echo "-------------------------------"
 
-curl localhost:8083/connectors/debezium-mysql-source-researchers/status
+curl localhost:8083/connectors/debezium-mysql-source-researchdb/status
+
+echo
+curl localhost:8083/connectors/elasticsearch-sink-institutes/status
 
 echo
 curl localhost:8083/connectors/elasticsearch-sink-researchers/status

@@ -1,5 +1,5 @@
 {
-  "name": "debezium-mysql-source-researchers",
+  "name": "debezium-mysql-source-researchdb",
   "config": {
     "connector.class": "io.debezium.connector.mysql.MySqlConnector",
     "database.hostname": "mysql",

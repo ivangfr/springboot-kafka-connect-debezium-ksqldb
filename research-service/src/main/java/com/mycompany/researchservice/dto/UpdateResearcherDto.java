@@ -12,4 +12,7 @@ public class UpdateResearcherDto {
     @ApiModelProperty(position = 2, example = "Franchin2")
     private String lastName;
 
+    @ApiModelProperty(position = 3, example = "2")
+    private Long instituteId;
+
 }
