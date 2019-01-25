@@ -151,6 +151,22 @@ services:
       test: "wget --quiet --tries=1 --spider http://localhost:8000 || exit 1"
       start_period: 30s
 
+  ksql-server:
+    image: confluentinc/cp-ksql-server:5.1.0
+    container_name: ksql-server
+    restart: unless-stopped
+    depends_on:
+      - kafka
+      - schema-registry
+    environment:
+      KSQL_BOOTSTRAP_SERVERS: kafka:9092
+      KSQL_LISTENERS: http://0.0.0.0:8088
+      KSQL_KSQL_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+      KSQL_KSQL_SERVICE_ID: ksql-server-1
+    healthcheck:
+      test: "curl -f http://localhost:8088 || exit 1"
+      start_period: 30s
+
   mysql:
     build: docker/mysql
     container_name: mysql
