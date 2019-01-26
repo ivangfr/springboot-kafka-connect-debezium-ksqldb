@@ -6,10 +6,10 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class CreateInstituteDto {
+public class CreateArticleDto {
 
-    @ApiModelProperty(example = "MIT")
+    @ApiModelProperty(example = "Advantages of using KSQL over Kafka Streams")
     @NotBlank
-    private String name;
+    private String title;
 
 }

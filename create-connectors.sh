@@ -10,6 +10,13 @@ curl -i -X POST http://localhost:8083/connectors \
   -H 'Accept: application/json' \
   -d @connectors/debezium-mysql-source-researchdb.json
 
+## JDBC > just for testing
+#echo
+#curl -i -X POST http://localhost:8083/connectors \
+#  -H 'Content-Type: application/json' \
+#  -H 'Accept: application/json' \
+#  -d @connectors/jdbc-mysql-source-researchdb.json
+
 echo
 curl -i -X POST http://localhost:8083/connectors \
   -H 'Content-Type: application/json' \
@@ -20,7 +27,19 @@ echo
 curl -i -X POST http://localhost:8083/connectors \
   -H 'Content-Type: application/json' \
   -H 'Accept: application/json' \
-  -d @connectors/elasticsearch-sink-researchers.json
+  -d @connectors/elasticsearch-sink-articles.json
+
+#echo
+#curl -i -X POST http://localhost:8083/connectors \
+#  -H 'Content-Type: application/json' \
+#  -H 'Accept: application/json' \
+#  -d @connectors/elasticsearch-sink-researchers.json
+
+#echo
+#curl -i -X POST http://localhost:8083/connectors \
+#  -H 'Content-Type: application/json' \
+#  -H 'Accept: application/json' \
+#  -d @connectors/elasticsearch-sink-reviews.json
 
 echo
 echo "--------------------------------------------------------------"

@@ -134,7 +134,7 @@ services:
       TZ: "${TZ-Europe/Berlin}"
     healthcheck:
       test: "curl -f http://localhost:$$CONNECT_REST_PORT || exit 1"
-      start_period: 30s
+      start_period: 1m
 
   kafka-connect-ui:
     image: landoop/kafka-connect-ui:0.9.6
@@ -163,6 +163,7 @@ services:
       KSQL_LISTENERS: http://0.0.0.0:8088
       KSQL_KSQL_SCHEMA_REGISTRY_URL: http://schema-registry:8081
       KSQL_KSQL_SERVICE_ID: ksql-server-1
+      KSQL_AUTO_OFFSET_RESET: "earliest"
     healthcheck:
       test: "curl -f http://localhost:8088 || exit 1"
       start_period: 30s

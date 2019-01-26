@@ -5,8 +5,7 @@
     "tasks.max": "1",
     "topics": "mysql.researchdb.institutes",
     "connection.url": "http://elasticsearch:9200",
-    "transforms": "unWrapFromEnvelop, extractKey",
-    "transforms.unWrapFromEnvelop.type": "io.debezium.transforms.UnwrapFromEnvelope",
+    "transforms": "extractKey",
     "transforms.extractKey.type": "org.apache.kafka.connect.transforms.ExtractField$Key",
     "transforms.extractKey.field": "id",
     "type.name": "institute"

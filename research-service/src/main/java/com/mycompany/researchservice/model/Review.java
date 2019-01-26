@@ -4,7 +4,6 @@ import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,28 +17,29 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "researchers")
-public class Researcher {
+@Table(name = "reviews")
+public class Review {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String firstName;
+    @ManyToOne
+    @JoinColumn(name = "researcher_id", nullable = false, foreignKey = @ForeignKey(name = "FK_RESEARCHER"))
+    private Researcher researcher;
+
+    @ManyToOne
+    @JoinColumn(name = "article_id", nullable = false, foreignKey = @ForeignKey(name = "FK_ARTICLE"))
+    private Article article;
 
     @Column(nullable = false)
-    private String lastName;
+    private String comment;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
     @Column(nullable = false)
     private LocalDateTime updatedAt;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "institute_id", nullable = false, foreignKey = @ForeignKey(name = "FK_INSTITUTE"))
-    private Institute institute;
 
     @PrePersist
     public void onPrePersist() {

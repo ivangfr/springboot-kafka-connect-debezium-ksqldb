@@ -5,10 +5,10 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class InstituteDto {
+public class ArticleDto {
 
     private Long id;
-    private String name;
+    private String title;
     private LocalDateTime createdAt;
 
 }

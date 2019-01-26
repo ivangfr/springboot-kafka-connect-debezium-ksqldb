@@ -6,10 +6,9 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class CreateInstituteDto {
+public class UpdateArticleDto {
 
-    @ApiModelProperty(example = "MIT")
-    @NotBlank
-    private String name;
+    @ApiModelProperty(example = "Advantages of using Spring Boot over Play Framework")
+    private String title;
 
 }

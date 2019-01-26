@@ -4,9 +4,9 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-public class UpdateInstituteDto {
+public class UpdateReviewDto {
 
-    @ApiModelProperty(example = "UCSF")
-    private String name;
+    @ApiModelProperty(example = "It is a very bad article")
+    private String comment;
 
 }

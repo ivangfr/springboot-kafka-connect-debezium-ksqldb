@@ -1,13 +1,13 @@
 {
-  "name": "elasticsearch-sink-researchers",
+  "name": "elasticsearch-sink-articles",
   "config": {
     "connector.class": "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector",
     "tasks.max": "1",
-    "topics": "mysql.researchdb.researchers",
+    "topics": "mysql.researchdb.articles",
     "connection.url": "http://elasticsearch:9200",
     "transforms": "extractKey",
     "transforms.extractKey.type": "org.apache.kafka.connect.transforms.ExtractField$Key",
     "transforms.extractKey.field": "id",
-    "type.name": "researcher"
+    "type.name": "article"
   }
 }
