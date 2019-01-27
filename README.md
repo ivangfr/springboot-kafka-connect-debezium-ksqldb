@@ -6,10 +6,12 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
 [`KSQL`](https://www.confluent.io/product/ksql/). For this, we have: `research-service` that inserts/updates/deletes
 records in [`MySQL`](https://www.mysql.com); `Source Connectors` that monitor inserted/updated/deleted records in MySQL
 and push messages related to those changes to Kafka; `Sink Connectors` that read messages from Kafka and insert/update
-documents in [`Elasticsearch`](https://www.elastic.co); finally, `ksql` that listens for some topics in Kafka, does some
-joins and and pushes new messages to new topics in Kafka.
+documents in [`Elasticsearch`](https://www.elastic.co); finally, `KSQL-Server` that listens some topics in Kafka,
+does some joins and pushes new messages to new topics in Kafka.
 
 ## Microservices
+
+![project-diagram](images/project-diagram.png)
 
 ### research-service
 
@@ -34,7 +36,6 @@ docker-compose up -d
 > ```
 > docker-compose build
 > ```
-> ---
 > To stop and remove containers, networks and volumes type:
 > ```
 > docker-compose down -v
@@ -124,8 +125,9 @@ curl localhost:9200/mysql.researchdb.articles/_search?pretty
 
 ## TODO
 
+- change index names in Elasticsearch. currently, it's creating the index name as the topic name in Kafka.
 - configure `Elasticsearch Sink Connector` to listen successfully from the topic produced by `ksql`.
 
-## REFERENCES
+## References
 
 - https://docs.confluent.io/current/ksql/docs/tutorials/basics-docker.html#ksql-quickstart-docker
