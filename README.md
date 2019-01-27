@@ -69,6 +69,15 @@ mvn spring-boot:run
 ```
 The swagger link is http://localhost:9080/swagger-ui.html
 
+> **Note**: if you pick this way, create at least one `review` on `Review-Controller` -> `POST /api/reviews` so that
+> the topic `mysql.researchdb.reviews` is created on Kafka. Otherwise, you can an exception on running `ksql-cli`,
+> explained in the next sections. The exception looks like:
+> ```
+> io.confluent.ksql.parser.exception.ParseFailedException: Exception while processing statement: Avro schema for message
+> values on topic mysql.researchdb.reviews does not exist in the Schema Registry.
+> ```
+
+
 2. Or you can just run a simulation
 ```
 # Using default values (reviews.total=10 and reviews.delay-interval=0)
@@ -125,8 +134,15 @@ curl localhost:9200/mysql.researchdb.articles/_search?pretty
 
 ## TODO
 
-- change index names in Elasticsearch. currently, it's creating the index name as the topic name in Kafka.
-- configure `Elasticsearch Sink Connector` to listen successfully from the topic produced by `ksql`.
+1. Create `RESEARCHERS_INSTITUTES` stream in `ksql.commands` file.
+
+2. Configure `Elasticsearch Sink Connector` to listen successfully from the topics `RESEARCHERS_INSTITUTES` and
+`REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES` produced by `ksql`.
+
+3. replace the deprecated `topic.index.map` configured in `elasticsearch-sink-*` connectors:
+Waiting for those `kafka-connect-elasticsearch` issues to be fixed:
+- `Create indices before writing records #261` https://github.com/confluentinc/kafka-connect-elasticsearch/pull/261
+- `ConnectException: Cannot create mapping when using RegexRouter/TimestampRouter SMT #99` https://github.com/confluentinc/kafka-connect-elasticsearch/issues/99
 
 ## References
 
