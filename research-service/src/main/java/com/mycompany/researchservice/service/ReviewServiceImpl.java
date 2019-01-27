@@ -1,8 +1,10 @@
 package com.mycompany.researchservice.service;
 
+import com.mycompany.researchservice.exception.InstituteDeletionException;
 import com.mycompany.researchservice.exception.ReviewNotFoundException;
 import com.mycompany.researchservice.model.Review;
 import com.mycompany.researchservice.repository.ReviewRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,6 +29,10 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public void deleteReview(Review review) {
-        reviewRepository.delete(review);
+        try {
+            reviewRepository.delete(review);
+        } catch (DataIntegrityViolationException e) {
+            throw new InstituteDeletionException(String.format("Review with id %s cannot be deleted", review.getId()));
+        }
     }
 }

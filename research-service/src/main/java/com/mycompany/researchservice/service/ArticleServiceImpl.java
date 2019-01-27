@@ -1,8 +1,10 @@
 package com.mycompany.researchservice.service;
 
 import com.mycompany.researchservice.exception.ArticleNotFoundException;
+import com.mycompany.researchservice.exception.InstituteDeletionException;
 import com.mycompany.researchservice.model.Article;
 import com.mycompany.researchservice.repository.ArticleRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,6 +36,10 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public void deleteArticle(Article article) {
-        articleRepository.delete(article);
+        try {
+            articleRepository.delete(article);
+        } catch (DataIntegrityViolationException e) {
+            throw new InstituteDeletionException(String.format("Article with id %s cannot be deleted", article.getId()));
+        }
     }
 }

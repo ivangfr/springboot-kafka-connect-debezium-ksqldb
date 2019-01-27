@@ -70,8 +70,12 @@ The swagger link is http://localhost:9080/swagger-ui.html
 
 2. Or you can just run a simulation
 ```
+# Using default values (reviews.total=10 and reviews.delay-interval=0)
+mvn spring-boot:run -Dspring-boot.run.profiles=simulation
+
+# Changing values
 mvn spring-boot:run \
-  -Dspring-boot.run.jvmArguments="-Dspring.profiles.active=simulation -Dreviews.total=10 -Dreviews.delay-interval=0"
+  -Dspring-boot.run.jvmArguments="-Dspring.profiles.active=simulation -Dreviews.total=100 -Dreviews.delay-interval=0"
 ```
 This mode will create automatically and randomly a certain number of reviews.
 - `reviews.total`: total number of reviews you want to be created;
@@ -120,7 +124,7 @@ curl localhost:9200/mysql.researchdb.articles/_search?pretty
 
 ## TODO
 
-- configure the sink connector to `Elasticsearch` to the topic produced by `ksql`.
+- configure `Elasticsearch Sink Connector` to listen successfully from the topic produced by `ksql`.
 
 ## REFERENCES
 

@@ -17,7 +17,7 @@ public class CreateReviewDto {
     @Positive
     private Long articleId;
 
-    @ApiModelProperty(position = 3, example = "It is a good article")
+    @ApiModelProperty(position = 3, example = "Ln 56: replace the 'a' by 'an'")
     @NotBlank
     private String comment;
 

@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class UpdateReviewDto {
 
-    @ApiModelProperty(example = "It is a very bad article")
+    @ApiModelProperty(example = "Ln 106: replace the 'for' by 'to'")
     private String comment;
 
 }
