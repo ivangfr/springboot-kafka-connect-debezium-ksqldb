@@ -88,16 +88,17 @@ The Swagger link is http://localhost:9080/swagger-ui.html
 #### Batch Simulation
 
 This mode will create automatically and randomly a certain number of reviews. The parameters available are:
+
 | parameter | default | description |
 | --------- | ------- | ----------- |
 | `reviews.total` | `10` | total number of reviews you want to be created |
-| `reviews.delay-interval` | `0` | delay between the creation of reviews |
+| `reviews.delay-millis` | `0` | delay between the creation of reviews in millis |
 
 Inside `/springboot-kafka-debezium-ksql/research-service`, you can run the simulation, for example, changing the
 default values
 ```
 ./mvnw spring-boot:run \
-  -Dspring-boot.run.jvmArguments="-Dspring.profiles.active=simulation -Dreviews.total=100 -Dreviews.delay-interval=0"
+  -Dspring-boot.run.jvmArguments="-Dspring.profiles.active=simulation -Dreviews.total=100 -Dreviews.delay-millis=0"
 ```
 
 ### Run ksql-cli

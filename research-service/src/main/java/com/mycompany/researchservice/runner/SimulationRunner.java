@@ -30,8 +30,8 @@ public class SimulationRunner implements CommandLineRunner {
     @Value("${reviews.total}")
     private Integer reviewsTotal;
 
-    @Value("${reviews.delay-interval}")
-    private Integer reviewsDelayInterval;
+    @Value("${reviews.delay-millis}")
+    private Integer reviewsDelayMillis;
 
     private final Random random = new Random();
 
@@ -62,7 +62,7 @@ public class SimulationRunner implements CommandLineRunner {
             log.info("Review created: {}", review);
 
             try {
-                Thread.sleep(reviewsDelayInterval);
+                Thread.sleep(reviewsDelayMillis);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

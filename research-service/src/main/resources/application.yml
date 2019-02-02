@@ -43,4 +43,4 @@ logging.level:
 
 reviews:
   total: 10
-  delay-interval: 0
+  delay-millis: 0
