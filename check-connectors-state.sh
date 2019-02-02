@@ -18,9 +18,6 @@ curl localhost:8083/connectors/elasticsearch-sink-articles/status
 #echo
 #curl localhost:8083/connectors/elasticsearch-sink-researchers/status
 
-#echo
-#curl localhost:8083/connectors/elasticsearch-sink-reviews/status
-
 echo
 echo "You can also use Kafka Connect UI, link http://localhost:8086"
 echo

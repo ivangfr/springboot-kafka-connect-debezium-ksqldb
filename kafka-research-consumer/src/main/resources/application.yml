@@ -1,0 +1,32 @@
+server.port: 9081
+
+spring:
+  application:
+    name: kafka-research-consumer
+
+kafka:
+  bootstrap-servers: localhost:29092
+  reviews:
+    id: kafkaResearchConsumer1
+    topic: REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES
+    group-id: kafkaResearchConsumerGroup
+    start-offset: earliest
+    concurrency: 4
+    max-poll-records: 100
+  avro:
+    schema-registry-url: http://localhost:8081
+
+elasticsearch:
+  host: localhost
+  port: 9300
+  cluster-name: docker-es-cluster
+
+management:
+  security:
+    enabled: false
+  endpoints:
+    web:
+      exposure.include: "*"
+  endpoint:
+    health:
+      show-details: always
