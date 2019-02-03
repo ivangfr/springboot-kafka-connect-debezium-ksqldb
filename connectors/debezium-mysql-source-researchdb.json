@@ -12,6 +12,7 @@
     "database.history.kafka.bootstrap.servers": "kafka:9092",
     "database.history.kafka.topic": "dbhistory.mysql",
     "include.schema.changes": "true",
+
     "transforms": "unwrap",
     "transforms.unwrap.type": "io.debezium.transforms.UnwrapFromEnvelope"
   }

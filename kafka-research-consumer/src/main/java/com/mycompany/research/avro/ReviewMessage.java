@@ -13,8 +13,8 @@ import org.apache.avro.message.SchemaStore;
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
 public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -5416322796159296127L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"ReviewMessage\",\"namespace\":\"com.mycompany.research.avro\",\"fields\":[{\"name\":\"REVIEW_ID\",\"type\":[\"null\",\"long\"],\"default\":null},{\"name\":\"ARTICLE_ID\",\"type\":[\"null\",\"long\"],\"default\":null},{\"name\":\"ARTICLE_TITLE\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"REVIEWER_ID\",\"type\":[\"null\",\"long\"],\"default\":null},{\"name\":\"REVIEWER_FIRST_NAME\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"REVIEWER_LAST_NAME\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"INSTITUTE_ID\",\"type\":[\"null\",\"long\"],\"default\":null},{\"name\":\"INSTITUTE_NAME\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"COMMENT\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"CREATED_AT\",\"type\":[\"null\",\"string\"],\"default\":null}]}");
+  private static final long serialVersionUID = -883489963287657117L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"ReviewMessage\",\"namespace\":\"com.mycompany.research.avro\",\"fields\":[{\"name\":\"REVIEW_ID\",\"type\":[\"null\",\"long\"],\"default\":null},{\"name\":\"ARTICLE_ID\",\"type\":[\"null\",\"long\"],\"default\":null},{\"name\":\"ARTICLE_TITLE\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"REVIEWER_ID\",\"type\":[\"null\",\"long\"],\"default\":null},{\"name\":\"REVIEWER_FIRST_NAME\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"REVIEWER_LAST_NAME\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"INSTITUTE_ID\",\"type\":[\"null\",\"long\"],\"default\":null},{\"name\":\"INSTITUTE_NAME\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"COMMENT\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"CREATED_AT\",\"type\":[\"null\",\"long\"],\"default\":null}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -60,7 +60,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
   @Deprecated public java.lang.Long INSTITUTE_ID;
   @Deprecated public java.lang.CharSequence INSTITUTE_NAME;
   @Deprecated public java.lang.CharSequence COMMENT;
-  @Deprecated public java.lang.CharSequence CREATED_AT;
+  @Deprecated public java.lang.Long CREATED_AT;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -82,7 +82,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
    * @param COMMENT The new value for COMMENT
    * @param CREATED_AT The new value for CREATED_AT
    */
-  public ReviewMessage(java.lang.Long REVIEW_ID, java.lang.Long ARTICLE_ID, java.lang.CharSequence ARTICLE_TITLE, java.lang.Long REVIEWER_ID, java.lang.CharSequence REVIEWER_FIRST_NAME, java.lang.CharSequence REVIEWER_LAST_NAME, java.lang.Long INSTITUTE_ID, java.lang.CharSequence INSTITUTE_NAME, java.lang.CharSequence COMMENT, java.lang.CharSequence CREATED_AT) {
+  public ReviewMessage(java.lang.Long REVIEW_ID, java.lang.Long ARTICLE_ID, java.lang.CharSequence ARTICLE_TITLE, java.lang.Long REVIEWER_ID, java.lang.CharSequence REVIEWER_FIRST_NAME, java.lang.CharSequence REVIEWER_LAST_NAME, java.lang.Long INSTITUTE_ID, java.lang.CharSequence INSTITUTE_NAME, java.lang.CharSequence COMMENT, java.lang.Long CREATED_AT) {
     this.REVIEW_ID = REVIEW_ID;
     this.ARTICLE_ID = ARTICLE_ID;
     this.ARTICLE_TITLE = ARTICLE_TITLE;
@@ -126,7 +126,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
     case 6: INSTITUTE_ID = (java.lang.Long)value$; break;
     case 7: INSTITUTE_NAME = (java.lang.CharSequence)value$; break;
     case 8: COMMENT = (java.lang.CharSequence)value$; break;
-    case 9: CREATED_AT = (java.lang.CharSequence)value$; break;
+    case 9: CREATED_AT = (java.lang.Long)value$; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -279,7 +279,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
    * Gets the value of the 'CREATED_AT' field.
    * @return The value of the 'CREATED_AT' field.
    */
-  public java.lang.CharSequence getCREATEDAT() {
+  public java.lang.Long getCREATEDAT() {
     return CREATED_AT;
   }
 
@@ -287,7 +287,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
    * Sets the value of the 'CREATED_AT' field.
    * @param value the value to set.
    */
-  public void setCREATEDAT(java.lang.CharSequence value) {
+  public void setCREATEDAT(java.lang.Long value) {
     this.CREATED_AT = value;
   }
 
@@ -332,7 +332,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
     private java.lang.Long INSTITUTE_ID;
     private java.lang.CharSequence INSTITUTE_NAME;
     private java.lang.CharSequence COMMENT;
-    private java.lang.CharSequence CREATED_AT;
+    private java.lang.Long CREATED_AT;
 
     /** Creates a new Builder */
     private Builder() {
@@ -790,7 +790,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
       * Gets the value of the 'CREATED_AT' field.
       * @return The value.
       */
-    public java.lang.CharSequence getCREATEDAT() {
+    public java.lang.Long getCREATEDAT() {
       return CREATED_AT;
     }
 
@@ -799,7 +799,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
       * @param value The value of 'CREATED_AT'.
       * @return This builder.
       */
-    public com.mycompany.research.avro.ReviewMessage.Builder setCREATEDAT(java.lang.CharSequence value) {
+    public com.mycompany.research.avro.ReviewMessage.Builder setCREATEDAT(java.lang.Long value) {
       validate(fields()[9], value);
       this.CREATED_AT = value;
       fieldSetFlags()[9] = true;
@@ -839,7 +839,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
         record.INSTITUTE_ID = fieldSetFlags()[6] ? this.INSTITUTE_ID : (java.lang.Long) defaultValue(fields()[6]);
         record.INSTITUTE_NAME = fieldSetFlags()[7] ? this.INSTITUTE_NAME : (java.lang.CharSequence) defaultValue(fields()[7]);
         record.COMMENT = fieldSetFlags()[8] ? this.COMMENT : (java.lang.CharSequence) defaultValue(fields()[8]);
-        record.CREATED_AT = fieldSetFlags()[9] ? this.CREATED_AT : (java.lang.CharSequence) defaultValue(fields()[9]);
+        record.CREATED_AT = fieldSetFlags()[9] ? this.CREATED_AT : (java.lang.Long) defaultValue(fields()[9]);
         return record;
       } catch (java.lang.Exception e) {
         throw new org.apache.avro.AvroRuntimeException(e);

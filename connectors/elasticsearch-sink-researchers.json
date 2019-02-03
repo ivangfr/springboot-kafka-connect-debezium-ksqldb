@@ -5,12 +5,13 @@
     "tasks.max": "1",
     "topics": "RESEARCHERS_INSTITUTES",
     "connection.url": "http://elasticsearch:9200",
-    "transforms": "extractKey",
-    "transforms.extractKey.type": "org.apache.kafka.connect.transforms.ExtractField$Key",
-    "transforms.extractKey.field": "id",
     "type.name": "researcher",
 
     "_comment": "--- 'topic.index.map' is deprecated. Waiting for SMT to be fixed. See issues in README, TODO section ---",
-    "topic.index.map":"RESEARCHERS_INSTITUTES:researchers"
+    "topic.index.map":"RESEARCHERS_INSTITUTES:researchers",
+
+    "_comment": "--- Change Key converter (default is Avro) ---",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "key.converter.schemas.enable": "false"
   }
 }

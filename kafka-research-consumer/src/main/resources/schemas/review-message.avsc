@@ -79,7 +79,7 @@
       "name": "CREATED_AT",
       "type": [
         "null",
-        "string"
+        "long"
       ],
       "default": null
     }

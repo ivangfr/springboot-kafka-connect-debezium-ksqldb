@@ -5,10 +5,11 @@
     "tasks.max": "1",
     "topics": "mysql.researchdb.articles",
     "connection.url": "http://elasticsearch:9200",
+    "type.name": "article",
+
     "transforms": "extractKey",
     "transforms.extractKey.type": "org.apache.kafka.connect.transforms.ExtractField$Key",
     "transforms.extractKey.field": "id",
-    "type.name": "article",
 
     "_comment": "--- 'topic.index.map' is deprecated. Waiting for SMT to be fixed. See issues in README, TODO section ---",
     "topic.index.map":"mysql.researchdb.articles:articles"
