@@ -68,6 +68,13 @@ curl localhost:8083/connectors/elasticsearch-sink-institutes/status
 curl localhost:8083/connectors/elasticsearch-sink-articles/status
 ```
 
+3. The state of the connectors and their tasks must be `RUNNING`
+
+4. If there is any problem, you can check `kafka-connect` container logs.
+```
+docker logs kafka-connect -f
+```
+
 ### Run research-service
 
 There are two ways to run `research-service`: **REST API** or **Batch Simulation**
@@ -95,14 +102,14 @@ This mode will create automatically and randomly a certain number of reviews. Th
 
 | parameter | default | description |
 | --------- | ------- | ----------- |
-| `reviews.total` | `10` | total number of reviews you want to be created |
-| `reviews.delay-millis` | `0` | delay between the creation of reviews in millis |
+| `simulation.reviews.total` | `10` | total number of reviews to be created |
+| `simulation.reviews.sleep` | `100` | sleep time (in milliseconds) between the creation of reviews |
 
 Inside `/springboot-kafka-debezium-ksql/research-service`, you can run the simulation, for example, changing the
 default values
 ```
 ./mvnw spring-boot:run \
-  -Dspring-boot.run.jvmArguments="-Dspring.profiles.active=simulation -Dreviews.total=100 -Dreviews.delay-millis=0"
+  -Dspring-boot.run.jvmArguments="-Dspring.profiles.active=simulation -Dsimulation.reviews.total=100 -Dsimulation.reviews.sleep=0"
 ```
 
 ### Run ksql-cli
@@ -167,28 +174,12 @@ In a new terminal, run the command below inside `/springboot-kafka-debezium-ksql
 
 ### Check records in Elasticsearch
 
-- To get all indices
+- For example, get all indices or search for documents 
 ```
 curl localhost:9200/_cat/indices?v
-```
-
-- To retrieve articles
-```
 curl localhost:9200/articles/_search?pretty
-```
-
-- To retrieve institutes
-```
 curl localhost:9200/institutes/_search?pretty
-```
-
-- To retrieve researchers
-```
 curl localhost:9200/researchers/_search?pretty
-```
-
-- To retrieve reviews
-```
 curl localhost:9200/reviews/_search?pretty
 ```
 
@@ -197,7 +188,7 @@ curl localhost:9200/reviews/_search?pretty
 ### MySQL
 ```
 docker exec -it mysql bash -c 'mysql -uroot -psecret'
-use researchdb
+use researchdb;
 SELECT a.id AS review_id, c.id AS article_id, c.title AS article_title, b.id AS reviewer_id, b.first_name, b.last_name, b.institute_id, a.comment \
   FROM reviews a, researchers b, articles c \
   WHERE a.researcher_id = b.id and a.article_id = c.id;

@@ -9,9 +9,11 @@
     "database.server.id": "184054",
     "database.server.name": "mysql",
     "database.whitelist": "researchdb",
+    "table.whitelist": "researchdb.institutes,researchdb.articles,researchdb.researchers,researchdb.reviews",
     "database.history.kafka.bootstrap.servers": "kafka:9092",
-    "database.history.kafka.topic": "dbhistory.mysql",
-    "include.schema.changes": "true",
+    "database.history.kafka.recovery.attempts": "10000",
+    "database.history.kafka.topic": "debezium.dbhistory.mysql",
+    "include.schema.changes": "false",
 
     "transforms": "unwrap",
     "transforms.unwrap.type": "io.debezium.transforms.UnwrapFromEnvelope"

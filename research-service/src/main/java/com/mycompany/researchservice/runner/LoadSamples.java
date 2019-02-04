@@ -37,13 +37,11 @@ public class LoadSamples implements CommandLineRunner {
 
         log.info("Loading articles, institutes and researchers samples ...");
 
-        List<Article> articles = articleService.getAllArticles();
-        if (articles.isEmpty()) {
+        if (articleService.getAllArticles().isEmpty()) {
             articleTitles.forEach(articleTitle -> {
                 Article article = new Article();
                 article.setTitle(articleTitle);
                 article = articleService.saveArticle(article);
-                articles.add(article);
 
                 log.info("Article created: {}", article);
             });
@@ -61,8 +59,7 @@ public class LoadSamples implements CommandLineRunner {
             });
         }
 
-        List<Researcher> researchers = researcherService.getAllResearchers();
-        if (researchers.isEmpty()) {
+        if (researcherService.getAllResearchers().isEmpty()) {
             researcherNames.forEach(researcherName -> {
                 String[] firstLastName = researcherName.split(" ");
                 Researcher researcher = new Researcher();
@@ -70,7 +67,6 @@ public class LoadSamples implements CommandLineRunner {
                 researcher.setLastName(firstLastName[1]);
                 researcher.setInstitute(institutes.get(random.nextInt(institutes.size())));
                 researcher = researcherService.saveResearchers(researcher);
-                researchers.add(researcher);
 
                 log.info("Researcher created: {}", researcher);
             });

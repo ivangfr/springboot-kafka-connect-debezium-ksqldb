@@ -23,17 +23,17 @@ import java.util.Random;
 @Order(2)
 public class SimulationRunner implements CommandLineRunner {
 
+    @Value("${simulation.reviews.total}")
+    private Integer total;
+
+    @Value("${simulation.reviews.sleep}")
+    private Integer sleep;
+
+    private final Random random = new Random();
+
     private final ArticleService articleService;
     private final ResearcherService researcherService;
     private final ReviewService reviewService;
-
-    @Value("${reviews.total}")
-    private Integer reviewsTotal;
-
-    @Value("${reviews.delay-millis}")
-    private Integer reviewsDelayMillis;
-
-    private final Random random = new Random();
 
     public SimulationRunner(ArticleService articleService, ResearcherService researcherService, ReviewService reviewService) {
         this.articleService = articleService;
@@ -42,14 +42,14 @@ public class SimulationRunner implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) {
+    public void run(String... args) throws InterruptedException {
 
         log.info("Running review simulation ...");
 
         List<Article> articles = articleService.getAllArticles();
         List<Researcher> researchers = researcherService.getAllResearchers();
 
-        for (int i = 0; i < reviewsTotal; i++) {
+        for (int i = 0; i < total; i++) {
             Article article = articles.get(random.nextInt(articles.size()));
             Researcher researcher = researchers.get(random.nextInt(researchers.size()));
 
@@ -58,14 +58,9 @@ public class SimulationRunner implements CommandLineRunner {
             review.setResearcher(researcher);
             review.setComment(generateComment());
             review = reviewService.saveReview(review);
-
             log.info("Review created: {}", review);
 
-            try {
-                Thread.sleep(reviewsDelayMillis);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            Thread.sleep(sleep);
         }
 
         log.info("Review simulation finished!");

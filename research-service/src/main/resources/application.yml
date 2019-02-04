@@ -41,6 +41,7 @@ logging.level:
     SQL: INFO
     type.descriptor.sql.BasicBinder: INFO
 
-reviews:
-  total: 10
-  delay-millis: 0
+simulation:
+  reviews:
+    total: 10
+    sleep: 100
