@@ -6,15 +6,14 @@ spring:
 
 kafka:
   bootstrap-servers: localhost:29092
+  schema-registry-url: http://localhost:8081
   reviews:
-    id: kafkaResearchConsumer1
+    id: kafka-research-consumer-1
     topic: REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES
-    group-id: kafkaResearchConsumerGroup
+    group-id: kafka-research-consumer-group
     start-offset: earliest
     concurrency: 4
     max-poll-records: 100
-  avro:
-    schema-registry-url: http://localhost:8081
 
 elasticsearch:
   host: localhost

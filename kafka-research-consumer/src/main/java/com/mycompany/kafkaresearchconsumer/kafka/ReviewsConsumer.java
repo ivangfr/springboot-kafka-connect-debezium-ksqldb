@@ -16,12 +16,12 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-public class ConsumerListener {
+public class ReviewsConsumer {
 
     private final ReviewService reviewService;
     private final MapperFacade mapperFacade;
 
-    public ConsumerListener(ReviewService reviewService, MapperFacade mapperFacade) {
+    public ReviewsConsumer(ReviewService reviewService, MapperFacade mapperFacade) {
         this.reviewService = reviewService;
         this.mapperFacade = mapperFacade;
     }
