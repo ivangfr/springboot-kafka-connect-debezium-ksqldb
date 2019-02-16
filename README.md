@@ -1,6 +1,4 @@
-# springboot-kafka-debezium-ksql
-
-## Goal
+# `springboot-kafka-debezium-ksql`
 
 The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`Debezium`](https://debezium.io/) and
 [`KSQL`](https://www.confluent.io/product/ksql/). For this, we have: `research-service` that inserts/updates/deletes
@@ -9,24 +7,24 @@ messages related to those changes to Kafka; `Sink Connectors` and `kafka-researc
 Kafka and insert/update documents in [`Elasticsearch`](https://www.elastic.co); finally, `KSQL-Server` that listens
 some topics in Kafka, does some joins and pushes new messages to new topics in Kafka.
 
-## Microservices
+# Microservices
 
 ![project-diagram](images/project-diagram.png)
 
-### research-service
+## research-service
 
 Monolithic spring-boot application that exposes a REST API to manage `Institutes`, `Articles`, `Researchers` and
 `Reviews`. The data is saved in `MySQL`. Besides, if the service runs with the profile `simulation`, it will
 _"simulate"_ an automatic and random creation of reviews.
 
-### kafka-research-consumer
+## kafka-research-consumer
 
 Spring-boot application that listens messages from the topic `REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES` (that is one of
 `KSQL` outputs) and save the payload of those messages (i.e, reviews with detailed information) in `Elasticsearch`.
 
-## Start Environment
+# Start Environment
 
-### Docker Compose
+## Docker Compose
 
 1. Open one terminal
 
@@ -51,7 +49,7 @@ docker-compose up -d
 docker-compose ps
 ```
 
-### Create connectors (3/4)
+## Create connectors (3/4)
 
 1. In a terminal, run the following `curl` commands to create `debezium` and 2 `elasticsearch-sink` connectors on `kafka-connect`
 ```
@@ -75,16 +73,16 @@ curl localhost:8083/connectors/elasticsearch-sink-articles/status
 docker logs kafka-connect -f
 ```
 
-### Run research-service
+## Run research-service
 
 There are two ways to run `research-service`: **REST API** or **Batch Simulation**
 
-#### REST API
+### REST API
 
-In a new terminal, run the command below inside `/springboot-kafka-debezium-ksql/research-service`. It will start
+In a new terminal, run the command below inside `/springboot-kafka-debezium-ksql` root folder. It will start
 the service as a REST API
 ```
-./mvnw spring-boot:run
+./mvnw spring-boot:run --projects research-service
 ```
 The Swagger link is http://localhost:9080/swagger-ui.html
 
@@ -96,7 +94,7 @@ The Swagger link is http://localhost:9080/swagger-ui.html
 > values on topic mysql.researchdb.reviews does not exist in the Schema Registry.
 > ```
 
-#### Batch Simulation
+### Batch Simulation
 
 This mode will create automatically and randomly a certain number of reviews. The parameters available are:
 
@@ -108,11 +106,11 @@ This mode will create automatically and randomly a certain number of reviews. Th
 Inside `/springboot-kafka-debezium-ksql/research-service`, you can run the simulation, for example, changing the
 default values
 ```
-./mvnw spring-boot:run \
+./mvnw spring-boot:run --projects research-service \
   -Dspring-boot.run.jvmArguments="-Dspring.profiles.active=simulation -Dsimulation.reviews.total=100 -Dsimulation.reviews.sleep=0"
 ```
 
-### Run ksql-cli
+## Run ksql-cli
 
 1. In a new terminal, inside `/springboot-kafka-debezium-ksql` root folder, run the `docker` command below to start `ksql-cli`
 ```
@@ -152,7 +150,7 @@ DESCRIBE REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES;
 SELECT * from REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES LIMIT 5;
 ```
 
-### Create connectors (4/4)
+## Create connectors (4/4)
 
 1. In a terminal, run the `curl` command below to create `elasticsearch-sink-researchers` connector on `kafka-connect`
 ```
@@ -165,25 +163,29 @@ kafka-connect endpoint
 curl localhost:8083/connectors/elasticsearch-sink-researchers/status
 ```
 
-### Run kafka-research-consumer
+## Run kafka-research-consumer
 
-In a new terminal, run the command below inside `/springboot-kafka-debezium-ksql/kafka-research-consumer`
+In a new terminal, run the command below inside `/springboot-kafka-debezium-ksql` root folder
 ```
-./mvnw spring-boot:run
+./mvnw spring-boot:run --projects kafka-research-consumer
 ```
 
-### Check records in Elasticsearch
+## Check records in Elasticsearch
 
-- For example, get all indices or search for documents 
+- Get all indices 
 ```
 curl localhost:9200/_cat/indices?v
+```
+
+- Search for documents
+```
 curl localhost:9200/articles/_search?pretty
 curl localhost:9200/institutes/_search?pretty
 curl localhost:9200/researchers/_search?pretty
 curl localhost:9200/reviews/_search?pretty
 ```
 
-## Useful links & commands
+# Useful commands
 
 ### MySQL
 ```
@@ -194,7 +196,7 @@ SELECT a.id AS review_id, c.id AS article_id, c.title AS article_title, b.id AS 
   WHERE a.researcher_id = b.id and a.article_id = c.id;
 ```
 
-## TODO
+# TODO
 
 1. Create indices dynamically and add an `alias` for them.
 
@@ -207,6 +209,6 @@ Waiting for those `kafka-connect-elasticsearch` issues to be fixed:
 - `Create indices before writing records #261` https://github.com/confluentinc/kafka-connect-elasticsearch/pull/261
 - `ConnectException: Cannot create mapping when using RegexRouter/TimestampRouter SMT #99` https://github.com/confluentinc/kafka-connect-elasticsearch/issues/99
 
-## References
+# References
 
 - https://docs.confluent.io/current/ksql/docs/tutorials/basics-docker.html#ksql-quickstart-docker
