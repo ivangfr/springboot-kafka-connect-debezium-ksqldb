@@ -96,7 +96,7 @@ docker run -it --rm --name ksql-cli \
   --network springboot-kafka-debezium-ksql_default \
   -v $PWD/docker/ksql/researchers-institutes.ksql:/tmp/researchers-institutes.ksql \
   -v $PWD/docker/ksql/reviews-researchers-institutes-articles.ksql:/tmp/reviews-researchers-institutes-articles.ksql \
-  confluentinc/cp-ksql-cli:5.1.0 http://ksql-server:8088
+  confluentinc/cp-ksql-cli:5.2.2 http://ksql-server:8088
 ```
 
 On `ksql-cli` command line, run the following commands
@@ -125,7 +125,7 @@ RUN SCRIPT '/tmp/reviews-researchers-institutes-articles.ksql';
 - Check whether the topic was created
 ```
 DESCRIBE REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES;
-SELECT * from REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES LIMIT 5;
+SELECT * from REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES LIMIT 1;
 ```
 
 ## Create connectors (4/4)

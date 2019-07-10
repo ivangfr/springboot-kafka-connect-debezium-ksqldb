@@ -43,13 +43,13 @@ public class SimulationController {
     }
 
     @PostMapping("/reviews")
-    public List<String> createRandomOrders(@RequestBody RandomReviewsDto randomReviewsDto) throws InterruptedException {
+    public List<Long> createRandomOrders(@RequestBody RandomReviewsDto randomReviewsDto) throws InterruptedException {
         total = randomReviewsDto.getTotal() == null ? total : randomReviewsDto.getTotal();
         sleep = randomReviewsDto.getSleep() == null ? sleep : randomReviewsDto.getSleep();
 
         log.info("## Running review simulation - total: {}, sleep: {}", total, sleep);
 
-        List<String> orderIds = new ArrayList<>();
+        List<Long> reviewIds = new ArrayList<>();
         List<Article> articles = articleService.getAllArticles();
         List<Researcher> researchers = researcherService.getAllResearchers();
 
@@ -64,12 +64,14 @@ public class SimulationController {
             review = reviewService.saveReview(review);
             log.info("Review created: {}", review);
 
+            reviewIds.add(review.getId());
+
             Thread.sleep(sleep);
         }
 
         log.info("## Review simulation finished successfully!");
 
-        return orderIds;
+        return reviewIds;
     }
 
     private String generateComment() {
