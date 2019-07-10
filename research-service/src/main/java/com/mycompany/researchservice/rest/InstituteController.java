@@ -1,15 +1,10 @@
-package com.mycompany.researchservice.controller;
+package com.mycompany.researchservice.rest;
 
-import com.mycompany.researchservice.dto.CreateInstituteDto;
-import com.mycompany.researchservice.dto.CreateResearcherDto;
-import com.mycompany.researchservice.dto.InstituteDto;
-import com.mycompany.researchservice.dto.ResearcherDto;
-import com.mycompany.researchservice.dto.UpdateInstituteDto;
-import com.mycompany.researchservice.dto.UpdateResearcherDto;
+import com.mycompany.researchservice.rest.dto.CreateInstituteDto;
+import com.mycompany.researchservice.rest.dto.InstituteDto;
+import com.mycompany.researchservice.rest.dto.UpdateInstituteDto;
 import com.mycompany.researchservice.model.Institute;
-import com.mycompany.researchservice.model.Researcher;
 import com.mycompany.researchservice.service.InstituteService;
-import com.mycompany.researchservice.service.ResearcherService;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;

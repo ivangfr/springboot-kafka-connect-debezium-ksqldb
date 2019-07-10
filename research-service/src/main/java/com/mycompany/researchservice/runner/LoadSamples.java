@@ -7,8 +7,8 @@ import com.mycompany.researchservice.service.ArticleService;
 import com.mycompany.researchservice.service.InstituteService;
 import com.mycompany.researchservice.service.ResearcherService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -17,8 +17,16 @@ import java.util.Random;
 
 @Slf4j
 @Component
-@Order(1)
 public class LoadSamples implements CommandLineRunner {
+
+    @Value("${load-samples.articles.enabled}")
+    private boolean articleSamples;
+
+    @Value("${load-samples.institutes.enabled}")
+    private boolean instituteSamples;
+
+    @Value("${load-samples.researchers.enabled}")
+    private boolean researcherSamples;
 
     private final InstituteService instituteService;
     private final ArticleService articleService;
@@ -35,44 +43,53 @@ public class LoadSamples implements CommandLineRunner {
     @Override
     public void run(String... args) {
 
-        log.info("Loading articles, institutes and researchers samples ...");
+        if (articleSamples || instituteSamples || researcherSamples) {
 
-        if (articleService.getAllArticles().isEmpty()) {
-            articleTitles.forEach(articleTitle -> {
-                Article article = new Article();
-                article.setTitle(articleTitle);
-                article = articleService.saveArticle(article);
+            log.info("## Start loading samples of articles, institutes and researchers ...");
 
-                log.info("Article created: {}", article);
-            });
+            if (articleSamples) {
+                if (articleService.getAllArticles().isEmpty()) {
+                    articleTitles.forEach(articleTitle -> {
+                        Article article = new Article();
+                        article.setTitle(articleTitle);
+                        article = articleService.saveArticle(article);
+
+                        log.info("Article created: {}", article);
+                    });
+                }
+            }
+
+            if (instituteSamples) {
+                List<Institute> institutes = instituteService.getAllInstitutes();
+                if (institutes.isEmpty()) {
+                    instituteNames.forEach(instituteName -> {
+                        Institute institute = new Institute();
+                        institute.setName(instituteName);
+                        institute = instituteService.saveInstitute(institute);
+                        institutes.add(institute);
+
+                        log.info("Institute created: {}", institute);
+                    });
+                }
+
+                if (researcherSamples) {
+                    if (researcherService.getAllResearchers().isEmpty()) {
+                        researcherNames.forEach(researcherName -> {
+                            String[] firstLastName = researcherName.split(" ");
+                            Researcher researcher = new Researcher();
+                            researcher.setFirstName(firstLastName[0]);
+                            researcher.setLastName(firstLastName[1]);
+                            researcher.setInstitute(institutes.get(random.nextInt(institutes.size())));
+                            researcher = researcherService.saveResearchers(researcher);
+
+                            log.info("Researcher created: {}", researcher);
+                        });
+                    }
+                }
+            }
+
+            log.info("## Finished successfully loading samples of articles, institutes and researchers!");
         }
-
-        List<Institute> institutes = instituteService.getAllInstitutes();
-        if (institutes.isEmpty()) {
-            instituteNames.forEach(instituteName -> {
-                Institute institute = new Institute();
-                institute.setName(instituteName);
-                institute = instituteService.saveInstitute(institute);
-                institutes.add(institute);
-
-                log.info("Institute created: {}", institute);
-            });
-        }
-
-        if (researcherService.getAllResearchers().isEmpty()) {
-            researcherNames.forEach(researcherName -> {
-                String[] firstLastName = researcherName.split(" ");
-                Researcher researcher = new Researcher();
-                researcher.setFirstName(firstLastName[0]);
-                researcher.setLastName(firstLastName[1]);
-                researcher.setInstitute(institutes.get(random.nextInt(institutes.size())));
-                researcher = researcherService.saveResearchers(researcher);
-
-                log.info("Researcher created: {}", researcher);
-            });
-        }
-
-        log.info("Loading samples finished!");
     }
 
     private static final List<String> articleTitles = Arrays.asList(

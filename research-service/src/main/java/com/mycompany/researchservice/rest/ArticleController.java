@@ -1,11 +1,9 @@
-package com.mycompany.researchservice.controller;
+package com.mycompany.researchservice.rest;
 
-import com.mycompany.researchservice.dto.CreateArticleDto;
-import com.mycompany.researchservice.dto.ArticleDto;
-import com.mycompany.researchservice.dto.UpdateArticleDto;
-import com.mycompany.researchservice.dto.UpdateArticleDto;
+import com.mycompany.researchservice.rest.dto.CreateArticleDto;
+import com.mycompany.researchservice.rest.dto.ArticleDto;
+import com.mycompany.researchservice.rest.dto.UpdateArticleDto;
 import com.mycompany.researchservice.model.Article;
-import com.mycompany.researchservice.service.ArticleService;
 import com.mycompany.researchservice.service.ArticleService;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.http.HttpStatus;

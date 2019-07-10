@@ -14,7 +14,7 @@ spring:
 logging.level:
   org.hibernate:
     SQL: DEBUG
-    type.descriptor.sql.BasicBinder: TRACE
+#    type.descriptor.sql.BasicBinder: TRACE
 
 management:
   security:
@@ -26,22 +26,14 @@ management:
     health:
       show-details: always
 
----
-spring:
-  profiles: simulation
-  main:
-    web-application-type: none
-  jpa:
-    properties:
-      hibernate:
-        enable_lazy_load_no_trans: true
-
-logging.level:
-  org.hibernate:
-    SQL: INFO
-    type.descriptor.sql.BasicBinder: INFO
+load-samples:
+  articles.enabled: true
+  institutes.enabled: true
+  researchers.enabled: true
 
 simulation:
   reviews:
     total: 10
     sleep: 100
+
+

@@ -1,12 +1,12 @@
 package com.mycompany.researchservice.config;
 
-import com.mycompany.researchservice.dto.CreateResearcherDto;
-import com.mycompany.researchservice.dto.CreateReviewDto;
-import com.mycompany.researchservice.dto.ResearcherDto;
-import com.mycompany.researchservice.dto.ReviewDto;
-import com.mycompany.researchservice.dto.UpdateArticleDto;
-import com.mycompany.researchservice.dto.UpdateInstituteDto;
-import com.mycompany.researchservice.dto.UpdateResearcherDto;
+import com.mycompany.researchservice.rest.dto.CreateResearcherDto;
+import com.mycompany.researchservice.rest.dto.CreateReviewDto;
+import com.mycompany.researchservice.rest.dto.ResearcherDto;
+import com.mycompany.researchservice.rest.dto.ReviewDto;
+import com.mycompany.researchservice.rest.dto.UpdateArticleDto;
+import com.mycompany.researchservice.rest.dto.UpdateInstituteDto;
+import com.mycompany.researchservice.rest.dto.UpdateResearcherDto;
 import com.mycompany.researchservice.model.Article;
 import com.mycompany.researchservice.model.Institute;
 import com.mycompany.researchservice.model.Researcher;

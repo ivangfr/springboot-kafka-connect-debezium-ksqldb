@@ -1,4 +1,4 @@
-package com.mycompany.researchservice.dto;
+package com.mycompany.researchservice.rest.dto;
 
 import lombok.Data;
 

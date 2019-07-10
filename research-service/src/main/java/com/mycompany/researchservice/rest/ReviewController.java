@@ -1,8 +1,8 @@
-package com.mycompany.researchservice.controller;
+package com.mycompany.researchservice.rest;
 
-import com.mycompany.researchservice.dto.CreateReviewDto;
-import com.mycompany.researchservice.dto.ReviewDto;
-import com.mycompany.researchservice.dto.UpdateReviewDto;
+import com.mycompany.researchservice.rest.dto.CreateReviewDto;
+import com.mycompany.researchservice.rest.dto.ReviewDto;
+import com.mycompany.researchservice.rest.dto.UpdateReviewDto;
 import com.mycompany.researchservice.model.Review;
 import com.mycompany.researchservice.service.ReviewService;
 import ma.glasnost.orika.MapperFacade;

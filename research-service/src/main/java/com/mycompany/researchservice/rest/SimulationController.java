@@ -1,27 +1,28 @@
-package com.mycompany.researchservice.runner;
+package com.mycompany.researchservice.rest;
 
 import com.mycompany.researchservice.model.Article;
 import com.mycompany.researchservice.model.Researcher;
 import com.mycompany.researchservice.model.Review;
+import com.mycompany.researchservice.rest.dto.RandomReviewsDto;
 import com.mycompany.researchservice.service.ArticleService;
 import com.mycompany.researchservice.service.ResearcherService;
 import com.mycompany.researchservice.service.ReviewService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Profile;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 @Slf4j
-@Profile("simulation")
-@Component
-@Order(2)
-public class SimulationRunner implements CommandLineRunner {
+@RestController
+@RequestMapping("/api/simulation")
+public class SimulationController {
 
     @Value("${simulation.reviews.total}")
     private Integer total;
@@ -35,17 +36,20 @@ public class SimulationRunner implements CommandLineRunner {
     private final ResearcherService researcherService;
     private final ReviewService reviewService;
 
-    public SimulationRunner(ArticleService articleService, ResearcherService researcherService, ReviewService reviewService) {
+    public SimulationController(ArticleService articleService, ResearcherService researcherService, ReviewService reviewService) {
         this.articleService = articleService;
         this.researcherService = researcherService;
         this.reviewService = reviewService;
     }
 
-    @Override
-    public void run(String... args) throws InterruptedException {
+    @PostMapping("/reviews")
+    public List<String> createRandomOrders(@RequestBody RandomReviewsDto randomReviewsDto) throws InterruptedException {
+        total = randomReviewsDto.getTotal() == null ? total : randomReviewsDto.getTotal();
+        sleep = randomReviewsDto.getSleep() == null ? sleep : randomReviewsDto.getSleep();
 
-        log.info("Running review simulation ...");
+        log.info("## Running review simulation - total: {}, sleep: {}", total, sleep);
 
+        List<String> orderIds = new ArrayList<>();
         List<Article> articles = articleService.getAllArticles();
         List<Researcher> researchers = researcherService.getAllResearchers();
 
@@ -63,7 +67,9 @@ public class SimulationRunner implements CommandLineRunner {
             Thread.sleep(sleep);
         }
 
-        log.info("Review simulation finished!");
+        log.info("## Review simulation finished successfully!");
+
+        return orderIds;
     }
 
     private String generateComment() {

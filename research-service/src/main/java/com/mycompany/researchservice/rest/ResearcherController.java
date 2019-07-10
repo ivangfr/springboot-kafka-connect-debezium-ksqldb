@@ -1,8 +1,8 @@
-package com.mycompany.researchservice.controller;
+package com.mycompany.researchservice.rest;
 
-import com.mycompany.researchservice.dto.CreateResearcherDto;
-import com.mycompany.researchservice.dto.ResearcherDto;
-import com.mycompany.researchservice.dto.UpdateResearcherDto;
+import com.mycompany.researchservice.rest.dto.CreateResearcherDto;
+import com.mycompany.researchservice.rest.dto.ResearcherDto;
+import com.mycompany.researchservice.rest.dto.UpdateResearcherDto;
 import com.mycompany.researchservice.model.Researcher;
 import com.mycompany.researchservice.service.ResearcherService;
 import ma.glasnost.orika.MapperFacade;

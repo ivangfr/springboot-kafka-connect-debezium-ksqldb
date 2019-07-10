@@ -13,9 +13,8 @@ some topics in Kafka, does some joins and pushes new messages to new topics in K
 
 ### research-service
 
-Monolithic spring-boot application that exposes a REST API to manage `Institutes`, `Articles`, `Researchers` and
-`Reviews`. The data is saved in `MySQL`. Besides, if the service runs with the profile `simulation`, it will
-_"simulate"_ an automatic and random creation of reviews.
+Monolithic Spring-Boot application that exposes a REST API to manage `Institutes`, `Articles`, `Researchers` and
+`Reviews`. The data is saved in `MySQL`.
 
 ### kafka-research-consumer
 
@@ -24,86 +23,74 @@ Spring-boot application that listens messages from the topic `REVIEWS_RESEARCHER
 
 ## Start Environment
 
-- Open one terminal and inside `springboot-kafka-debezium-ksql` root folder run the following command
+Open a terminal and inside `springboot-kafka-debezium-ksql` root folder run the following command
 ```
 docker-compose up -d
 ```
-> During the first run, an image for `mysql` and `kafka-connect`will be built, whose names are
+> During the first run, an image for `mysql` and `kafka-connect` will be built, whose names are
 > `springboot-kafka-debezium-ksql_mysql` and `springboot-kafka-debezium-ksql_kafka-connect`, respectively.
 > To rebuild those images run
 > ```
 > docker-compose build
 > ```
 
-- Wait a little bit until all containers are `Up (healthy)`. To check the status of the containers, run
+Wait a little bit until all containers are `Up (healthy)`. To check the status of the containers, run
 ```
 docker-compose ps
 ```
 
 ## Create connectors (3/4)
 
-- In a terminal, run the following `curl` commands to create `debezium` and 2 `elasticsearch-sink` connectors on `kafka-connect`
+In a terminal, run the following `curl` commands to create `debezium` and 2 `elasticsearch-sink` connectors on `kafka-connect`
 ```
 curl -i -X POST http://localhost:8083/connectors -H 'Content-Type: application/json' -d @connectors/debezium-mysql-source-researchdb.json
 curl -i -X POST http://localhost:8083/connectors -H 'Content-Type: application/json' -d @connectors/elasticsearch-sink-institutes.json
 curl -i -X POST http://localhost:8083/connectors -H 'Content-Type: application/json' -d @connectors/elasticsearch-sink-articles.json
 ```
 
-- You can check the state of the connectors and their tasks on `Kafka Connect UI` (http://localhost:8086) or calling
+You can check the state of the connectors and their tasks on `Kafka Connect UI` (http://localhost:8086) or calling
 kafka-connect endpoint
 ```
-curl localhost:8083/connectors/debezium-mysql-source-researchdb/status
-curl localhost:8083/connectors/elasticsearch-sink-institutes/status
-curl localhost:8083/connectors/elasticsearch-sink-articles/status
+curl http://localhost:8083/connectors/debezium-mysql-source-researchdb/status
+curl http://localhost:8083/connectors/elasticsearch-sink-institutes/status
+curl http://localhost:8083/connectors/elasticsearch-sink-articles/status
 ```
 
-- The state of the connectors and their tasks must be `RUNNING`
-
-- If there is any problem, you can check `kafka-connect` container logs.
+The state of the connectors and their tasks must be `RUNNING`. If there is any problem, you can check `kafka-connect`
+container logs.
 ```
 docker logs kafka-connect -f
 ```
 
 ## Run research-service
 
-There are two ways to run `research-service`: **REST API** or **Batch Simulation**
-
-### REST API
-
-In a new terminal, run the command below inside `springboot-kafka-debezium-ksql` root folder. It will start
-the service as a REST API
+In a new terminal, run the command below inside `springboot-kafka-debezium-ksql` root folder
 ```
 ./mvnw spring-boot:run --projects research-service
 ```
+> Note. It will create some articles, institutes and researchers. If you don't want it, just set to `false` the
+> properties `load-samples.articles.enabled`, `load-samples.institutes.enabled` and `load-samples.researchers.enabled`
+> in `application.yml`.
+
 The Swagger link is http://localhost:9080/swagger-ui.html
 
-> **Note**: if you pick this way, create at least one `review` on `Review-Controller` > `POST /api/reviews` so that
-> the topic `mysql.researchdb.reviews` is created on Kafka. Otherwise, you will have the following exception while
-> running `ksql-cli`
-> ```
-> io.confluent.ksql.parser.exception.ParseFailedException: Exception while processing statement: Avro schema for message
-> values on topic mysql.researchdb.reviews does not exist in the Schema Registry.
-> ```
-
-### Batch Simulation
-
-This mode will create automatically and randomly a certain number of reviews. The parameters available are:
-
-| parameter | default | description |
-| --------- | ------- | ----------- |
-| `simulation.reviews.total` | `10` | total number of reviews to be created |
-| `simulation.reviews.sleep` | `100` | sleep time (in milliseconds) between the creation of reviews |
-
-Inside `springboot-kafka-debezium-ksql/research-service`, you can run the simulation, for example, changing the
-default values
+**IMPORTANT**: create at least one `review` so that the topic `mysql.researchdb.reviews` is created on Kafka. Below
+there is a request sample to create a review
 ```
-./mvnw spring-boot:run --projects research-service \
-  -Dspring-boot.run.jvmArguments="-Dspring.profiles.active=simulation -Dsimulation.reviews.total=100 -Dsimulation.reviews.sleep=0"
+curl -i -X POST "http://localhost:9080/api/reviews" \
+  -H "accept: */*" -H "Content-Type: application/json" \
+  -d "{ \"researcherId\": 1, \"articleId\": 1, \"comment\": \"Ln 56: replace the 'a' by 'an'\"}"
+```
+
+Otherwise, you will have the following exception while running `ksql-cli`
+```
+io.confluent.ksql.parser.exception.ParseFailedException: Exception while processing statement: Avro schema for message
+values on topic mysql.researchdb.reviews does not exist in the Schema Registry.
 ```
 
 ## Run ksql-cli
 
-- In a new terminal, inside `springboot-kafka-debezium-ksql` root folder, run the `docker` command below to start `ksql-cli`
+In a new terminal, inside `springboot-kafka-debezium-ksql` root folder, run the `docker` command below to start `ksql-cli`
 ```
 docker run -it --rm --name ksql-cli \
   --network springboot-kafka-debezium-ksql_default \
@@ -112,30 +99,30 @@ docker run -it --rm --name ksql-cli \
   confluentinc/cp-ksql-cli:5.1.0 http://ksql-server:8088
 ```
 
-- On `ksql-cli` command line, run the following commands
+On `ksql-cli` command line, run the following commands
 
-1. Set `auto.offset.reset` value
+- Set `auto.offset.reset` value
 ```
 SET 'auto.offset.reset' = 'earliest';
 ```
 
-2. Run the following script. It will create `RESEARCHERS_INSTITUTES` topic
+- Run the following script. It will create `RESEARCHERS_INSTITUTES` topic
 ```
 RUN SCRIPT '/tmp/researchers-institutes.ksql';
 ```
 
-3. check whether the topic was created 
+- check whether the topic was created 
 ```
 DESCRIBE RESEARCHERS_INSTITUTES;
 SELECT * from RESEARCHERS_INSTITUTES LIMIT 5;
 ```
 
-4. Run the script below. It will create `REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES` topic
+- Run the script below. It will create `REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES` topic
 ```
 RUN SCRIPT '/tmp/reviews-researchers-institutes-articles.ksql';
 ```
 
-- check whether the topic was created
+- Check whether the topic was created
 ```
 DESCRIBE REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES;
 SELECT * from REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES LIMIT 5;
@@ -143,15 +130,15 @@ SELECT * from REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES LIMIT 5;
 
 ## Create connectors (4/4)
 
-- In a terminal, run the `curl` command below to create `elasticsearch-sink-researchers` connector on `kafka-connect`
+In a terminal, run the `curl` command below to create `elasticsearch-sink-researchers` connector on `kafka-connect`
 ```
 curl -i -X POST http://localhost:8083/connectors -H 'Content-Type: application/json' -d @connectors/elasticsearch-sink-researchers.json
 ```
 
-- You can check the state of the connectors and their tasks on `Kafka Connect UI` (http://localhost:8086) or calling
+You can check the state of the connector and its task on `Kafka Connect UI` (http://localhost:8086) or calling
 kafka-connect endpoint
 ```
-curl localhost:8083/connectors/elasticsearch-sink-researchers/status
+curl http://localhost:8083/connectors/elasticsearch-sink-researchers/status
 ```
 
 ## Run kafka-research-consumer
@@ -161,27 +148,66 @@ In a new terminal, run the command below inside `springboot-kafka-debezium-ksql`
 ./mvnw spring-boot:run --projects kafka-research-consumer
 ```
 
-## Check records in Elasticsearch
+## Testing
 
-- Get all indices 
+TODO
+
+## Useful Links/Commands
+
+### Kafka Topics UI
+
+`Kafka Topics UI` can be accessed at http://localhost:8085
+
+### Kafka Connect UI
+
+`Kafka Connect UI` can be accessed at http://localhost:8086
+
+### Schema Registry UI
+
+`Schema Registry UI` can be accessed at http://localhost:8001
+
+### Schema Registry
+
+You can use `curl` to check the subjects in `Schema Registry`
+
+- Get the list of subjects
 ```
-curl localhost:9200/_cat/indices?v
+curl http://localhost:8081/subjects
+```
+- Get the latest version of the subject `mysql.researchdb.researchers-value`
+```
+curl http://localhost:8081/subjects/mysql.researchdb.researchers-value/versions/latest
 ```
 
+### Kafka Manager
+
+`Kafka Manager` can be accessed at http://localhost:9000
+
+**Configuration**
+- First, you must create a new cluster. Click on `Cluster` (dropdown on the header) and then on `Add Cluster`
+- Type on `Cluster Name` field the name of your cluster, for example: `MyZooCluster`
+- On `Cluster Zookeeper Hosts` field type: `zookeeper:2181`
+- Click on `Save` button on the bottom of the page. Done!
+
+### Elasticsearch
+
+`Elasticsearch` can be accessed at http://localhost:9200
+
+- Get all indices
+```
+http://localhost:9200/_cat/indices?v
+```
 - Search for documents
 ```
-curl localhost:9200/articles/_search?pretty
-curl localhost:9200/institutes/_search?pretty
-curl localhost:9200/researchers/_search?pretty
-curl localhost:9200/reviews/_search?pretty
+http://localhost:9200/articles/_search?pretty
+http://localhost:9200/institutes/_search?pretty
+http://localhost:9200/researchers/_search?pretty
+http://localhost:9200/reviews/_search?pretty
 ```
-
-## Useful commands
 
 ### MySQL
 ```
-docker exec -it mysql bash -c 'mysql -uroot -psecret'
-use researchdb;
+docker exec -it mysql mysql -uroot -psecret --database researchdb
 SELECT a.id AS review_id, c.id AS article_id, c.title AS article_title, b.id AS reviewer_id, b.first_name, b.last_name, b.institute_id, a.comment \
   FROM reviews a, researchers b, articles c \
   WHERE a.researcher_id = b.id and a.article_id = c.id;

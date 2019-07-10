@@ -1,4 +1,4 @@
-package com.mycompany.researchservice.dto;
+package com.mycompany.researchservice.rest.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
