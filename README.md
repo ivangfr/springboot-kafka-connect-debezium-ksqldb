@@ -150,7 +150,26 @@ In a new terminal, run the command below inside `springboot-kafka-debezium-ksql`
 
 ## Testing
 
-TODO
+Go to the terminal where `ksql-cli` is running. On `ksql-cli` command line, run the query below
+```
+SELECT * from REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES;
+```
+
+In another terminal, call the `research-service` simulation endpoint
+```
+curl -X POST "http://localhost:9080/api/simulation/reviews" \
+  -H "Content-Type: application/json" \
+  -d "{ \"total\": 100, \"sleep\": 500}"
+```
+
+The GIF below shows it
+
+![ksql-select-example](images/ksql-select-example.gif)
+
+You can also query `Elasticsearch`
+```
+curl http://localhost:9200/reviews/_search?pretty
+```
 
 ## Useful Links/Commands
 
