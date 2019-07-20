@@ -207,7 +207,7 @@ curl http://localhost:8081/subjects/mysql.researchdb.researchers-value/versions/
 - Type the name of your cluster in `Cluster Name` field, for example: `MyZooCluster`
 - Type `zookeeper:2181`in `Cluster Zookeeper Hosts` field
 - Enable checkbox `Poll consumer information (Not recommended for large # of consumers if ZK is used for offsets tracking on older Kafka versions)`
-- Click on `Save` button on the bottom of the page.
+- Click on `Save` button at the bottom of the page.
 
 ### Elasticsearch
 
