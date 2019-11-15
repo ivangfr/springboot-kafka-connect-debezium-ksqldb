@@ -7,18 +7,20 @@ messages related to those changes to Kafka; `Sink Connectors` and `kafka-researc
 Kafka and insert/update documents in [`Elasticsearch`](https://www.elastic.co); finally, `KSQL-Server` that listens
 some topics in Kafka, does some joins and pushes new messages to new topics in Kafka.
 
-## Microservices
+## Project Diagram
 
 ![project-diagram](images/project-diagram.png)
 
+## Applications
+
 ### research-service
 
-Monolithic Spring-Boot application that exposes a REST API to manage `Institutes`, `Articles`, `Researchers` and
+Monolithic `Spring Boot` application that exposes a REST API to manage `Institutes`, `Articles`, `Researchers` and
 `Reviews`. The data is saved in `MySQL`.
 
 ### kafka-research-consumer
 
-Spring-boot application that listens messages from the topic `REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES` (that is one of
+`Spring Boot` application that listens messages from the topic `REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES` (that is one of
 `KSQL` outputs) and save the payload of those messages (i.e, reviews with detailed information) in `Elasticsearch`.
 
 ## Start Environment
@@ -96,7 +98,7 @@ docker run -it --rm --name ksql-cli \
   --network springboot-kafka-debezium-ksql_default \
   -v $PWD/docker/ksql/researchers-institutes.ksql:/tmp/researchers-institutes.ksql \
   -v $PWD/docker/ksql/reviews-researchers-institutes-articles.ksql:/tmp/reviews-researchers-institutes-articles.ksql \
-  confluentinc/cp-ksql-cli:5.2.2 http://ksql-server:8088
+  confluentinc/cp-ksql-cli:5.3.1 http://ksql-server:8088
 ```
 
 On `ksql-cli` command line, run the following commands
@@ -215,14 +217,14 @@ curl http://localhost:8081/subjects/mysql.researchdb.researchers-value/versions/
 
 - Get all indices
 ```
-http://localhost:9200/_cat/indices?v
+curl http://localhost:9200/_cat/indices?v
 ```
 - Search for documents
 ```
-http://localhost:9200/articles/_search?pretty
-http://localhost:9200/institutes/_search?pretty
-http://localhost:9200/researchers/_search?pretty
-http://localhost:9200/reviews/_search?pretty
+curl http://localhost:9200/articles/_search?pretty
+curl http://localhost:9200/institutes/_search?pretty
+curl http://localhost:9200/researchers/_search?pretty
+curl http://localhost:9200/reviews/_search?pretty
 ```
 
 ### MySQL

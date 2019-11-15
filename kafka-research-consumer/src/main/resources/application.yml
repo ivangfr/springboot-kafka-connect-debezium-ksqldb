@@ -21,8 +21,6 @@ elasticsearch:
   cluster-name: docker-es-cluster
 
 management:
-  security:
-    enabled: false
   endpoints:
     web:
       exposure.include: "*"
