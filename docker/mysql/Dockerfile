@@ -1,4 +1,4 @@
-FROM mysql:5.7.28
+FROM mysql:5.7.29
 
 LABEL maintainer="ivangfr@yahoo.com.br"
 
