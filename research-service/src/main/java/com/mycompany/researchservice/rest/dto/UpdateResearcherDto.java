@@ -9,10 +9,10 @@ public class UpdateResearcherDto {
     @ApiModelProperty(example = "Ivan2")
     private String firstName;
 
-    @ApiModelProperty(position = 2, example = "Franchin2")
+    @ApiModelProperty(position = 1, example = "Franchin2")
     private String lastName;
 
-    @ApiModelProperty(position = 3, example = "2")
+    @ApiModelProperty(position = 2, example = "2")
     private Long instituteId;
 
 }

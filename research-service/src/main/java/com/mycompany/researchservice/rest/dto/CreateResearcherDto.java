@@ -13,11 +13,11 @@ public class CreateResearcherDto {
     @NotBlank
     private String firstName;
 
-    @ApiModelProperty(position = 2, example = "Franchin")
+    @ApiModelProperty(position = 1, example = "Franchin")
     @NotBlank
     private String lastName;
 
-    @ApiModelProperty(position = 3, example = "1")
+    @ApiModelProperty(position = 2, example = "1")
     @Positive
     private Long instituteId;
 

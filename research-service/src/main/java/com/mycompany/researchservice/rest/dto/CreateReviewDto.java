@@ -13,11 +13,11 @@ public class CreateReviewDto {
     @Positive
     private Long researcherId;
 
-    @ApiModelProperty(position = 2, example = "1")
+    @ApiModelProperty(position = 1, example = "1")
     @Positive
     private Long articleId;
 
-    @ApiModelProperty(position = 3, example = "Ln 56: replace the 'a' by 'an'")
+    @ApiModelProperty(position = 2, example = "Ln 56: replace the 'a' by 'an'")
     @NotBlank
     private String comment;
 

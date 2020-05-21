@@ -17,8 +17,7 @@ kafka:
 
 elasticsearch:
   host: localhost
-  port: 9300
-  cluster-name: docker-es-cluster
+  port: 9200
 
 management:
   endpoints:
