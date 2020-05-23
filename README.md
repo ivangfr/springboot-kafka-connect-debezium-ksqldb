@@ -67,7 +67,7 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
 
 - The Swagger link is http://localhost:9080/swagger-ui.html
 
-- **IMPORTANT:** create at least one `review` so that the topic `mysql.researchdb.reviews` is created on Kafka. Below there is a request sample to create a review
+- **IMPORTANT:** create at least one `review` so that the topic `mysql.researchdb.reviews` is created on Kafka. Below there is a request sample to create a review.
   ```
   curl -i -X POST localhost:9080/api/reviews \
     -H "Content-Type: application/json" \
@@ -250,6 +250,7 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
     FROM reviews a, researchers b, articles c \
     WHERE a.researcher_id = b.id and a.article_id = c.id;
   ```
+  > Type `exit` to leave `MySQL` terminal
 
 ## Shutdown
 
