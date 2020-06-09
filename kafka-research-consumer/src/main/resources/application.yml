@@ -3,6 +3,20 @@ server.port: 9081
 spring:
   application:
     name: kafka-research-consumer
+  kafka:
+    bootstrap-servers: localhost:29092
+    properties:
+      schema-registry-url: http://localhost:8081
+    consumer:
+      client-id: kafka-research-consumer-1
+      group-id: kafka-research-consumer-group
+      topic: REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      max-poll-records: 100
+    listener:
+      ack-mode: MANUAL
+      concurrency: 5
   data:
     elasticsearch:
       cluster-name: docker-es-cluster
@@ -10,17 +24,6 @@ spring:
   elasticsearch:
     rest:
       uris: http://${ELASTICSEARCH_HOST:localhost}:${ELASTICSEARCH_REST_PORT:9200}
-
-kafka:
-  bootstrap-servers: localhost:29092
-  schema-registry-url: http://localhost:8081
-  reviews:
-    id: kafka-research-consumer-1
-    topic: REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES
-    group-id: kafka-research-consumer-group
-    start-offset: earliest
-    concurrency: 4
-    max-poll-records: 100
 
 management:
   endpoints:

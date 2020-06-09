@@ -6,16 +6,19 @@ import com.mycompany.researchservice.model.Researcher;
 import com.mycompany.researchservice.service.ArticleService;
 import com.mycompany.researchservice.service.InstituteService;
 import com.mycompany.researchservice.service.ResearcherService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 @Slf4j
+@RequiredArgsConstructor
 @Component
 public class LoadSamples implements CommandLineRunner {
 
@@ -32,14 +35,6 @@ public class LoadSamples implements CommandLineRunner {
     private final ArticleService articleService;
     private final ResearcherService researcherService;
 
-    public LoadSamples(InstituteService instituteService, ArticleService articleService, ResearcherService researcherService) {
-        this.instituteService = instituteService;
-        this.articleService = articleService;
-        this.researcherService = researcherService;
-    }
-
-    private final Random random = new Random();
-
     @Override
     public void run(String... args) {
 
@@ -47,16 +42,14 @@ public class LoadSamples implements CommandLineRunner {
 
             log.info("## Start loading samples of articles, institutes and researchers ...");
 
-            if (articleSamples) {
-                if (articleService.getAllArticles().isEmpty()) {
-                    articleTitles.forEach(articleTitle -> {
-                        Article article = new Article();
-                        article.setTitle(articleTitle);
-                        article = articleService.saveArticle(article);
+            if (articleSamples && articleService.getAllArticles().isEmpty()) {
+                articleTitles.forEach(articleTitle -> {
+                    Article article = new Article();
+                    article.setTitle(articleTitle);
+                    article = articleService.saveArticle(article);
 
-                        log.info("Article created: {}", article);
-                    });
-                }
+                    log.info("Article created: {}", article);
+                });
             }
 
             if (instituteSamples) {
@@ -72,25 +65,25 @@ public class LoadSamples implements CommandLineRunner {
                     });
                 }
 
-                if (researcherSamples) {
-                    if (researcherService.getAllResearchers().isEmpty()) {
-                        researcherNames.forEach(researcherName -> {
-                            String[] firstLastName = researcherName.split(" ");
-                            Researcher researcher = new Researcher();
-                            researcher.setFirstName(firstLastName[0]);
-                            researcher.setLastName(firstLastName[1]);
-                            researcher.setInstitute(institutes.get(random.nextInt(institutes.size())));
-                            researcher = researcherService.saveResearchers(researcher);
+                if (researcherSamples && researcherService.getAllResearchers().isEmpty()) {
+                    researcherNames.forEach(researcherName -> {
+                        String[] firstLastName = researcherName.split(" ");
+                        Researcher researcher = new Researcher();
+                        researcher.setFirstName(firstLastName[0]);
+                        researcher.setLastName(firstLastName[1]);
+                        researcher.setInstitute(institutes.get(random.nextInt(institutes.size())));
+                        researcher = researcherService.saveResearchers(researcher);
 
-                            log.info("Researcher created: {}", researcher);
-                        });
-                    }
+                        log.info("Researcher created: {}", researcher);
+                    });
                 }
             }
 
             log.info("## Finished successfully loading samples of articles, institutes and researchers!");
         }
     }
+
+    private final Random random = new SecureRandom();
 
     private static final List<String> articleTitles = Arrays.asList(
             "Learn C++ in 10 days", "Learn Python in 5 days", "Why you should use Debezium",

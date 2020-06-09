@@ -4,19 +4,17 @@ import com.mycompany.researchservice.exception.ArticleNotFoundException;
 import com.mycompany.researchservice.exception.InstituteDeletionException;
 import com.mycompany.researchservice.model.Article;
 import com.mycompany.researchservice.repository.ArticleRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
-
-    public ArticleServiceImpl(ArticleRepository articleRepository) {
-        this.articleRepository = articleRepository;
-    }
 
     @Override
     public List<Article> getAllArticles() {

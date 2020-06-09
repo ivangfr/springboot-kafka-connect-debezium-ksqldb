@@ -4,19 +4,17 @@ import com.mycompany.researchservice.exception.InstituteDeletionException;
 import com.mycompany.researchservice.exception.ResearcherNotFoundException;
 import com.mycompany.researchservice.model.Researcher;
 import com.mycompany.researchservice.repository.ResearcherRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class ResearcherServiceImpl implements ResearcherService {
 
     private final ResearcherRepository researcherRepository;
-
-    public ResearcherServiceImpl(ResearcherRepository researcherRepository) {
-        this.researcherRepository = researcherRepository;
-    }
 
     @Override
     public List<Researcher> getAllResearchers() {

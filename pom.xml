@@ -17,9 +17,22 @@
     <name>springboot-kafka-debezium-ksql</name>
     <description>Demo project for Spring Boot</description>
 
+    <properties>
+        <java.version>11</java.version>
+    </properties>
+
     <modules>
         <module>research-service</module>
         <module>kafka-research-consumer</module>
     </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

@@ -16,6 +16,12 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
 
   `Spring Boot` application that listens messages from the topic `REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES` (that is one of `KSQL` outputs) and save the payload of those messages (i.e, reviews with detailed information) in `Elasticsearch`.
 
+## Prerequisites
+
+- `Java 11+`
+- `Docker`
+- `Docker-Compose`
+
 ## Start Environment
 
 - Open a terminal and inside `springboot-kafka-debezium-ksql` root folder run the following command
@@ -38,21 +44,21 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
 
 - Run the following `curl` commands to create one `Debezium` and two `Elasticsearch-Sink` connectors in `kafka-connect`
   ```
-  curl -i -X POST http://localhost:8083/connectors -H 'Content-Type: application/json' -d @connectors/debezium-mysql-source-researchdb.json
-  curl -i -X POST http://localhost:8083/connectors -H 'Content-Type: application/json' -d @connectors/elasticsearch-sink-institutes.json
-  curl -i -X POST http://localhost:8083/connectors -H 'Content-Type: application/json' -d @connectors/elasticsearch-sink-articles.json
+  curl -i -X POST localhost:8083/connectors -H 'Content-Type: application/json' -d @connectors/debezium-mysql-source-researchdb.json
+  curl -i -X POST localhost:8083/connectors -H 'Content-Type: application/json' -d @connectors/elasticsearch-sink-institutes.json
+  curl -i -X POST localhost:8083/connectors -H 'Content-Type: application/json' -d @connectors/elasticsearch-sink-articles.json
   ```
 
 - You can check the state of the connectors and their tasks on `Kafka Connect UI` (http://localhost:8086) or calling `kafka-connect` endpoint
   ```
-  curl http://localhost:8083/connectors/debezium-mysql-source-researchdb/status
-  curl http://localhost:8083/connectors/elasticsearch-sink-institutes/status
-  curl http://localhost:8083/connectors/elasticsearch-sink-articles/status
+  curl localhost:8083/connectors/debezium-mysql-source-researchdb/status
+  curl localhost:8083/connectors/elasticsearch-sink-institutes/status
+  curl localhost:8083/connectors/elasticsearch-sink-articles/status
   ```
 
 - The state of the connectors and their tasks must be `RUNNING`. If there is any problem, you can check `kafka-connect` container logs.
   ```
-  docker logs kafka-connect -f
+  docker logs kafka-connect
   ```
 
 ## Run research-service
@@ -148,12 +154,12 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
 
 - Run the `curl` command below to create `elasticsearch-sink-researchers` connector in `kafka-connect`
   ```
-  curl -i -X POST http://localhost:8083/connectors -H 'Content-Type: application/json' -d @connectors/elasticsearch-sink-researchers.json
+  curl -i -X POST localhost:8083/connectors -H 'Content-Type: application/json' -d @connectors/elasticsearch-sink-researchers.json
   ```
 
 - You can check the state of the connector and its task on `Kafka Connect UI` (http://localhost:8086) or calling `kafka-connect` endpoint
   ```
-  curl http://localhost:8083/connectors/elasticsearch-sink-researchers/status
+  curl localhost:8083/connectors/elasticsearch-sink-researchers/status
   ```
 
 ## Run kafka-research-consumer
@@ -174,9 +180,9 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
 
 - In another terminal, call the `research-service` simulation endpoint
   ```
-  curl -X POST "http://localhost:9080/api/simulation/reviews" \
+  curl -X POST localhost:9080/api/simulation/reviews \
     -H "Content-Type: application/json" \
-    -d "{ \"total\": 200, \"sleep\": 100}"
+    -d "{\"total\": 200, \"sleep\": 100}"
   ```
 
 - The GIF below shows it
@@ -185,7 +191,7 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
 
 - You can also query `Elasticsearch`
   ```
-  curl http://localhost:9200/reviews/_search?pretty
+  curl "localhost:9200/reviews/_search?pretty"
   ```
 
 ## Useful Links/Commands

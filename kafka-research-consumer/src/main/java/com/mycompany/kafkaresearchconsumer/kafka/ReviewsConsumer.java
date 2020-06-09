@@ -1,10 +1,11 @@
 package com.mycompany.kafkaresearchconsumer.kafka;
 
+import com.mycompany.kafkaresearchconsumer.mapper.ReviewMapper;
 import com.mycompany.kafkaresearchconsumer.model.Review;
 import com.mycompany.kafkaresearchconsumer.service.ReviewService;
 import com.mycompany.research.avro.ReviewMessage;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ma.glasnost.orika.MapperFacade;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.kafka.support.KafkaHeaders;
@@ -15,30 +16,26 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
+@RequiredArgsConstructor
 @Component
 public class ReviewsConsumer {
 
     private final ReviewService reviewService;
-    private final MapperFacade mapperFacade;
-
-    public ReviewsConsumer(ReviewService reviewService, MapperFacade mapperFacade) {
-        this.reviewService = reviewService;
-        this.mapperFacade = mapperFacade;
-    }
+    private final ReviewMapper reviewMapper;
 
     @KafkaListener(
-            id = "${kafka.reviews.id}",
-            topics = "${kafka.reviews.topic}",
-            groupId = "${kafka.reviews.group-id}",
-            concurrency = "${kafka.reviews.concurrency}"
+            id = "${spring.kafka.consumer.client-id}",
+            groupId = "${spring.kafka.consumer.group-id}",
+            topics = "${spring.kafka.consumer.topic}"
     )
     public void listen(List<Message<ReviewMessage>> messages, Acknowledgment ack) {
+        log.info("Received batch of messages with size: {}", messages.size());
         List<Review> reviews = messages.stream().map(message -> {
             log.info("Received reviewId={}, partition={}, offset={}",
                     message.getPayload().getREVIEWID(),
                     message.getHeaders().get(KafkaHeaders.RECEIVED_PARTITION_ID),
                     message.getHeaders().get(KafkaHeaders.OFFSET));
-            return mapperFacade.map(message.getPayload(), Review.class);
+            return reviewMapper.toReview(message.getPayload());
         }).collect(Collectors.toList());
 
         Iterable<Review> reviewIterable = reviewService.saveReviews(reviews);

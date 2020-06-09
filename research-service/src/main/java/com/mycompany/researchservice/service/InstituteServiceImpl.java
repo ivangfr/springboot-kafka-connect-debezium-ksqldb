@@ -4,19 +4,17 @@ import com.mycompany.researchservice.exception.InstituteDeletionException;
 import com.mycompany.researchservice.exception.InstituteNotFoundException;
 import com.mycompany.researchservice.model.Institute;
 import com.mycompany.researchservice.repository.InstituteRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class InstituteServiceImpl implements InstituteService {
 
     private final InstituteRepository instituteRepository;
-
-    public InstituteServiceImpl(InstituteRepository instituteRepository) {
-        this.instituteRepository = instituteRepository;
-    }
 
     @Override
     public List<Institute> getAllInstitutes() {

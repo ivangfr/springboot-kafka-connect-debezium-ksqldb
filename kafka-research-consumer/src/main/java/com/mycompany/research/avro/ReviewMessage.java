@@ -5,12 +5,13 @@
  */
 package com.mycompany.research.avro;
 
+import org.apache.avro.generic.GenericArray;
 import org.apache.avro.specific.SpecificData;
+import org.apache.avro.util.Utf8;
 import org.apache.avro.message.BinaryMessageEncoder;
 import org.apache.avro.message.BinaryMessageDecoder;
 import org.apache.avro.message.SchemaStore;
 
-@SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
 public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
   private static final long serialVersionUID = -883489963287657117L;
@@ -26,7 +27,16 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
       new BinaryMessageDecoder<ReviewMessage>(MODEL$, SCHEMA$);
 
   /**
+   * Return the BinaryMessageEncoder instance used by this class.
+   * @return the message encoder used by this class
+   */
+  public static BinaryMessageEncoder<ReviewMessage> getEncoder() {
+    return ENCODER;
+  }
+
+  /**
    * Return the BinaryMessageDecoder instance used by this class.
+   * @return the message decoder used by this class
    */
   public static BinaryMessageDecoder<ReviewMessage> getDecoder() {
     return DECODER;
@@ -35,17 +45,27 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
   /**
    * Create a new BinaryMessageDecoder instance for this class that uses the specified {@link SchemaStore}.
    * @param resolver a {@link SchemaStore} used to find schemas by fingerprint
+   * @return a BinaryMessageDecoder instance for this class backed by the given SchemaStore
    */
   public static BinaryMessageDecoder<ReviewMessage> createDecoder(SchemaStore resolver) {
     return new BinaryMessageDecoder<ReviewMessage>(MODEL$, SCHEMA$, resolver);
   }
 
-  /** Serializes this ReviewMessage to a ByteBuffer. */
+  /**
+   * Serializes this ReviewMessage to a ByteBuffer.
+   * @return a buffer holding the serialized data for this instance
+   * @throws java.io.IOException if this instance could not be serialized
+   */
   public java.nio.ByteBuffer toByteBuffer() throws java.io.IOException {
     return ENCODER.encode(this);
   }
 
-  /** Deserializes a ReviewMessage from a ByteBuffer. */
+  /**
+   * Deserializes a ReviewMessage from a ByteBuffer.
+   * @param b a byte buffer holding serialized data for an instance of this class
+   * @return a ReviewMessage instance decoded from the given buffer
+   * @throws java.io.IOException if the given bytes could not be deserialized into an instance of this class
+   */
   public static ReviewMessage fromByteBuffer(
       java.nio.ByteBuffer b) throws java.io.IOException {
     return DECODER.decode(b);
@@ -95,6 +115,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
     this.CREATED_AT = CREATED_AT;
   }
 
+  public org.apache.avro.specific.SpecificData getSpecificData() { return MODEL$; }
   public org.apache.avro.Schema getSchema() { return SCHEMA$; }
   // Used by DatumWriter.  Applications should not call.
   public java.lang.Object get(int field$) {
@@ -139,6 +160,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
     return REVIEW_ID;
   }
 
+
   /**
    * Sets the value of the 'REVIEW_ID' field.
    * @param value the value to set.
@@ -154,6 +176,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
   public java.lang.Long getARTICLEID() {
     return ARTICLE_ID;
   }
+
 
   /**
    * Sets the value of the 'ARTICLE_ID' field.
@@ -171,6 +194,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
     return ARTICLE_TITLE;
   }
 
+
   /**
    * Sets the value of the 'ARTICLE_TITLE' field.
    * @param value the value to set.
@@ -186,6 +210,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
   public java.lang.Long getREVIEWERID() {
     return REVIEWER_ID;
   }
+
 
   /**
    * Sets the value of the 'REVIEWER_ID' field.
@@ -203,6 +228,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
     return REVIEWER_FIRST_NAME;
   }
 
+
   /**
    * Sets the value of the 'REVIEWER_FIRST_NAME' field.
    * @param value the value to set.
@@ -218,6 +244,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
   public java.lang.CharSequence getREVIEWERLASTNAME() {
     return REVIEWER_LAST_NAME;
   }
+
 
   /**
    * Sets the value of the 'REVIEWER_LAST_NAME' field.
@@ -235,6 +262,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
     return INSTITUTE_ID;
   }
 
+
   /**
    * Sets the value of the 'INSTITUTE_ID' field.
    * @param value the value to set.
@@ -250,6 +278,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
   public java.lang.CharSequence getINSTITUTENAME() {
     return INSTITUTE_NAME;
   }
+
 
   /**
    * Sets the value of the 'INSTITUTE_NAME' field.
@@ -267,6 +296,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
     return COMMENT;
   }
 
+
   /**
    * Sets the value of the 'COMMENT' field.
    * @param value the value to set.
@@ -282,6 +312,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
   public java.lang.Long getCREATEDAT() {
     return CREATED_AT;
   }
+
 
   /**
    * Sets the value of the 'CREATED_AT' field.
@@ -305,7 +336,11 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
    * @return A new ReviewMessage RecordBuilder
    */
   public static com.mycompany.research.avro.ReviewMessage.Builder newBuilder(com.mycompany.research.avro.ReviewMessage.Builder other) {
-    return new com.mycompany.research.avro.ReviewMessage.Builder(other);
+    if (other == null) {
+      return new com.mycompany.research.avro.ReviewMessage.Builder();
+    } else {
+      return new com.mycompany.research.avro.ReviewMessage.Builder(other);
+    }
   }
 
   /**
@@ -314,12 +349,17 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
    * @return A new ReviewMessage RecordBuilder
    */
   public static com.mycompany.research.avro.ReviewMessage.Builder newBuilder(com.mycompany.research.avro.ReviewMessage other) {
-    return new com.mycompany.research.avro.ReviewMessage.Builder(other);
+    if (other == null) {
+      return new com.mycompany.research.avro.ReviewMessage.Builder();
+    } else {
+      return new com.mycompany.research.avro.ReviewMessage.Builder(other);
+    }
   }
 
   /**
    * RecordBuilder for ReviewMessage instances.
    */
+  @org.apache.avro.specific.AvroGenerated
   public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<ReviewMessage>
     implements org.apache.avro.data.RecordBuilder<ReviewMessage> {
 
@@ -347,43 +387,43 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
       super(other);
       if (isValidValue(fields()[0], other.REVIEW_ID)) {
         this.REVIEW_ID = data().deepCopy(fields()[0].schema(), other.REVIEW_ID);
-        fieldSetFlags()[0] = true;
+        fieldSetFlags()[0] = other.fieldSetFlags()[0];
       }
       if (isValidValue(fields()[1], other.ARTICLE_ID)) {
         this.ARTICLE_ID = data().deepCopy(fields()[1].schema(), other.ARTICLE_ID);
-        fieldSetFlags()[1] = true;
+        fieldSetFlags()[1] = other.fieldSetFlags()[1];
       }
       if (isValidValue(fields()[2], other.ARTICLE_TITLE)) {
         this.ARTICLE_TITLE = data().deepCopy(fields()[2].schema(), other.ARTICLE_TITLE);
-        fieldSetFlags()[2] = true;
+        fieldSetFlags()[2] = other.fieldSetFlags()[2];
       }
       if (isValidValue(fields()[3], other.REVIEWER_ID)) {
         this.REVIEWER_ID = data().deepCopy(fields()[3].schema(), other.REVIEWER_ID);
-        fieldSetFlags()[3] = true;
+        fieldSetFlags()[3] = other.fieldSetFlags()[3];
       }
       if (isValidValue(fields()[4], other.REVIEWER_FIRST_NAME)) {
         this.REVIEWER_FIRST_NAME = data().deepCopy(fields()[4].schema(), other.REVIEWER_FIRST_NAME);
-        fieldSetFlags()[4] = true;
+        fieldSetFlags()[4] = other.fieldSetFlags()[4];
       }
       if (isValidValue(fields()[5], other.REVIEWER_LAST_NAME)) {
         this.REVIEWER_LAST_NAME = data().deepCopy(fields()[5].schema(), other.REVIEWER_LAST_NAME);
-        fieldSetFlags()[5] = true;
+        fieldSetFlags()[5] = other.fieldSetFlags()[5];
       }
       if (isValidValue(fields()[6], other.INSTITUTE_ID)) {
         this.INSTITUTE_ID = data().deepCopy(fields()[6].schema(), other.INSTITUTE_ID);
-        fieldSetFlags()[6] = true;
+        fieldSetFlags()[6] = other.fieldSetFlags()[6];
       }
       if (isValidValue(fields()[7], other.INSTITUTE_NAME)) {
         this.INSTITUTE_NAME = data().deepCopy(fields()[7].schema(), other.INSTITUTE_NAME);
-        fieldSetFlags()[7] = true;
+        fieldSetFlags()[7] = other.fieldSetFlags()[7];
       }
       if (isValidValue(fields()[8], other.COMMENT)) {
         this.COMMENT = data().deepCopy(fields()[8].schema(), other.COMMENT);
-        fieldSetFlags()[8] = true;
+        fieldSetFlags()[8] = other.fieldSetFlags()[8];
       }
       if (isValidValue(fields()[9], other.CREATED_AT)) {
         this.CREATED_AT = data().deepCopy(fields()[9].schema(), other.CREATED_AT);
-        fieldSetFlags()[9] = true;
+        fieldSetFlags()[9] = other.fieldSetFlags()[9];
       }
     }
 
@@ -392,7 +432,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
      * @param other The existing instance to copy.
      */
     private Builder(com.mycompany.research.avro.ReviewMessage other) {
-            super(SCHEMA$);
+      super(SCHEMA$);
       if (isValidValue(fields()[0], other.REVIEW_ID)) {
         this.REVIEW_ID = data().deepCopy(fields()[0].schema(), other.REVIEW_ID);
         fieldSetFlags()[0] = true;
@@ -443,6 +483,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
       return REVIEW_ID;
     }
 
+
     /**
       * Sets the value of the 'REVIEW_ID' field.
       * @param value The value of 'REVIEW_ID'.
@@ -481,6 +522,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
     public java.lang.Long getARTICLEID() {
       return ARTICLE_ID;
     }
+
 
     /**
       * Sets the value of the 'ARTICLE_ID' field.
@@ -521,6 +563,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
       return ARTICLE_TITLE;
     }
 
+
     /**
       * Sets the value of the 'ARTICLE_TITLE' field.
       * @param value The value of 'ARTICLE_TITLE'.
@@ -559,6 +602,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
     public java.lang.Long getREVIEWERID() {
       return REVIEWER_ID;
     }
+
 
     /**
       * Sets the value of the 'REVIEWER_ID' field.
@@ -599,6 +643,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
       return REVIEWER_FIRST_NAME;
     }
 
+
     /**
       * Sets the value of the 'REVIEWER_FIRST_NAME' field.
       * @param value The value of 'REVIEWER_FIRST_NAME'.
@@ -637,6 +682,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
     public java.lang.CharSequence getREVIEWERLASTNAME() {
       return REVIEWER_LAST_NAME;
     }
+
 
     /**
       * Sets the value of the 'REVIEWER_LAST_NAME' field.
@@ -677,6 +723,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
       return INSTITUTE_ID;
     }
 
+
     /**
       * Sets the value of the 'INSTITUTE_ID' field.
       * @param value The value of 'INSTITUTE_ID'.
@@ -715,6 +762,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
     public java.lang.CharSequence getINSTITUTENAME() {
       return INSTITUTE_NAME;
     }
+
 
     /**
       * Sets the value of the 'INSTITUTE_NAME' field.
@@ -755,6 +803,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
       return COMMENT;
     }
 
+
     /**
       * Sets the value of the 'COMMENT' field.
       * @param value The value of 'COMMENT'.
@@ -793,6 +842,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
     public java.lang.Long getCREATEDAT() {
       return CREATED_AT;
     }
+
 
     /**
       * Sets the value of the 'CREATED_AT' field.
@@ -841,6 +891,8 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
         record.COMMENT = fieldSetFlags()[8] ? this.COMMENT : (java.lang.CharSequence) defaultValue(fields()[8]);
         record.CREATED_AT = fieldSetFlags()[9] ? this.CREATED_AT : (java.lang.Long) defaultValue(fields()[9]);
         return record;
+      } catch (org.apache.avro.AvroMissingFieldException e) {
+        throw e;
       } catch (java.lang.Exception e) {
         throw new org.apache.avro.AvroRuntimeException(e);
       }
@@ -865,4 +917,275 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
     READER$.read(this, SpecificData.getDecoder(in));
   }
 
+  @Override protected boolean hasCustomCoders() { return true; }
+
+  @Override public void customEncode(org.apache.avro.io.Encoder out)
+    throws java.io.IOException
+  {
+    if (this.REVIEW_ID == null) {
+      out.writeIndex(0);
+      out.writeNull();
+    } else {
+      out.writeIndex(1);
+      out.writeLong(this.REVIEW_ID);
+    }
+
+    if (this.ARTICLE_ID == null) {
+      out.writeIndex(0);
+      out.writeNull();
+    } else {
+      out.writeIndex(1);
+      out.writeLong(this.ARTICLE_ID);
+    }
+
+    if (this.ARTICLE_TITLE == null) {
+      out.writeIndex(0);
+      out.writeNull();
+    } else {
+      out.writeIndex(1);
+      out.writeString(this.ARTICLE_TITLE);
+    }
+
+    if (this.REVIEWER_ID == null) {
+      out.writeIndex(0);
+      out.writeNull();
+    } else {
+      out.writeIndex(1);
+      out.writeLong(this.REVIEWER_ID);
+    }
+
+    if (this.REVIEWER_FIRST_NAME == null) {
+      out.writeIndex(0);
+      out.writeNull();
+    } else {
+      out.writeIndex(1);
+      out.writeString(this.REVIEWER_FIRST_NAME);
+    }
+
+    if (this.REVIEWER_LAST_NAME == null) {
+      out.writeIndex(0);
+      out.writeNull();
+    } else {
+      out.writeIndex(1);
+      out.writeString(this.REVIEWER_LAST_NAME);
+    }
+
+    if (this.INSTITUTE_ID == null) {
+      out.writeIndex(0);
+      out.writeNull();
+    } else {
+      out.writeIndex(1);
+      out.writeLong(this.INSTITUTE_ID);
+    }
+
+    if (this.INSTITUTE_NAME == null) {
+      out.writeIndex(0);
+      out.writeNull();
+    } else {
+      out.writeIndex(1);
+      out.writeString(this.INSTITUTE_NAME);
+    }
+
+    if (this.COMMENT == null) {
+      out.writeIndex(0);
+      out.writeNull();
+    } else {
+      out.writeIndex(1);
+      out.writeString(this.COMMENT);
+    }
+
+    if (this.CREATED_AT == null) {
+      out.writeIndex(0);
+      out.writeNull();
+    } else {
+      out.writeIndex(1);
+      out.writeLong(this.CREATED_AT);
+    }
+
+  }
+
+  @Override public void customDecode(org.apache.avro.io.ResolvingDecoder in)
+    throws java.io.IOException
+  {
+    org.apache.avro.Schema.Field[] fieldOrder = in.readFieldOrderIfDiff();
+    if (fieldOrder == null) {
+      if (in.readIndex() != 1) {
+        in.readNull();
+        this.REVIEW_ID = null;
+      } else {
+        this.REVIEW_ID = in.readLong();
+      }
+
+      if (in.readIndex() != 1) {
+        in.readNull();
+        this.ARTICLE_ID = null;
+      } else {
+        this.ARTICLE_ID = in.readLong();
+      }
+
+      if (in.readIndex() != 1) {
+        in.readNull();
+        this.ARTICLE_TITLE = null;
+      } else {
+        this.ARTICLE_TITLE = in.readString(this.ARTICLE_TITLE instanceof Utf8 ? (Utf8)this.ARTICLE_TITLE : null);
+      }
+
+      if (in.readIndex() != 1) {
+        in.readNull();
+        this.REVIEWER_ID = null;
+      } else {
+        this.REVIEWER_ID = in.readLong();
+      }
+
+      if (in.readIndex() != 1) {
+        in.readNull();
+        this.REVIEWER_FIRST_NAME = null;
+      } else {
+        this.REVIEWER_FIRST_NAME = in.readString(this.REVIEWER_FIRST_NAME instanceof Utf8 ? (Utf8)this.REVIEWER_FIRST_NAME : null);
+      }
+
+      if (in.readIndex() != 1) {
+        in.readNull();
+        this.REVIEWER_LAST_NAME = null;
+      } else {
+        this.REVIEWER_LAST_NAME = in.readString(this.REVIEWER_LAST_NAME instanceof Utf8 ? (Utf8)this.REVIEWER_LAST_NAME : null);
+      }
+
+      if (in.readIndex() != 1) {
+        in.readNull();
+        this.INSTITUTE_ID = null;
+      } else {
+        this.INSTITUTE_ID = in.readLong();
+      }
+
+      if (in.readIndex() != 1) {
+        in.readNull();
+        this.INSTITUTE_NAME = null;
+      } else {
+        this.INSTITUTE_NAME = in.readString(this.INSTITUTE_NAME instanceof Utf8 ? (Utf8)this.INSTITUTE_NAME : null);
+      }
+
+      if (in.readIndex() != 1) {
+        in.readNull();
+        this.COMMENT = null;
+      } else {
+        this.COMMENT = in.readString(this.COMMENT instanceof Utf8 ? (Utf8)this.COMMENT : null);
+      }
+
+      if (in.readIndex() != 1) {
+        in.readNull();
+        this.CREATED_AT = null;
+      } else {
+        this.CREATED_AT = in.readLong();
+      }
+
+    } else {
+      for (int i = 0; i < 10; i++) {
+        switch (fieldOrder[i].pos()) {
+        case 0:
+          if (in.readIndex() != 1) {
+            in.readNull();
+            this.REVIEW_ID = null;
+          } else {
+            this.REVIEW_ID = in.readLong();
+          }
+          break;
+
+        case 1:
+          if (in.readIndex() != 1) {
+            in.readNull();
+            this.ARTICLE_ID = null;
+          } else {
+            this.ARTICLE_ID = in.readLong();
+          }
+          break;
+
+        case 2:
+          if (in.readIndex() != 1) {
+            in.readNull();
+            this.ARTICLE_TITLE = null;
+          } else {
+            this.ARTICLE_TITLE = in.readString(this.ARTICLE_TITLE instanceof Utf8 ? (Utf8)this.ARTICLE_TITLE : null);
+          }
+          break;
+
+        case 3:
+          if (in.readIndex() != 1) {
+            in.readNull();
+            this.REVIEWER_ID = null;
+          } else {
+            this.REVIEWER_ID = in.readLong();
+          }
+          break;
+
+        case 4:
+          if (in.readIndex() != 1) {
+            in.readNull();
+            this.REVIEWER_FIRST_NAME = null;
+          } else {
+            this.REVIEWER_FIRST_NAME = in.readString(this.REVIEWER_FIRST_NAME instanceof Utf8 ? (Utf8)this.REVIEWER_FIRST_NAME : null);
+          }
+          break;
+
+        case 5:
+          if (in.readIndex() != 1) {
+            in.readNull();
+            this.REVIEWER_LAST_NAME = null;
+          } else {
+            this.REVIEWER_LAST_NAME = in.readString(this.REVIEWER_LAST_NAME instanceof Utf8 ? (Utf8)this.REVIEWER_LAST_NAME : null);
+          }
+          break;
+
+        case 6:
+          if (in.readIndex() != 1) {
+            in.readNull();
+            this.INSTITUTE_ID = null;
+          } else {
+            this.INSTITUTE_ID = in.readLong();
+          }
+          break;
+
+        case 7:
+          if (in.readIndex() != 1) {
+            in.readNull();
+            this.INSTITUTE_NAME = null;
+          } else {
+            this.INSTITUTE_NAME = in.readString(this.INSTITUTE_NAME instanceof Utf8 ? (Utf8)this.INSTITUTE_NAME : null);
+          }
+          break;
+
+        case 8:
+          if (in.readIndex() != 1) {
+            in.readNull();
+            this.COMMENT = null;
+          } else {
+            this.COMMENT = in.readString(this.COMMENT instanceof Utf8 ? (Utf8)this.COMMENT : null);
+          }
+          break;
+
+        case 9:
+          if (in.readIndex() != 1) {
+            in.readNull();
+            this.CREATED_AT = null;
+          } else {
+            this.CREATED_AT = in.readLong();
+          }
+          break;
+
+        default:
+          throw new java.io.IOException("Corrupt ResolvingDecoder.");
+        }
+      }
+    }
+  }
 }
+
+
+
+
+
+
+
+
+
+

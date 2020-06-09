@@ -7,6 +7,7 @@ import com.mycompany.researchservice.rest.dto.RandomReviewsDto;
 import com.mycompany.researchservice.service.ArticleService;
 import com.mycompany.researchservice.service.ResearcherService;
 import com.mycompany.researchservice.service.ReviewService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,12 +15,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 @Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/simulation")
 public class SimulationController {
@@ -30,17 +33,9 @@ public class SimulationController {
     @Value("${simulation.reviews.sleep}")
     private Integer sleep;
 
-    private final Random random = new Random();
-
     private final ArticleService articleService;
     private final ResearcherService researcherService;
     private final ReviewService reviewService;
-
-    public SimulationController(ArticleService articleService, ResearcherService researcherService, ReviewService reviewService) {
-        this.articleService = articleService;
-        this.researcherService = researcherService;
-        this.reviewService = reviewService;
-    }
 
     @PostMapping("/reviews")
     public List<Long> createRandomOrders(@RequestBody RandomReviewsDto randomReviewsDto) throws InterruptedException {
@@ -73,6 +68,8 @@ public class SimulationController {
 
         return reviewIds;
     }
+
+    private final Random random = new SecureRandom();
 
     private String generateComment() {
         return String.format("Ln %s: %s", random.nextInt(150) + 1, phases.get(random.nextInt(phases.size())));
