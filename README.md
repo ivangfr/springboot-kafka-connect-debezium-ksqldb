@@ -33,10 +33,24 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
   > docker-compose build
   > ```
 
-- Wait a little bit until all containers are `Up (healthy)`. To check the status of the containers, run
+- Wait a little bit until all containers are `Up (healthy)`. To check the status of the containers run
   ```
   docker-compose ps
   ```
+  
+## Create Kafka Topics
+
+In order to have topics in `Kafka` with more than `1` partition, we must create them manually and not wait for the connectors to create for us. So, for it:
+
+- Open a new terminal and make sure you are in `springboot-kafka-debezium-ksql` root folder
+
+- Run the script below
+  ```
+  ./create-kafka-topics.sh
+  ```
+  > **Note:** you can ignore the warnings
+
+  It will create the topics `mysql.researchdb.institutes`, `mysql.researchdb.researchers`, `mysql.researchdb.articles` and `mysql.researchdb.reviews` with `5` partitions.
 
 ## Create connectors (3/4)
 
@@ -67,23 +81,17 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
 
 - Run the command below to start the application
   ```
-  ./mvnw clean spring-boot:run --projects research-service
+  ./mvnw clean spring-boot:run --projects research-service -Dspring-boot.run.jvmArguments="-Dserver.port=9080"
   ```
   > **Note:** It will create some articles, institutes and researchers. If you don't want it, just set to `false` the properties `load-samples.articles.enabled`, `load-samples.institutes.enabled` and `load-samples.researchers.enabled` in `application.yml`.
 
 - The Swagger link is http://localhost:9080/swagger-ui.html
 
-- **IMPORTANT:** create at least one `review` so that the topic `mysql.researchdb.reviews` is created on Kafka. Below there is a request sample to create a review.
+- **Important:** create at least one `review` so that `mysql.researchdb.reviews-key` and `mysql.researchdb.reviews-value` are created in `Schema Registry`. Below there is a request sample to create a review.
   ```
   curl -i -X POST localhost:9080/api/reviews \
     -H "Content-Type: application/json" \
     -d "{ \"researcherId\": 1, \"articleId\": 1, \"comment\": \"Ln 56: replace the 'a' by 'an'\"}"
-  ```
-
-  Otherwise, you will have the following exception while running `ksql-cli`
-  ```
-  io.confluent.ksql.parser.exception.ParseFailedException: Exception while processing statement: Avro schema for message
-  values on topic mysql.researchdb.reviews does not exist in the Schema Registry.
   ```
 
 ## Run ksql-cli
@@ -134,7 +142,7 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
   - check whether the topic was created 
     ```
     DESCRIBE RESEARCHERS_INSTITUTES;
-    SELECT * from RESEARCHERS_INSTITUTES EMIT CHANGES LIMIT 5;
+    SELECT * FROM RESEARCHERS_INSTITUTES EMIT CHANGES LIMIT 5;
     ```
   
   - Run the script below. It will create `REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES` topic
@@ -145,7 +153,7 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
   - Check whether the topic was created
     ```
     DESCRIBE REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES;
-    SELECT * from REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES EMIT CHANGES LIMIT 1;
+    SELECT * FROM REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES EMIT CHANGES LIMIT 1;
     ```
 
 ## Create connectors (4/4)
@@ -168,21 +176,28 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
 
 - Run the command below to start the application
   ```
-  ./mvnw clean spring-boot:run --projects kafka-research-consumer
+  ./mvnw clean spring-boot:run --projects kafka-research-consumer -Dspring-boot.run.jvmArguments="-Dserver.port=9081"
+  ```
+  
+- This service runs on port `9081`. The `health` endpoint is: http://localhost:9081/actuator/health
+
+- \[Optional\] We can start another `kafka-research-consumer` instance by opening another terminal and running
+  ```
+  ./mvnw clean spring-boot:run --projects kafka-research-consumer -Dspring-boot.run.jvmArguments="-Dserver.port=9082"
   ```
 
 ## Testing
 
 - Go to the terminal where `ksql-cli` is running. On `ksql-cli` command line, run the following query
   ```
-  SELECT * from REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES EMIT CHANGES;
+  SELECT * FROM REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES EMIT CHANGES;
   ```
 
 - In another terminal, call the `research-service` simulation endpoint
   ```
   curl -X POST localhost:9080/api/simulation/reviews \
     -H "Content-Type: application/json" \
-    -d "{\"total\": 200, \"sleep\": 100}"
+    -d "{\"total\": 100, \"sleep\": 100}"
   ```
 
 - The GIF below shows it
@@ -214,11 +229,11 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
 
   - Get the list of subjects
     ```
-    curl http://localhost:8081/subjects
+    curl localhost:8081/subjects
     ```
   - Get the latest version of the subject `mysql.researchdb.researchers-value`
     ```
-    curl http://localhost:8081/subjects/mysql.researchdb.researchers-value/versions/latest
+    curl localhost:8081/subjects/mysql.researchdb.researchers-value/versions/latest
     ```
 
 - **Kafka Manager**
@@ -238,14 +253,14 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
 
   - Get all indices
     ```
-    curl http://localhost:9200/_cat/indices?v
+    curl "localhost:9200/_cat/indices?v"
     ```
   - Search for documents
     ```
-    curl http://localhost:9200/articles/_search?pretty
-    curl http://localhost:9200/institutes/_search?pretty
-    curl http://localhost:9200/researchers/_search?pretty
-    curl http://localhost:9200/reviews/_search?pretty
+    curl "localhost:9200/articles/_search?pretty"
+    curl "localhost:9200/institutes/_search?pretty"
+    curl "localhost:9200/researchers/_search?pretty"
+    curl "localhost:9200/reviews/_search?pretty"
     ```
 
 - **MySQL**
