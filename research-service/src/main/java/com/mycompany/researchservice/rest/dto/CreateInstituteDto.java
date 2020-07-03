@@ -1,6 +1,6 @@
 package com.mycompany.researchservice.rest.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class CreateInstituteDto {
 
-    @ApiModelProperty(example = "MIT")
+    @Schema(example = "MIT")
     @NotBlank
     private String name;
 

@@ -1,6 +1,6 @@
 package com.mycompany.researchservice.rest.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -9,15 +9,15 @@ import javax.validation.constraints.Positive;
 @Data
 public class CreateResearcherDto {
 
-    @ApiModelProperty(example = "Ivan")
+    @Schema(example = "Ivan")
     @NotBlank
     private String firstName;
 
-    @ApiModelProperty(position = 1, example = "Franchin")
+    @Schema(example = "Franchin")
     @NotBlank
     private String lastName;
 
-    @ApiModelProperty(position = 2, example = "1")
+    @Schema(example = "1")
     @Positive
     private Long instituteId;
 

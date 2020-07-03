@@ -5,7 +5,7 @@ spring:
     hibernate:
       ddl-auto: none
   datasource:
-    url: jdbc:mysql://${MYSQL_ADDR:localhost}:3306/researchdb?autoReconnect=true&useSSL=false&useUnicode=yes&characterEncoding=UTF-8&useLegacyDatetimeCode=false&serverTimezone=UTC
+    url: jdbc:mysql://${MYSQL_ADDR:localhost}:3306/researchdb?characterEncoding=UTF-8&serverTimezone=UTC
     username: root
     password: secret
 
@@ -17,10 +17,15 @@ logging.level:
 management:
   endpoints:
     web:
-      exposure.include: "*"
+      exposure.include: beans, env, health, info, metrics, mappings
   endpoint:
     health:
       show-details: always
+
+springdoc:
+  show-actuator: true
+  swagger-ui:
+    groups-order: DESC
 
 load-samples:
   articles.enabled: true
@@ -31,5 +36,3 @@ simulation:
   reviews:
     total: 10
     sleep: 100
-
-
