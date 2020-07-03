@@ -18,7 +18,7 @@ public interface ReviewMapper {
         review.setInstituteId(reviewMessage.getINSTITUTEID());
         review.setInstituteName(reviewMessage.getINSTITUTENAME().toString());
         review.setComment(reviewMessage.getCOMMENT().toString());
-        review.setCreatedAt(Long.valueOf(reviewMessage.getCREATEDAT().toString()));
+        review.setCreatedAt(reviewMessage.getCREATEDAT());
         return review;
     }
 

@@ -105,6 +105,7 @@ services:
   kafka-connect:
     build: docker/kafka-connect
     container_name: kafka-connect
+    restart: unless-stopped
     depends_on:
       - schema-registry
     ports:
