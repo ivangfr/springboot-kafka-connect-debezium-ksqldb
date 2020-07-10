@@ -8,7 +8,7 @@ spring:
     consumer:
       client-id: kafka-research-consumer-1
       group-id: kafka-research-consumer-group
-      topic: REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES
+      topic: reviews_researchers_institutes_articles
       auto-offset-reset: earliest
       enable-auto-commit: false
       max-poll-records: 100

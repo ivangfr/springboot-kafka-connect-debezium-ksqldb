@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class CreateArticleDto {
 
-    @Schema(example = "Advantages of using KSQL over Kafka Streams")
+    @Schema(example = "Advantages of using ksqlDB over Kafka Streams")
     @NotBlank
     private String title;
 
