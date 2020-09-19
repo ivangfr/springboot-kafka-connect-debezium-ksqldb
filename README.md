@@ -8,13 +8,13 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
 
 ## Applications
 
-- **research-service**
+- ### research-service
 
   Monolithic [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) application that exposes a REST API to manage `Institutes`, `Articles`, `Researchers` and `Reviews`. The data is saved in `MySQL`.
   
   ![research-service-swagger](images/research-service-swagger.png)
 
-- **kafka-research-consumer**
+- ### kafka-research-consumer
 
   `Spring Boot` application that listens messages from the topic `reviews_researchers_institutes_articles` (that is one of `ksqlDB` outputs) and save the payload of those messages (i.e, reviews with detailed information) in `Elasticsearch`.
 
@@ -35,7 +35,7 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
   > docker-compose build
   > ```
 
-- Wait a little bit until all containers are `Up (healthy)`. To check the status of the containers run
+- Wait a bit until all containers are `Up (healthy)`. To check the status of the containers run
   ```
   docker-compose ps
   ```
@@ -140,7 +140,6 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
     ```
     RUN SCRIPT '/tmp/researchers-institutes.ksql';
     ```
-    > **WARNING:** the script doesn't work in the current `ksqlDB` version, see [Issues](#issues). The workaround proposed [here](https://github.com/confluentinc/ksql/issues/1394) doesn't work as well. In order to continue the configuration, open `docker/ksql/researchers-institutes.ksql` file and copy/paste/run each `CREATE STREAM` and `CREATE TABLE` in `ksqlDB-cli` terminal.
   
   - Check whether the topic was created 
     ```
@@ -152,7 +151,6 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
     ```
     RUN SCRIPT '/tmp/reviews-researchers-institutes-articles.ksql';
     ```
-    > **WARNING:** the script doesn't work in the current `ksqlDB` version, see [Issues](#issues). The workaround proposed [here](https://github.com/confluentinc/ksql/issues/1394) doesn't work as well. In order to continue the configuration, open `docker/ksql/reviews-researchers-institutes-articles.ksql` file and copy/paste/run each `CREATE STREAM` and `CREATE TABLE` in `ksqlDB-cli` terminal.
   
   - Check whether the topic was created
     ```
@@ -293,32 +291,6 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
 1. Replace the deprecated `topic.index.map` configured in `elasticsearch-sink-*` connectors. Waiting for those `kafka-connect-elasticsearch` issues to be fixed:
    - `Create indices before writing records #261` https://github.com/confluentinc/kafka-connect-elasticsearch/pull/261
    - `ConnectException: Cannot create mapping when using RegexRouter/TimestampRouter SMT #99` https://github.com/confluentinc/kafka-connect-elasticsearch/issues/99
-
-## Issues
-
-- Unable to run script `researchers-institutes.ksql`. See this `ksqlDB` [issue](https://github.com/confluentinc/ksql/issues/1394)
-  ```
-  ksql> RUN SCRIPT '/tmp/researchers-institutes.ksql';
-  Schema for message values on topic institutes_src_rekey does not exist in the Schema Registry.Subject: institutes_src_rekey-value
-  Possible causes include:
-  - The topic itself does not exist	-> Use SHOW TOPICS; to check
-  - Messages on the topic are not serialized using a format Schema Registry supports	-> Use PRINT 'institutes_src_rekey' FROM BEGINNING; to verify
-  - Messages on the topic have not been serialized using a Confluent Schema Registry supported serializer	-> See https://docs.confluent.io/current/schema-registry/docs/serializer-formatter.html
-  - The schema is registered on a different instance of the Schema Registry	-> Use the REST API to list available subjects	https://docs.confluent.io/current/schema-registry/docs/api.html#get--subjects
-  - You do not have permissions to access the Schema Registry.Subject: institutes_src_rekey-value	-> See https://docs.confluent.io/current/schema-registry/docs/security.htm
-  ```
-
-- Unable to run script `reviews-researchers-institutes-articles.ksql`. See this `ksqlDB` [issue](https://github.com/confluentinc/ksql/issues/1394)
-  ```
-  ksql> RUN SCRIPT '/tmp/reviews-researchers-institutes-articles.ksql';
-  Schema for message values on topic researchers_institutes does not exist in the Schema Registry.Subject: researchers_institutes-value
-  Possible causes include:
-  - The topic itself does not exist	-> Use SHOW TOPICS; to check
-  - Messages on the topic are not serialized using a format Schema Registry supports	-> Use PRINT 'researchers_institutes' FROM BEGINNING; to verify
-  - Messages on the topic have not been serialized using a Confluent Schema Registry supported serializer	-> See https://docs.confluent.io/current/schema-registry/docs/serializer-formatter.html
-  - The schema is registered on a different instance of the Schema Registry	-> Use the REST API to list available subjects	https://docs.confluent.io/current/schema-registry/docs/api.html#get--subjects
-  - You do not have permissions to access the Schema Registry.Subject: researchers_institutes-value	-> See https://docs.confluent.io/current/schema-registry/docs/security.html
-  ```
 
 ## References
 
