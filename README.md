@@ -1,4 +1,4 @@
-# springboot-kafka-debezium-ksql
+# springboot-kafka-connect-debezium-ksql
 
 The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`Debezium`](https://debezium.io/) and [`ksqlDB`](https://www.confluent.io/product/ksql/). For this, we have: `research-service` that inserts/updates/deletes records in [`MySQL`](https://www.mysql.com); `Source Connectors` that monitor change of records in MySQL and push messages related to those changes to Kafka; `Sink Connectors` and `kafka-research-consumer` that listen messages from Kafka and insert/update documents in [`Elasticsearch`](https://www.elastic.co); finally, `ksqlDB-Server` that listens some topics in Kafka, does some joins and pushes new messages to new topics in Kafka.
 
@@ -26,11 +26,11 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
 
 ## Start Environment
 
-- Open a terminal and inside `springboot-kafka-debezium-ksql` root folder run the following command
+- Open a terminal and inside `springboot-kafka-connect-debezium-ksql` root folder run the following command
   ```
   docker-compose up -d
   ```
-  > **Note:** During the first run, an image for `mysql` and `kafka-connect` will be built, whose names are `springboot-kafka-debezium-ksql_mysql` and `springboot-kafka-debezium-ksql_kafka-connect`, respectively. To rebuild those images run
+  > **Note:** During the first run, an image for `mysql` and `kafka-connect` will be built, whose names are `springboot-kafka-connect-debezium-ksql_mysql` and `springboot-kafka-connect-debezium-ksql_kafka-connect`, respectively. To rebuild those images run
   > ```
   > docker-compose build
   > ```
@@ -44,7 +44,7 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
 
 In order to have topics in `Kafka` with more than `1` partition, we must create them manually and not wait for the connectors to create for us. So, for it:
 
-- Open a new terminal and make sure you are in `springboot-kafka-debezium-ksql` root folder
+- Open a new terminal and make sure you are in `springboot-kafka-connect-debezium-ksql` root folder
 
 - Run the script below
   ```
@@ -56,7 +56,7 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
 
 ## Create connectors (3/4)
 
-- In a terminal, make sure you are in `springboot-kafka-debezium-ksql` root folder
+- In a terminal, make sure you are in `springboot-kafka-connect-debezium-ksql` root folder
 
 - Run the following `curl` commands to create one `Debezium` and two `Elasticsearch-Sink` connectors in `kafka-connect`
   ```
@@ -79,7 +79,7 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
 
 ## Run research-service
 
-- In a new terminal, make sure you are inside `springboot-kafka-debezium-ksql` root folder
+- In a new terminal, make sure you are inside `springboot-kafka-connect-debezium-ksql` root folder
 
 - Run the command below to start the application
   ```
@@ -98,10 +98,10 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
 
 ## Run ksqlDB-cli
 
-- In a new terminal, inside `springboot-kafka-debezium-ksql` root folder, run the `docker` command below to start `ksqlDB-cli`
+- In a new terminal, inside `springboot-kafka-connect-debezium-ksql` root folder, run the `docker` command below to start `ksqlDB-cli`
   ```
   docker run -it --rm --name ksqldb-cli \
-    --network springboot-kafka-debezium-ksql_default \
+    --network springboot-kafka-connect-debezium-ksql_default \
     -v $PWD/docker/ksql/researchers-institutes.ksql:/tmp/researchers-institutes.ksql \
     -v $PWD/docker/ksql/reviews-researchers-institutes-articles.ksql:/tmp/reviews-researchers-institutes-articles.ksql \
     confluentinc/cp-ksqldb-cli:5.5.1 http://ksqldb-server:8088
@@ -160,7 +160,7 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
 
 ## Create connectors (4/4)
 
-- In a terminal, make sure you are in `springboot-kafka-debezium-ksql` root folder
+- In a terminal, make sure you are in `springboot-kafka-connect-debezium-ksql` root folder
 
 - Run the `curl` command below to create `elasticsearch-sink-researchers` connector in `kafka-connect`
   ```
@@ -174,7 +174,7 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
 
 ## Run kafka-research-consumer
 
-- Open a new terminal and navigate to `springboot-kafka-debezium-ksql` root folder
+- Open a new terminal and navigate to `springboot-kafka-connect-debezium-ksql` root folder
 
 - Run the command below to start the application
   ```
@@ -279,7 +279,7 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
 
 - Go to the terminals where `research-service` and `kafka-research-consumer` are running and press `Ctrl+C` to stop them
 - Go to the terminal where `ksql-cli` is running and press `Ctrl+C` to stop the `SELECT` and type `exit`
-- In a terminal and inside `springboot-kafka-debezium-ksql`, run the command below to stop and remove Docker containers, networks and volumes
+- In a terminal and inside `springboot-kafka-connect-debezium-ksql`, run the command below to stop and remove Docker containers, networks and volumes
   ```
   docker-compose down -v
   ```

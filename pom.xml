@@ -11,10 +11,10 @@
     </parent>
 
     <groupId>com.mycompany</groupId>
-    <artifactId>springboot-kafka-debezium-ksql</artifactId>
+    <artifactId>springboot-kafka-connect-debezium-ksql</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>springboot-kafka-debezium-ksql</name>
+    <name>springboot-kafka-connect-debezium-ksql</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
