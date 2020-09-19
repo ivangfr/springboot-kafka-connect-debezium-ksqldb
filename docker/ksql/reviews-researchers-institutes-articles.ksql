@@ -4,11 +4,6 @@ CREATE STREAM "articles_src_rekey" WITH (PARTITIONS=5) AS SELECT * FROM "article
 CREATE STREAM "reviews_src" WITH (KAFKA_TOPIC='mysql.researchdb.reviews', VALUE_FORMAT='AVRO', PARTITIONS=5);
 CREATE STREAM "reviews_src_rekey" WITH (PARTITIONS=5) AS SELECT * FROM "reviews_src" PARTITION BY ID;
 
--- This select statement is simply to make sure that we have time for the "researchers_institutes" topic
--- to be created before we define a table against it (https://github.com/confluentinc/ksql/issues/1394)
--- NOTE: it doesn't work
--- SELECT * FROM "researchers_institutes" LIMIT 1;
-
 CREATE TABLE "researchers_institutes_table" (ROWKEY BIGINT KEY, researcher_id BIGINT, researcher_first_name VARCHAR, researcher_last_name VARCHAR, institute_id BIGINT, institute_name VARCHAR) WITH (KAFKA_TOPIC='researchers_institutes', VALUE_FORMAT='AVRO', KEY='researcher_id', PARTITIONS=5);
 CREATE TABLE "articles_table" (ROWKEY BIGINT KEY, id BIGINT, title VARCHAR, created_at BIGINT, updated_at BIGINT) WITH (KAFKA_TOPIC='articles_src_rekey', VALUE_FORMAT='AVRO', KEY='id', PARTITIONS=5);
 CREATE STREAM "reviews_stream" (id BIGINT, comment VARCHAR, created_at BIGINT, updated_at BIGINT, article_id BIGINT, researcher_id BIGINT) WITH (KAFKA_TOPIC='reviews_src_rekey', VALUE_FORMAT='AVRO', PARTITIONS=5);
