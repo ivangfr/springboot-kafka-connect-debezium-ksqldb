@@ -1,10 +1,10 @@
-CREATE STREAM INSTITUTES_SRC WITH (KAFKA_TOPIC='mysql.researchdb.institutes', VALUE_FORMAT='AVRO', PARTITIONS=5);
-CREATE STREAM INSTITUTES_SRC_REKEY WITH (PARTITIONS=5) AS SELECT * FROM INSTITUTES_SRC PARTITION BY ID;
+CREATE STREAM "institutes_src" WITH (KAFKA_TOPIC='mysql.researchdb.institutes', VALUE_FORMAT='AVRO', PARTITIONS=5);
+CREATE STREAM "institutes_src_rekey" WITH (PARTITIONS=5) AS SELECT * FROM "institutes_src" PARTITION BY ID;
 
-CREATE STREAM RESEARCHERS_SRC WITH (KAFKA_TOPIC='mysql.researchdb.researchers', VALUE_FORMAT='AVRO', PARTITIONS=5);
-CREATE STREAM RESEARCHERS_SRC_REKEY WITH (PARTITIONS=5) AS SELECT * FROM RESEARCHERS_SRC PARTITION BY ID;
+CREATE STREAM "researchers_src" WITH (KAFKA_TOPIC='mysql.researchdb.researchers', VALUE_FORMAT='AVRO', PARTITIONS=5);
+CREATE STREAM "researchers_src_rekey" WITH (PARTITIONS=5) AS SELECT * FROM "researchers_src" PARTITION BY ID;
 
-CREATE TABLE INSTITUTES_TABLE (id BIGINT, name VARCHAR, created_at BIGINT, updated_at BIGINT) WITH (KAFKA_TOPIC='INSTITUTES_SRC_REKEY', VALUE_FORMAT='AVRO', KEY='id', PARTITIONS=5);
-CREATE STREAM RESEARCHERS_STREAM (id BIGINT, first_name VARCHAR, last_name VARCHAR, created_at BIGINT, updated_at BIGINT, institute_id BIGINT) WITH (KAFKA_TOPIC='RESEARCHERS_SRC_REKEY', VALUE_FORMAT='AVRO', PARTITIONS=5);
+CREATE TABLE "institutes_table" (ROWKEY BIGINT KEY, id BIGINT, name VARCHAR, created_at BIGINT, updated_at BIGINT) WITH (KAFKA_TOPIC='institutes_src_rekey', VALUE_FORMAT='AVRO', KEY='id', PARTITIONS=5);
+CREATE STREAM "researchers_stream" (id BIGINT, first_name VARCHAR, last_name VARCHAR, created_at BIGINT, updated_at BIGINT, institute_id BIGINT) WITH (KAFKA_TOPIC='researchers_src_rekey', VALUE_FORMAT='AVRO', PARTITIONS=5);
 
-CREATE STREAM RESEARCHERS_INSTITUTES WITH (PARTITIONS=5) AS SELECT A.id AS researcher_id, A.first_name AS researcher_first_name, A.last_name AS researcher_last_name, B.id AS institute_id, B.name AS institute_name, A.created_at AS created_at, A.updated_at AS updated_at FROM RESEARCHERS_STREAM A LEFT JOIN INSTITUTES_TABLE B ON A.institute_id = B.id PARTITION BY researcher_id;
+CREATE STREAM "researchers_institutes" WITH (PARTITIONS=5) AS SELECT A.id AS researcher_id, A.first_name AS researcher_first_name, A.last_name AS researcher_last_name, B.id AS institute_id, B.name AS institute_name, A.created_at AS created_at, A.updated_at AS updated_at FROM "researchers_stream" A LEFT JOIN "institutes_table" B ON A.institute_id = B.id PARTITION BY A.id;

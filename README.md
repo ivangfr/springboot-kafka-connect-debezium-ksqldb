@@ -1,6 +1,6 @@
 # springboot-kafka-debezium-ksql
 
-The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`Debezium`](https://debezium.io/) and [`KSQL`](https://www.confluent.io/product/ksql/). For this, we have: `research-service` that inserts/updates/deletes records in [`MySQL`](https://www.mysql.com); `Source Connectors` that monitor change of records in MySQL and push messages related to those changes to Kafka; `Sink Connectors` and `kafka-research-consumer` that listen messages from Kafka and insert/update documents in [`Elasticsearch`](https://www.elastic.co); finally, `KSQL-Server` that listens some topics in Kafka, does some joins and pushes new messages to new topics in Kafka.
+The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`Debezium`](https://debezium.io/) and [`ksqlDB`](https://www.confluent.io/product/ksql/). For this, we have: `research-service` that inserts/updates/deletes records in [`MySQL`](https://www.mysql.com); `Source Connectors` that monitor change of records in MySQL and push messages related to those changes to Kafka; `Sink Connectors` and `kafka-research-consumer` that listen messages from Kafka and insert/update documents in [`Elasticsearch`](https://www.elastic.co); finally, `ksqlDB-Server` that listens some topics in Kafka, does some joins and pushes new messages to new topics in Kafka.
 
 ## Project Diagram
 
@@ -8,15 +8,15 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
 
 ## Applications
 
-- **research-service**
+- ### research-service
 
   Monolithic [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) application that exposes a REST API to manage `Institutes`, `Articles`, `Researchers` and `Reviews`. The data is saved in `MySQL`.
   
   ![research-service-swagger](images/research-service-swagger.png)
 
-- **kafka-research-consumer**
+- ### kafka-research-consumer
 
-  `Spring Boot` application that listens messages from the topic `REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES` (that is one of `KSQL` outputs) and save the payload of those messages (i.e, reviews with detailed information) in `Elasticsearch`.
+  `Spring Boot` application that listens messages from the topic `reviews_researchers_institutes_articles` (that is one of `ksqlDB` outputs) and save the payload of those messages (i.e, reviews with detailed information) in `Elasticsearch`.
 
 ## Prerequisites
 
@@ -35,7 +35,7 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
   > docker-compose build
   > ```
 
-- Wait a little bit until all containers are `Up (healthy)`. To check the status of the containers run
+- Wait a bit until all containers are `Up (healthy)`. To check the status of the containers run
   ```
   docker-compose ps
   ```
@@ -50,7 +50,7 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
   ```
   ./create-kafka-topics.sh
   ```
-  > **Note:** you can ignore the warnings
+  > **Note:** You can ignore the warnings
 
   It will create the topics `mysql.researchdb.institutes`, `mysql.researchdb.researchers`, `mysql.researchdb.articles` and `mysql.researchdb.reviews` with `5` partitions.
 
@@ -96,66 +96,66 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
     -d "{ \"researcherId\": 1, \"articleId\": 1, \"comment\": \"Ln 56: replace the 'a' by 'an'\"}"
   ```
 
-## Run ksql-cli
+## Run ksqlDB-cli
 
-- In a new terminal, inside `springboot-kafka-debezium-ksql` root folder, run the `docker` command below to start `ksql-cli`
+- In a new terminal, inside `springboot-kafka-debezium-ksql` root folder, run the `docker` command below to start `ksqlDB-cli`
   ```
-  docker run -it --rm --name ksql-cli \
+  docker run -it --rm --name ksqldb-cli \
     --network springboot-kafka-debezium-ksql_default \
     -v $PWD/docker/ksql/researchers-institutes.ksql:/tmp/researchers-institutes.ksql \
     -v $PWD/docker/ksql/reviews-researchers-institutes-articles.ksql:/tmp/reviews-researchers-institutes-articles.ksql \
-    confluentinc/cp-ksql-cli:5.4.1 http://ksql-server:8088
+    confluentinc/cp-ksqldb-cli:5.5.1 http://ksqldb-server:8088
   ```
   
   This log should show, and the terminal will be waiting for user input
   ```
                     ===========================================
-                    =        _  __ _____  ____  _             =
-                    =       | |/ // ____|/ __ \| |            =
-                    =       | ' /| (___ | |  | | |            =
-                    =       |  <  \___ \| |  | | |            =
-                    =       | . \ ____) | |__| | |____        =
-                    =       |_|\_\_____/ \___\_\______|       =
-                    =                                         =
-                    =  Streaming SQL Engine for Apache Kafka® =
+                    =       _              _ ____  ____       =
+                    =      | | _____  __ _| |  _ \| __ )      =
+                    =      | |/ / __|/ _` | | | | |  _ \      =
+                    =      |   <\__ \ (_| | | |_| | |_) |     =
+                    =      |_|\_\___/\__, |_|____/|____/      =
+                    =                   |_|                   =
+                    =  Event Streaming Database purpose-built =
+                    =        for stream processing apps       =
                     ===========================================
   
-  Copyright 2017-2019 Confluent Inc.
+  Copyright 2017-2020 Confluent Inc.
   
-  CLI v5.4.1, Server v5.4.1 located at http://ksql-server:8088
+  CLI v5.5.1, Server v5.5.1 located at http://ksqldb-server:8088
   
   Having trouble? Type 'help' (case-insensitive) for a rundown of how things work!
   
   ksql>
   ```
 
-- On `ksql-cli` command line, run the following commands
+- On `ksqlDB-cli` command line, run the following commands
 
   - Set `auto.offset.reset` value
     ```
     SET 'auto.offset.reset' = 'earliest';
     ```
   
-  - Run the following script. It will create `RESEARCHERS_INSTITUTES` topic
+  - Run the following script. It will create `researchers_institutes` topic
     ```
     RUN SCRIPT '/tmp/researchers-institutes.ksql';
     ```
   
-  - check whether the topic was created 
+  - Check whether the topic was created 
     ```
-    DESCRIBE RESEARCHERS_INSTITUTES;
-    SELECT * FROM RESEARCHERS_INSTITUTES EMIT CHANGES LIMIT 5;
+    DESCRIBE "researchers_institutes";
+    SELECT * FROM "researchers_institutes" EMIT CHANGES LIMIT 5;
     ```
   
-  - Run the script below. It will create `REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES` topic
+  - Run the script below. It will create `reviews_researchers_institutes_articles` topic
     ```
     RUN SCRIPT '/tmp/reviews-researchers-institutes-articles.ksql';
     ```
   
   - Check whether the topic was created
     ```
-    DESCRIBE REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES;
-    SELECT * FROM REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES EMIT CHANGES LIMIT 1;
+    DESCRIBE "reviews_researchers_institutes_articles";
+    SELECT * FROM "reviews_researchers_institutes_articles" EMIT CHANGES LIMIT 1;
     ```
 
 ## Create connectors (4/4)
@@ -192,7 +192,7 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
 
 - Go to the terminal where `ksql-cli` is running. On `ksql-cli` command line, run the following query
   ```
-  SELECT * FROM REVIEWS_RESEARCHERS_INSTITUTES_ARTICLES EMIT CHANGES;
+  SELECT * FROM "reviews_researchers_institutes_articles" EMIT CHANGES;
   ```
 
 - In another terminal, call the `research-service` simulation endpoint
