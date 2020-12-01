@@ -1,6 +1,6 @@
 package com.mycompany.researchservice.service;
 
-import com.mycompany.researchservice.exception.InstituteDeletionException;
+import com.mycompany.researchservice.exception.ReviewDeletionException;
 import com.mycompany.researchservice.exception.ReviewNotFoundException;
 import com.mycompany.researchservice.model.Review;
 import com.mycompany.researchservice.repository.ReviewRepository;
@@ -16,8 +16,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public Review validateAndGetReview(Long id) {
-        return reviewRepository.findById(id)
-                .orElseThrow(() -> new ReviewNotFoundException(String.format("Review with id %s not found", id)));
+        return reviewRepository.findById(id).orElseThrow(() -> new ReviewNotFoundException(id));
     }
 
     @Override
@@ -30,7 +29,7 @@ public class ReviewServiceImpl implements ReviewService {
         try {
             reviewRepository.delete(review);
         } catch (DataIntegrityViolationException e) {
-            throw new InstituteDeletionException(String.format("Review with id %s cannot be deleted", review.getId()));
+            throw new ReviewDeletionException(review.getId());
         }
     }
 }

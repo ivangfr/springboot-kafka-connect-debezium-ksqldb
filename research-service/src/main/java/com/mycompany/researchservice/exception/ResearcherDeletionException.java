@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.CONFLICT)
 public class ResearcherDeletionException extends RuntimeException {
 
-    public ResearcherDeletionException(String message) {
-        super(message);
+    public ResearcherDeletionException(Long id) {
+        super(String.format("Researcher with id %s cannot be deleted", id));
     }
 
 }

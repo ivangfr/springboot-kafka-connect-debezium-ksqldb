@@ -1,7 +1,7 @@
 package com.mycompany.researchservice.service;
 
+import com.mycompany.researchservice.exception.ArticleDeletionException;
 import com.mycompany.researchservice.exception.ArticleNotFoundException;
-import com.mycompany.researchservice.exception.InstituteDeletionException;
 import com.mycompany.researchservice.model.Article;
 import com.mycompany.researchservice.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +23,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Article validateAndGetArticle(Long id) {
-        return articleRepository.findById(id)
-                .orElseThrow(() -> new ArticleNotFoundException(String.format("Article with id %s not found", id)));
+        return articleRepository.findById(id).orElseThrow(() -> new ArticleNotFoundException(id));
     }
 
     @Override
@@ -37,7 +36,7 @@ public class ArticleServiceImpl implements ArticleService {
         try {
             articleRepository.delete(article);
         } catch (DataIntegrityViolationException e) {
-            throw new InstituteDeletionException(String.format("Article with id %s cannot be deleted", article.getId()));
+            throw new ArticleDeletionException(article.getId());
         }
     }
 }

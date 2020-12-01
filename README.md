@@ -294,4 +294,4 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
 
 ## References
 
-- https://docs.confluent.io/current/ksql/docs/tutorials/basics-docker.html#ksql-quickstart-docker
+- https://docs.confluent.io/platform/current/ksqldb/index.html

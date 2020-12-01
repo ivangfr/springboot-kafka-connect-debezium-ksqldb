@@ -23,8 +23,7 @@ public class InstituteServiceImpl implements InstituteService {
 
     @Override
     public Institute validateAndGetInstitute(Long id) {
-        return instituteRepository.findById(id)
-                .orElseThrow(() -> new InstituteNotFoundException(String.format("Institute with id %s not found", id)));
+        return instituteRepository.findById(id).orElseThrow(() -> new InstituteNotFoundException(id));
     }
 
     @Override
@@ -37,7 +36,7 @@ public class InstituteServiceImpl implements InstituteService {
         try {
             instituteRepository.delete(institute);
         } catch (DataIntegrityViolationException e) {
-            throw new InstituteDeletionException(String.format("Institute with id %s cannot be deleted", institute.getId()));
+            throw new InstituteDeletionException(institute.getId());
         }
     }
 }

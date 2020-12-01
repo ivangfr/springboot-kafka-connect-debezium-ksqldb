@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class InstituteNotFoundException extends RuntimeException {
 
-    public InstituteNotFoundException(String message) {
-        super(message);
+    public InstituteNotFoundException(Long id) {
+        super(String.format("Institute with id %s not found", id));
     }
+
 }

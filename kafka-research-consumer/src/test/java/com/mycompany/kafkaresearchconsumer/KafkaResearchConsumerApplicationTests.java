@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @Disabled
 @SpringBootTest
-public class KafkaResearchConsumerApplicationTests {
+class KafkaResearchConsumerApplicationTests {
 
     @Test
     void contextLoads() {

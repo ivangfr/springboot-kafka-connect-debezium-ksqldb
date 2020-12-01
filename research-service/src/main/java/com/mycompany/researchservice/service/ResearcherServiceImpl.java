@@ -1,6 +1,6 @@
 package com.mycompany.researchservice.service;
 
-import com.mycompany.researchservice.exception.InstituteDeletionException;
+import com.mycompany.researchservice.exception.ResearcherDeletionException;
 import com.mycompany.researchservice.exception.ResearcherNotFoundException;
 import com.mycompany.researchservice.model.Researcher;
 import com.mycompany.researchservice.repository.ResearcherRepository;
@@ -23,8 +23,7 @@ public class ResearcherServiceImpl implements ResearcherService {
 
     @Override
     public Researcher validateAndGetResearcher(Long id) {
-        return researcherRepository.findById(id)
-                .orElseThrow(() -> new ResearcherNotFoundException(String.format("Researcher with id %s not found", id)));
+        return researcherRepository.findById(id).orElseThrow(() -> new ResearcherNotFoundException(id));
     }
 
     @Override
@@ -37,7 +36,7 @@ public class ResearcherServiceImpl implements ResearcherService {
         try {
             researcherRepository.delete(researcher);
         } catch (DataIntegrityViolationException e) {
-            throw new InstituteDeletionException(String.format("Researcher with id %s cannot be deleted", researcher.getId()));
+            throw new ResearcherDeletionException(researcher.getId());
         }
     }
 }

@@ -8,6 +8,9 @@ import org.mapstruct.Mapper;
 public interface ReviewMapper {
 
     default Review toReview(ReviewMessage reviewMessage) {
+        if (reviewMessage == null) {
+            return null;
+        }
         Review review = new Review();
         review.setReviewId(reviewMessage.getREVIEWID());
         review.setArticleId(reviewMessage.getARTICLEID());
