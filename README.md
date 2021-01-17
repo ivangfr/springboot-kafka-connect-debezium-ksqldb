@@ -180,7 +180,11 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
   ```
   ./mvnw clean spring-boot:run --projects kafka-research-consumer -Dspring-boot.run.jvmArguments="-Dserver.port=9081"
   ```
-  
+  > The command below generates the Java class ReviewMessage from Avro file present in `src/main/resources/avro`
+  > ```
+  > ./mvnw generate-sources --projects kafka-research-consumer
+  > ```
+
 - This service runs on port `9081`. The `health` endpoint is: http://localhost:9081/actuator/health
 
 - \[Optional\] We can start another `kafka-research-consumer` instance by opening another terminal and running

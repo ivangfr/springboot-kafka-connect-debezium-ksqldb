@@ -121,7 +121,7 @@
                             <goal>schema</goal>
                         </goals>
                         <configuration>
-                            <sourceDirectory>src/main/resources/avro</sourceDirectory>
+                            <sourceDirectory>${project.basedir}/src/main/resources/avro</sourceDirectory>
                             <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
                         </configuration>
                     </execution>

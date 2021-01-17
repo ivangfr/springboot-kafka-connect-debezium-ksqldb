@@ -71,16 +71,16 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
     return DECODER.decode(b);
   }
 
-  @Deprecated public java.lang.Long REVIEW_ID;
-  @Deprecated public java.lang.Long ARTICLE_ID;
-  @Deprecated public java.lang.CharSequence ARTICLE_TITLE;
-  @Deprecated public java.lang.Long REVIEWER_ID;
-  @Deprecated public java.lang.CharSequence REVIEWER_FIRST_NAME;
-  @Deprecated public java.lang.CharSequence REVIEWER_LAST_NAME;
-  @Deprecated public java.lang.Long INSTITUTE_ID;
-  @Deprecated public java.lang.CharSequence INSTITUTE_NAME;
-  @Deprecated public java.lang.CharSequence COMMENT;
-  @Deprecated public java.lang.Long CREATED_AT;
+   private java.lang.Long REVIEW_ID;
+   private java.lang.Long ARTICLE_ID;
+   private java.lang.CharSequence ARTICLE_TITLE;
+   private java.lang.Long REVIEWER_ID;
+   private java.lang.CharSequence REVIEWER_FIRST_NAME;
+   private java.lang.CharSequence REVIEWER_LAST_NAME;
+   private java.lang.Long INSTITUTE_ID;
+   private java.lang.CharSequence INSTITUTE_NAME;
+   private java.lang.CharSequence COMMENT;
+   private java.lang.Long CREATED_AT;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -130,7 +130,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
     case 7: return INSTITUTE_NAME;
     case 8: return COMMENT;
     case 9: return CREATED_AT;
-    default: throw new org.apache.avro.AvroRuntimeException("Bad index");
+    default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
 
@@ -148,7 +148,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
     case 7: INSTITUTE_NAME = (java.lang.CharSequence)value$; break;
     case 8: COMMENT = (java.lang.CharSequence)value$; break;
     case 9: CREATED_AT = (java.lang.Long)value$; break;
-    default: throw new org.apache.avro.AvroRuntimeException("Bad index");
+    default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
 
