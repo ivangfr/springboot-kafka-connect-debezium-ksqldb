@@ -4,7 +4,7 @@ spring:
   kafka:
     bootstrap-servers: localhost:29092
     properties:
-      schema-registry-url: http://localhost:8081
+      schema-registry-url: http://${SCHEMA_REGISTRY_HOST:localhost}:${SCHEMA_REGISTRY_PORT:8081}
     consumer:
       client-id: kafka-research-consumer-1
       group-id: kafka-research-consumer-group
@@ -14,7 +14,7 @@ spring:
       max-poll-records: 100
     listener:
       ack-mode: MANUAL
-      concurrency: 5
+      concurrency: 2
   data:
     elasticsearch:
       cluster-name: docker-es-cluster
