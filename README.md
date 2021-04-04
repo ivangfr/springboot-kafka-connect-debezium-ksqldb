@@ -106,28 +106,6 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
     -v $PWD/docker/ksql/reviews-researchers-institutes-articles.ksql:/tmp/reviews-researchers-institutes-articles.ksql \
     confluentinc/cp-ksqldb-cli:5.5.1 http://ksqldb-server:8088
   ```
-  
-  This log should show, and the terminal will be waiting for user input
-  ```
-                    ===========================================
-                    =       _              _ ____  ____       =
-                    =      | | _____  __ _| |  _ \| __ )      =
-                    =      | |/ / __|/ _` | | | | |  _ \      =
-                    =      |   <\__ \ (_| | | |_| | |_) |     =
-                    =      |_|\_\___/\__, |_|____/|____/      =
-                    =                   |_|                   =
-                    =  Event Streaming Database purpose-built =
-                    =        for stream processing apps       =
-                    ===========================================
-  
-  Copyright 2017-2020 Confluent Inc.
-  
-  CLI v5.5.1, Server v5.5.1 located at http://ksqldb-server:8088
-  
-  Having trouble? Type 'help' (case-insensitive) for a rundown of how things work!
-  
-  ksql>
-  ```
 
 - On `ksqlDB-cli` command line, run the following commands
 
@@ -180,7 +158,7 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
   ```
   ./mvnw clean spring-boot:run --projects kafka-research-consumer -Dspring-boot.run.jvmArguments="-Dserver.port=9081"
   ```
-  > The command below generates the Java class ReviewMessage from Avro file present in `src/main/resources/avro`
+  > The command below generates the Java class `ReviewMessage` from Avro file present in `src/main/resources/avro`
   > ```
   > ./mvnw generate-sources --projects kafka-research-consumer
   > ```
