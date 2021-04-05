@@ -30,18 +30,23 @@ public class ReviewsConsumer {
     )
     public void listen(List<Message<ReviewMessage>> messages, Acknowledgment ack) {
         log.info("Received batch of messages with size: {}", messages.size());
-        List<Review> reviews = messages.stream().map(message -> {
-            log.info("Received reviewId={}, partition={}, offset={}",
-                    message.getPayload().getREVIEWID(),
-                    message.getHeaders().get(KafkaHeaders.RECEIVED_PARTITION_ID),
-                    message.getHeaders().get(KafkaHeaders.OFFSET));
-            return reviewMapper.toReview(message.getPayload());
-        }).collect(Collectors.toList());
+        List<Review> reviews = messages.stream()
+                .peek(this::logMessageReceived)
+                .map(message -> reviewMapper.toReview(message.getPayload()))
+                .collect(Collectors.toList());
 
-        Iterable<Review> reviewIterable = reviewService.saveReviews(reviews);
-
-        reviewIterable.forEach(review -> log.info("Saved reviewId={}", review.getReviewId()));
+        reviewService.saveReviews(reviews).forEach(review -> log.info("Saved reviewId={}", review.getReviewId()));
         ack.acknowledge();
+    }
+
+    private void logMessageReceived(Message<ReviewMessage> message) {
+        log.info("Received reviewId {} from '{} {}' for the article '{}', partition={}, offset={}",
+                message.getPayload().getREVIEWID(),
+                message.getPayload().getREVIEWERFIRSTNAME(),
+                message.getPayload().getREVIEWERLASTNAME(),
+                message.getPayload().getARTICLETITLE(),
+                message.getHeaders().get(KafkaHeaders.RECEIVED_PARTITION_ID),
+                message.getHeaders().get(KafkaHeaders.OFFSET));
     }
 
 }

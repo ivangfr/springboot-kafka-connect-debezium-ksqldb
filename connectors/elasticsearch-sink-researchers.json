@@ -7,8 +7,14 @@
     "connection.url": "http://elasticsearch:9200",
     "type.name": "researcher",
 
-    "_comment": "--- 'topic.index.map' is deprecated. Waiting for SMT to be fixed. See issues in README, TODO section ---",
-    "topic.index.map":"researchers_institutes:researchers",
+    "transforms":"dropPrefix,createKey,extractId",
+    "transforms.dropPrefix.type":"org.apache.kafka.connect.transforms.RegexRouter",
+    "transforms.dropPrefix.regex":"(.*)_institutes",
+    "transforms.dropPrefix.replacement":"$1",
+    "transforms.createKey.type":"org.apache.kafka.connect.transforms.ValueToKey",
+    "transforms.createKey.fields":"RESEARCHER_ID",
+    "transforms.extractId.type":"org.apache.kafka.connect.transforms.ExtractField$Key",
+    "transforms.extractId.field":"RESEARCHER_ID",
 
     "_comment": "--- Change Key converter (default is Avro) ---",
     "key.converter": "org.apache.kafka.connect.storage.StringConverter",

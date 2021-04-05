@@ -31,7 +31,7 @@ public class SpecificAvroWithSchemaDeserializer extends AbstractKafkaAvroDeseria
         Object configsValue = configs.get(configsKey);
 
         if (configsValue instanceof Class) {
-            return (Class) configsValue;
+            return (Class<?>) configsValue;
         } else if (configsValue instanceof String) {
             String recordClassName = (String) configsValue;
             try {

@@ -89,7 +89,7 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
 
 - The Swagger link is http://localhost:9080/swagger-ui.html
 
-- **Important:** create at least one `review` so that `mysql.researchdb.reviews-key` and `mysql.researchdb.reviews-value` are created in `Schema Registry`. Below there is a request sample to create a review.
+- **Important:** create at least one `review` so that `mysql.researchdb.reviews-key` and `mysql.researchdb.reviews-value` are created in `Schema Registry`. Below there is a sample request to create a review.
   ```
   curl -i -X POST localhost:9080/api/reviews \
     -H "Content-Type: application/json" \
@@ -104,7 +104,7 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
     --network springboot-kafka-connect-debezium-ksqldb_default \
     -v $PWD/docker/ksql/researchers-institutes.ksql:/tmp/researchers-institutes.ksql \
     -v $PWD/docker/ksql/reviews-researchers-institutes-articles.ksql:/tmp/reviews-researchers-institutes-articles.ksql \
-    confluentinc/cp-ksqldb-cli:5.5.1 http://ksqldb-server:8088
+    confluentinc/cp-ksqldb-cli:6.1.1 http://ksqldb-server:8088
   ```
 
 - On `ksqlDB-cli` command line, run the following commands
@@ -184,9 +184,9 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
     -d "{\"total\": 100, \"sleep\": 100}"
   ```
 
-- The GIF below shows it
+- The GIF below shows it. `research-service` is running in the upper left terminal; `kafka-research-consumer` is running in the upper right terminal; the middle terminal is used to submit the POST request to `research-service`. The lower terminal is where `ksql-cli` is running. 
 
-  ![ksql-select-example](images/ksql-select-example.gif)
+  ![execution-example](images/execution-example.gif)
 
 - You can also query `Elasticsearch`
   ```
@@ -269,10 +269,6 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
 ## TODO
 
 1. Create ES indices dynamically and add an `alias` for them.
-
-1. Replace the deprecated `topic.index.map` configured in `elasticsearch-sink-*` connectors. Waiting for those `kafka-connect-elasticsearch` issues to be fixed:
-   - `Create indices before writing records #261` https://github.com/confluentinc/kafka-connect-elasticsearch/pull/261
-   - `ConnectException: Cannot create mapping when using RegexRouter/TimestampRouter SMT #99` https://github.com/confluentinc/kafka-connect-elasticsearch/issues/99
 
 ## References
 

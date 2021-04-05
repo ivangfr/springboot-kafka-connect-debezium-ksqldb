@@ -16,6 +16,6 @@
     "include.schema.changes": "false",
 
     "transforms": "unwrap",
-    "transforms.unwrap.type": "io.debezium.transforms.UnwrapFromEnvelope"
+    "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState"
   }
 }

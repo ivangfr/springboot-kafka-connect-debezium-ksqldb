@@ -7,11 +7,11 @@
     "connection.url": "http://elasticsearch:9200",
     "type.name": "article",
 
-    "transforms": "extractKey",
+    "transforms": "extractKey,dropPrefix",
     "transforms.extractKey.type": "org.apache.kafka.connect.transforms.ExtractField$Key",
     "transforms.extractKey.field": "id",
-
-    "_comment": "--- 'topic.index.map' is deprecated. Waiting for SMT to be fixed. See issues in README, TODO section ---",
-    "topic.index.map":"mysql.researchdb.articles:articles"
+    "transforms.dropPrefix.type":"org.apache.kafka.connect.transforms.RegexRouter",
+    "transforms.dropPrefix.regex":"mysql.researchdb.(.*)",
+    "transforms.dropPrefix.replacement":"$1"
   }
 }
