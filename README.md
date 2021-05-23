@@ -26,7 +26,7 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
 
 ## Start Environment
 
-- Open a terminal and inside `springboot-kafka-connect-debezium-ksqldb` root folder run the following command
+- Open a terminal and, inside `springboot-kafka-connect-debezium-ksqldb` root folder, run the following command
   ```
   docker-compose up -d
   ```
@@ -172,7 +172,9 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
 
 ## Testing
 
-- Go to the terminal where `ksql-cli` is running. On `ksql-cli` command line, run the following query
+- Go to the terminal where `ksql-cli` is running.
+  
+- On `ksql-cli` command line, run the following query
   ```
   SELECT * FROM "reviews_researchers_institutes_articles" EMIT CHANGES;
   ```
@@ -261,7 +263,7 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
 
 - Go to the terminals where `research-service` and `kafka-research-consumer` are running and press `Ctrl+C` to stop them
 - Go to the terminal where `ksql-cli` is running and press `Ctrl+C` to stop the `SELECT` and type `exit`
-- In a terminal and inside `springboot-kafka-connect-debezium-ksqldb`, run the command below to stop and remove Docker containers, networks and volumes
+- In a terminal and, inside `springboot-kafka-connect-debezium-ksqldb`, run the command below to stop and remove docker-compose containers, networks and volumes
   ```
   docker-compose down -v
   ```
