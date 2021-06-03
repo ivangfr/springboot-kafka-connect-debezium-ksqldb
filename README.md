@@ -44,7 +44,7 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
 
 In order to have topics in `Kafka` with more than `1` partition, we must create them manually and not wait for the connectors to create for us. So, for it:
 
-- Open a new terminal and make sure you are in `springboot-kafka-connect-debezium-ksqldb` root folder
+- In a terminal, make sure you are in `springboot-kafka-connect-debezium-ksqldb` root folder
 
 - Run the script below
   ```
@@ -79,13 +79,13 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
 
 ## Run research-service
 
-- In a new terminal, make sure you are inside `springboot-kafka-connect-debezium-ksqldb` root folder
+- Open a new terminal and navigate to `springboot-kafka-connect-debezium-ksqldb` root folder
 
 - Run the command below to start the application
   ```
   ./mvnw clean spring-boot:run --projects research-service -Dspring-boot.run.jvmArguments="-Dserver.port=9080"
   ```
-  > **Note:** It will create some articles, institutes and researchers. If you don't want it, just set to `false` the properties `load-samples.articles.enabled`, `load-samples.institutes.enabled` and `load-samples.researchers.enabled` in `application.yml`.
+  It will create some articles, institutes and researchers. If you don't want it, just set to `false` the properties `load-samples.articles.enabled`, `load-samples.institutes.enabled` and `load-samples.researchers.enabled` in `application.yml`.
 
 - The Swagger link is http://localhost:9080/swagger-ui.html
 
@@ -98,7 +98,7 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
 
 ## Run ksqlDB-cli
 
-- In a new terminal, inside `springboot-kafka-connect-debezium-ksqldb` root folder, run the `docker` command below to start `ksqlDB-cli`
+- Open a new terminal and, inside `springboot-kafka-connect-debezium-ksqldb` root folder, run the `docker` command below to start `ksqlDB-cli`
   ```
   docker run -it --rm --name ksqldb-cli \
     --network springboot-kafka-connect-debezium-ksqldb_default \
@@ -163,7 +163,7 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
   > ./mvnw generate-sources --projects kafka-research-consumer
   > ```
 
-- This service runs on port `9081`. The `health` endpoint is: http://localhost:9081/actuator/health
+- This service runs on port `9081`. The `health` endpoint is http://localhost:9081/actuator/health
 
 - \[Optional\] We can start another `kafka-research-consumer` instance by opening another terminal and running
   ```
