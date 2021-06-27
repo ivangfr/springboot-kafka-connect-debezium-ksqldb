@@ -263,14 +263,17 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
 
 - Go to the terminals where `research-service` and `kafka-research-consumer` are running and press `Ctrl+C` to stop them
 - Go to the terminal where `ksql-cli` is running and press `Ctrl+C` to stop the `SELECT`; then, type `exit`
-- To stop and remove docker-compose containers, network and volumes, make sure you are inside `springboot-kafka-connect-debezium-ksqldb` root folder and run the command below
+- To stop and remove docker-compose containers, network and volumes, go to a terminal and, inside `springboot-kafka-connect-debezium-ksqldb` root folder, run the command below
   ```
   docker-compose down -v
   ```
-- To remove the Docker images created by this project, make sure you are in `springboot-kafka-connect-debezium-ksqldb` root folder and run the following command script
-  ```
-  ./remove-docker-images.sh
-  ```
+
+## Cleanup
+
+To remove the Docker images created by this project, go to a terminal and, inside `springboot-kafka-connect-debezium-ksqldb` root folder, run the following script
+```
+./remove-docker-images.sh
+```
 
 ## TODO
 
