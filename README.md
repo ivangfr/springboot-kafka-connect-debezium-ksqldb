@@ -42,7 +42,7 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
   
 ## Create Kafka Topics
 
-In order to have topics in `Kafka` with more than `1` partition, we must create them manually and not wait for the connectors to create for us. So, for it:
+In order to have topics in `Kafka` with more than `1` partition, we must create them manually and not wait for the connectors to create for us. So, for it
 
 - In a terminal, make sure you are in `springboot-kafka-connect-debezium-ksqldb` root folder
 
@@ -50,7 +50,6 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
   ```
   ./create-kafka-topics.sh
   ```
-  > **Note:** You can ignore the warnings
 
   It will create the topics `mysql.researchdb.institutes`, `mysql.researchdb.researchers`, `mysql.researchdb.articles` and `mysql.researchdb.reviews` with `5` partitions.
 
@@ -172,7 +171,7 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
 
 ## Testing
 
-- Go to the terminal where `ksql-cli` is running.
+- Go to the terminal where `ksql-cli` is running
   
 - On `ksql-cli` command line, run the following query
   ```
