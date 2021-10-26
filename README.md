@@ -4,7 +4,7 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
 
 ## Project Diagram
 
-![project-diagram](images/project-diagram.png)
+![project-diagram](documentation/project-diagram.png)
 
 ## Applications
 
@@ -12,7 +12,7 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
 
   Monolithic [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) application that exposes a REST API to manage `Institutes`, `Articles`, `Researchers` and `Reviews`. The data is saved in `MySQL`.
   
-  ![research-service-swagger](images/research-service-swagger.png)
+  ![research-service-swagger](documentation/research-service-swagger.png)
 
 - ### kafka-research-consumer
 
@@ -20,7 +20,7 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
 
 ## Prerequisites
 
-- [`Java 11+`](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
+- [`Java 11+`](https://www.oracle.com/java/technologies/downloads/#java11)
 - [`Docker`](https://www.docker.com/)
 - [`Docker-Compose`](https://docs.docker.com/compose/install/)
 
@@ -35,7 +35,7 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
   > docker-compose build
   > ```
 
-- Wait a bit until all containers are `Up (healthy)`. To check the status of the containers run
+- Wait for all containers to be with state `Up (healthy)`. To check it, run
   ```
   docker-compose ps
   ```
@@ -187,7 +187,7 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
 
 - The GIF below shows it. `research-service` is running in the upper left terminal; `kafka-research-consumer` is running in the upper right terminal; the middle terminal is used to submit the POST request to `research-service`. The lower terminal is where `ksql-cli` is running. 
 
-  ![execution-example](images/execution-example.gif)
+  ![execution-example](documentation/execution-example.gif)
 
 - You can also query `Elasticsearch`
   ```
@@ -276,7 +276,7 @@ To remove the Docker images created by this project, go to a terminal and, insid
 
 ## TODO
 
-1. Create ES indices dynamically and add an `alias` for them.
+- Create ES indices dynamically and add an `alias` for them.
 
 ## References
 

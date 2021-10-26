@@ -13,5 +13,4 @@ public interface InstituteService {
     Institute saveInstitute(Institute institute);
 
     void deleteInstitute(Institute institute);
-
 }

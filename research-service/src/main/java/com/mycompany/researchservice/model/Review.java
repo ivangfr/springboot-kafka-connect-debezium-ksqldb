@@ -50,5 +50,4 @@ public class Review {
     public void onPreUpdate() {
         updatedAt = LocalDateTime.now();
     }
-
 }

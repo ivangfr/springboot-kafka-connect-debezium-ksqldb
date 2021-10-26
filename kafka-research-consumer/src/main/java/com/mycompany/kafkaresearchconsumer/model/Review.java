@@ -19,5 +19,4 @@ public class Review {
     private String instituteName;
     private String comment;
     private Long createdAt;
-
 }

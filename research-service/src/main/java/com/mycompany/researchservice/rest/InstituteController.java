@@ -2,9 +2,9 @@ package com.mycompany.researchservice.rest;
 
 import com.mycompany.researchservice.mapper.InstituteMapper;
 import com.mycompany.researchservice.model.Institute;
-import com.mycompany.researchservice.rest.dto.CreateInstituteDto;
-import com.mycompany.researchservice.rest.dto.InstituteDto;
-import com.mycompany.researchservice.rest.dto.UpdateInstituteDto;
+import com.mycompany.researchservice.rest.dto.CreateInstituteRequest;
+import com.mycompany.researchservice.rest.dto.InstituteResponse;
+import com.mycompany.researchservice.rest.dto.UpdateInstituteRequest;
 import com.mycompany.researchservice.service.InstituteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,40 +31,39 @@ public class InstituteController {
     private final InstituteMapper instituteMapper;
 
     @GetMapping
-    public List<InstituteDto> getAllInstitutes() {
+    public List<InstituteResponse> getAllInstitutes() {
         return instituteService.getAllInstitutes()
                 .stream()
-                .map(instituteMapper::toInstituteDto)
+                .map(instituteMapper::toInstituteResponse)
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public InstituteDto getInstitute(@PathVariable Long id) {
+    public InstituteResponse getInstitute(@PathVariable Long id) {
         Institute institute = instituteService.validateAndGetInstitute(id);
-        return instituteMapper.toInstituteDto(institute);
+        return instituteMapper.toInstituteResponse(institute);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public InstituteDto createInstitute(@Valid @RequestBody CreateInstituteDto createInstituteDto) {
-        Institute institute = instituteMapper.toInstitute(createInstituteDto);
+    public InstituteResponse createInstitute(@Valid @RequestBody CreateInstituteRequest createInstituteRequest) {
+        Institute institute = instituteMapper.toInstitute(createInstituteRequest);
         institute = instituteService.saveInstitute(institute);
-        return instituteMapper.toInstituteDto(institute);
+        return instituteMapper.toInstituteResponse(institute);
     }
 
     @PatchMapping("/{id}")
-    public InstituteDto updateResearcher(@PathVariable Long id, @Valid @RequestBody UpdateInstituteDto updateInstituteDto) {
+    public InstituteResponse updateResearcher(@PathVariable Long id, @Valid @RequestBody UpdateInstituteRequest updateInstituteRequest) {
         Institute institute = instituteService.validateAndGetInstitute(id);
-        instituteMapper.updateInstituteFromDto(updateInstituteDto, institute);
+        instituteMapper.updateInstituteFromRequest(updateInstituteRequest, institute);
         institute = instituteService.saveInstitute(institute);
-        return instituteMapper.toInstituteDto(institute);
+        return instituteMapper.toInstituteResponse(institute);
     }
 
     @DeleteMapping("/{id}")
-    public InstituteDto deleteResearcher(@PathVariable Long id) {
+    public InstituteResponse deleteResearcher(@PathVariable Long id) {
         Institute institute = instituteService.validateAndGetInstitute(id);
         instituteService.deleteInstitute(institute);
-        return instituteMapper.toInstituteDto(institute);
+        return instituteMapper.toInstituteResponse(institute);
     }
-
 }

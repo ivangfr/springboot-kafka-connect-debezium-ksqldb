@@ -13,5 +13,4 @@ public interface ResearcherService {
     Researcher saveResearchers(Researcher researcher);
 
     void deleteResearcher(Researcher researcher);
-
 }

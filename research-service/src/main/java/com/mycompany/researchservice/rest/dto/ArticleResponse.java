@@ -5,10 +5,9 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class InstituteDto {
+public class ArticleResponse {
 
     private Long id;
-    private String name;
+    private String title;
     private LocalDateTime createdAt;
-
 }

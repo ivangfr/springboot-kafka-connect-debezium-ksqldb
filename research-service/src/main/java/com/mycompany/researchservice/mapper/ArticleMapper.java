@@ -1,9 +1,9 @@
 package com.mycompany.researchservice.mapper;
 
 import com.mycompany.researchservice.model.Article;
-import com.mycompany.researchservice.rest.dto.ArticleDto;
-import com.mycompany.researchservice.rest.dto.CreateArticleDto;
-import com.mycompany.researchservice.rest.dto.UpdateArticleDto;
+import com.mycompany.researchservice.rest.dto.ArticleResponse;
+import com.mycompany.researchservice.rest.dto.CreateArticleRequest;
+import com.mycompany.researchservice.rest.dto.UpdateArticleRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
@@ -14,10 +14,9 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 )
 public interface ArticleMapper {
 
-    Article toArticle(CreateArticleDto createArticleDto);
+    Article toArticle(CreateArticleRequest createArticleRequest);
 
-    ArticleDto toArticleDto(Article article);
+    ArticleResponse toArticleResponse(Article article);
 
-    void updateArticleFromDto(UpdateArticleDto updateArticleDto, @MappingTarget Article article);
-
+    void updateArticleFromRequest(UpdateArticleRequest updateArticleRequest, @MappingTarget Article article);
 }

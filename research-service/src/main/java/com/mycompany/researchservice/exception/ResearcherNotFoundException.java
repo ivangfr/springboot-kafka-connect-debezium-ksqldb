@@ -9,5 +9,4 @@ public class ResearcherNotFoundException extends RuntimeException {
     public ResearcherNotFoundException(Long id) {
         super(String.format("Researcher with id %s not found", id));
     }
-
 }

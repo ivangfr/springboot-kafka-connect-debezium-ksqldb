@@ -39,5 +39,4 @@ public class Institute {
     public void onPreUpdate() {
         updatedAt = LocalDateTime.now();
     }
-
 }

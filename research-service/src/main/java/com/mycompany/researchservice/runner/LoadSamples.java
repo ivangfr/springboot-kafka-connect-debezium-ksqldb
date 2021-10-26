@@ -97,5 +97,4 @@ public class LoadSamples implements CommandLineRunner {
     private static final List<String> researcherNames = Arrays.asList(
             "John Gates", "Mark Bacon", "Alex Stone", "Susan Spice", "Peter Lopes", "Mikael Lopes", "Renato Souza",
             "Paul Schneider", "Tobias Bohn", "John Star", "Rick Sander", "Nakito Hashi", "Kyo Lo", "David Cube");
-
 }

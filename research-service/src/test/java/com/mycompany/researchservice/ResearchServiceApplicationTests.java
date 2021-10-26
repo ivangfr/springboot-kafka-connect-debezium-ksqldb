@@ -11,6 +11,4 @@ class ResearchServiceApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }
-

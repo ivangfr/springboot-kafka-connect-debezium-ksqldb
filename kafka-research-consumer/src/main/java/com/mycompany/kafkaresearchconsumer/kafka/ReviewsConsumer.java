@@ -48,5 +48,4 @@ public class ReviewsConsumer {
                 message.getHeaders().get(KafkaHeaders.RECEIVED_PARTITION_ID),
                 message.getHeaders().get(KafkaHeaders.OFFSET));
     }
-
 }

@@ -9,5 +9,4 @@ public class InstituteNotFoundException extends RuntimeException {
     public InstituteNotFoundException(Long id) {
         super(String.format("Institute with id %s not found", id));
     }
-
 }

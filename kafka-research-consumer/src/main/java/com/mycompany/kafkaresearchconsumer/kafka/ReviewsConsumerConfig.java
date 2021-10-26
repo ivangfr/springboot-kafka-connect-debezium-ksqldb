@@ -49,5 +49,4 @@ public class ReviewsConsumerConfig {
         props.put(SpecificAvroWithSchemaDeserializer.AVRO_VALUE_RECORD_TYPE, ReviewMessage.class);
         return props;
     }
-
 }

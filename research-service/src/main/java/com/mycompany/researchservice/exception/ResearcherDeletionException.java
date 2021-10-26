@@ -9,5 +9,4 @@ public class ResearcherDeletionException extends RuntimeException {
     public ResearcherDeletionException(Long id) {
         super(String.format("Researcher with id %s cannot be deleted", id));
     }
-
 }

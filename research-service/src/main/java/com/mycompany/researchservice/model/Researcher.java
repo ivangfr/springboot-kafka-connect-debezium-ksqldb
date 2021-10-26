@@ -50,5 +50,4 @@ public class Researcher {
     public void onPreUpdate() {
         updatedAt = LocalDateTime.now();
     }
-
 }

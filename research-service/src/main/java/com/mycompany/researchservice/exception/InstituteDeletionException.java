@@ -9,5 +9,4 @@ public class InstituteDeletionException extends RuntimeException {
     public InstituteDeletionException(Long id) {
         super(String.format("Institute with id %s cannot be deleted", id));
     }
-
 }

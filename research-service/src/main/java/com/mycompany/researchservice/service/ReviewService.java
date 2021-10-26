@@ -9,5 +9,4 @@ public interface ReviewService {
     Review saveReview(Review review);
 
     void deleteReview(Review review);
-
 }

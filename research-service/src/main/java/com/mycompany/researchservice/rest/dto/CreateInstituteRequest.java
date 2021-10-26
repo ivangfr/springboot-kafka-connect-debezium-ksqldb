@@ -6,10 +6,9 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class CreateInstituteDto {
+public class CreateInstituteRequest {
 
     @Schema(example = "MIT")
     @NotBlank
     private String name;
-
 }

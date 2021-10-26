@@ -2,9 +2,9 @@ package com.mycompany.researchservice.rest;
 
 import com.mycompany.researchservice.mapper.ResearcherMapper;
 import com.mycompany.researchservice.model.Researcher;
-import com.mycompany.researchservice.rest.dto.CreateResearcherDto;
-import com.mycompany.researchservice.rest.dto.ResearcherDto;
-import com.mycompany.researchservice.rest.dto.UpdateResearcherDto;
+import com.mycompany.researchservice.rest.dto.CreateResearcherRequest;
+import com.mycompany.researchservice.rest.dto.ResearcherResponse;
+import com.mycompany.researchservice.rest.dto.UpdateResearcherRequest;
 import com.mycompany.researchservice.service.ResearcherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,40 +31,39 @@ public class ResearcherController {
     private final ResearcherMapper researcherMapper;
 
     @GetMapping
-    public List<ResearcherDto> getAllResearchers() {
+    public List<ResearcherResponse> getAllResearchers() {
         return researcherService.getAllResearchers()
                 .stream()
-                .map(researcherMapper::toResearcherDto)
+                .map(researcherMapper::toResearcherResponse)
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public ResearcherDto getResearcher(@PathVariable Long id) {
+    public ResearcherResponse getResearcher(@PathVariable Long id) {
         Researcher researcher = researcherService.validateAndGetResearcher(id);
-        return researcherMapper.toResearcherDto(researcher);
+        return researcherMapper.toResearcherResponse(researcher);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public ResearcherDto createResearcher(@Valid @RequestBody CreateResearcherDto createResearcherDto) {
-        Researcher researcher = researcherMapper.toResearcher(createResearcherDto);
+    public ResearcherResponse createResearcher(@Valid @RequestBody CreateResearcherRequest createResearcherRequest) {
+        Researcher researcher = researcherMapper.toResearcher(createResearcherRequest);
         researcher = researcherService.saveResearchers(researcher);
-        return researcherMapper.toResearcherDto(researcher);
+        return researcherMapper.toResearcherResponse(researcher);
     }
 
     @PatchMapping("/{id}")
-    public ResearcherDto updateResearcher(@PathVariable Long id, @Valid @RequestBody UpdateResearcherDto updateResearcherDto) {
+    public ResearcherResponse updateResearcher(@PathVariable Long id, @Valid @RequestBody UpdateResearcherRequest updateResearcherRequest) {
         Researcher researcher = researcherService.validateAndGetResearcher(id);
-        researcherMapper.updateResearcherFromDto(updateResearcherDto, researcher);
+        researcherMapper.updateResearcherFromRequest(updateResearcherRequest, researcher);
         researcher = researcherService.saveResearchers(researcher);
-        return researcherMapper.toResearcherDto(researcher);
+        return researcherMapper.toResearcherResponse(researcher);
     }
 
     @DeleteMapping("/{id}")
-    public ResearcherDto deleteResearcher(@PathVariable Long id) {
+    public ResearcherResponse deleteResearcher(@PathVariable Long id) {
         Researcher researcher = researcherService.validateAndGetResearcher(id);
         researcherService.deleteResearcher(researcher);
-        return researcherMapper.toResearcherDto(researcher);
+        return researcherMapper.toResearcherResponse(researcher);
     }
-
 }

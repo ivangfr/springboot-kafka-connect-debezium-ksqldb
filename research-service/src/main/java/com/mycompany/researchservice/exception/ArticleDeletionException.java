@@ -9,5 +9,4 @@ public class ArticleDeletionException extends RuntimeException {
     public ArticleDeletionException(Long id) {
         super(String.format("Article with id %s cannot be deleted", id));
     }
-
 }

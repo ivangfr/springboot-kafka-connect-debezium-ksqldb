@@ -9,5 +9,4 @@ public class ReviewDeletionException extends RuntimeException {
     public ReviewDeletionException(Long id) {
         super(String.format("Review with id %s cannot be deleted", id));
     }
-
 }

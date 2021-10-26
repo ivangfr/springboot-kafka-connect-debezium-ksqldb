@@ -24,5 +24,4 @@ public interface ReviewMapper {
         review.setCreatedAt(reviewMessage.getCREATEDAT());
         return review;
     }
-
 }

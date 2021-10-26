@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 
 @Data
-public class CreateReviewDto {
+public class CreateReviewRequest {
 
     @Schema(example = "1")
     @Positive
@@ -20,5 +20,4 @@ public class CreateReviewDto {
     @Schema(example = "Ln 56: replace the 'a' by 'an'")
     @NotBlank
     private String comment;
-
 }

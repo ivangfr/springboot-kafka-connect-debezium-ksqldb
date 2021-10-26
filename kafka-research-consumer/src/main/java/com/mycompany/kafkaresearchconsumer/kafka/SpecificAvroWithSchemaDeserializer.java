@@ -64,5 +64,4 @@ public class SpecificAvroWithSchemaDeserializer extends AbstractKafkaAvroDeseria
     @Override
     public void close() {
     }
-
 }

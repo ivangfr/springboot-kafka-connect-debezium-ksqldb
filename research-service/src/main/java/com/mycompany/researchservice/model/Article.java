@@ -39,5 +39,4 @@ public class Article {
     public void onPreUpdate() {
         updatedAt = LocalDateTime.now();
     }
-
 }

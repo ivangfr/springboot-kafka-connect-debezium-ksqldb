@@ -11,6 +11,4 @@ class KafkaResearchConsumerApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }
-

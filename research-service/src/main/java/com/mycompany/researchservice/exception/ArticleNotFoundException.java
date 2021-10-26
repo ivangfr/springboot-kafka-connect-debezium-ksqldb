@@ -9,5 +9,4 @@ public class ArticleNotFoundException extends RuntimeException {
     public ArticleNotFoundException(Long id) {
         super(String.format("Article with id %s not found", id));
     }
-
 }

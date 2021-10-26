@@ -3,7 +3,7 @@ package com.mycompany.researchservice.rest;
 import com.mycompany.researchservice.model.Article;
 import com.mycompany.researchservice.model.Researcher;
 import com.mycompany.researchservice.model.Review;
-import com.mycompany.researchservice.rest.dto.RandomReviewsDto;
+import com.mycompany.researchservice.rest.dto.RandomReviewsRequest;
 import com.mycompany.researchservice.service.ArticleService;
 import com.mycompany.researchservice.service.ResearcherService;
 import com.mycompany.researchservice.service.ReviewService;
@@ -38,9 +38,9 @@ public class SimulationController {
     private final ReviewService reviewService;
 
     @PostMapping("/reviews")
-    public List<Long> createRandomOrders(@RequestBody RandomReviewsDto randomReviewsDto) throws InterruptedException {
-        total = randomReviewsDto.getTotal() == null ? total : randomReviewsDto.getTotal();
-        sleep = randomReviewsDto.getSleep() == null ? sleep : randomReviewsDto.getSleep();
+    public List<Long> createRandomOrders(@RequestBody RandomReviewsRequest randomReviewsRequest) throws InterruptedException {
+        total = randomReviewsRequest.getTotal() == null ? total : randomReviewsRequest.getTotal();
+        sleep = randomReviewsRequest.getSleep() == null ? sleep : randomReviewsRequest.getSleep();
 
         log.info("## Running review simulation - total: {}, sleep: {}", total, sleep);
 
@@ -79,5 +79,4 @@ public class SimulationController {
             "Excellent!", "Very good!", "I didn't like it.", "You should improve it.", "A coma is missing here.",
             "There are many typos!", "There are a lot of mistakes", "I didn't like the Verdana font",
             "What do you mean here?", "Can you rephrase it?", "Why are you using passive?", "'there is' not 'there are'");
-
 }

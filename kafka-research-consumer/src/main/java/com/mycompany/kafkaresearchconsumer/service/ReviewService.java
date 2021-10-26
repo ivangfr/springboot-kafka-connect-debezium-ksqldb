@@ -7,5 +7,4 @@ import java.util.List;
 public interface ReviewService {
 
     Iterable<Review> saveReviews(List<Review> reviews);
-
 }

@@ -17,5 +17,4 @@ public class ReviewServiceImpl implements ReviewService {
     public Iterable<Review> saveReviews(List<Review> reviews) {
         return reviewRepository.saveAll(reviews);
     }
-
 }

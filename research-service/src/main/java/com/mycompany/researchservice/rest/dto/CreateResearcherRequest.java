@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 
 @Data
-public class CreateResearcherDto {
+public class CreateResearcherRequest {
 
     @Schema(example = "Ivan")
     @NotBlank
@@ -20,5 +20,4 @@ public class CreateResearcherDto {
     @Schema(example = "1")
     @Positive
     private Long instituteId;
-
 }

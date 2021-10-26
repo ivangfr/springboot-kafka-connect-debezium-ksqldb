@@ -9,6 +9,4 @@ public class KafkaResearchConsumerApplication {
     public static void main(String[] args) {
         SpringApplication.run(KafkaResearchConsumerApplication.class, args);
     }
-
 }
-

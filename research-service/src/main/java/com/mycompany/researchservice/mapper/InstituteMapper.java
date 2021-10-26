@@ -1,9 +1,9 @@
 package com.mycompany.researchservice.mapper;
 
 import com.mycompany.researchservice.model.Institute;
-import com.mycompany.researchservice.rest.dto.CreateInstituteDto;
-import com.mycompany.researchservice.rest.dto.InstituteDto;
-import com.mycompany.researchservice.rest.dto.UpdateInstituteDto;
+import com.mycompany.researchservice.rest.dto.CreateInstituteRequest;
+import com.mycompany.researchservice.rest.dto.InstituteResponse;
+import com.mycompany.researchservice.rest.dto.UpdateInstituteRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
@@ -14,10 +14,9 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 )
 public interface InstituteMapper {
 
-    Institute toInstitute(CreateInstituteDto createInstituteDto);
+    Institute toInstitute(CreateInstituteRequest createInstituteRequest);
 
-    InstituteDto toInstituteDto(Institute institute);
+    InstituteResponse toInstituteResponse(Institute institute);
 
-    void updateInstituteFromDto(UpdateInstituteDto updateInstituteDto, @MappingTarget Institute institute);
-
+    void updateInstituteFromRequest(UpdateInstituteRequest updateInstituteRequest, @MappingTarget Institute institute);
 }

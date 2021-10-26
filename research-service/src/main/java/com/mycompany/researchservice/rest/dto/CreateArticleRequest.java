@@ -6,10 +6,9 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class CreateArticleDto {
+public class CreateArticleRequest {
 
     @Schema(example = "Advantages of using ksqlDB over Kafka Streams")
     @NotBlank
     private String title;
-
 }

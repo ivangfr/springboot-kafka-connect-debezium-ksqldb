@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-public class UpdateResearcherDto {
+public class UpdateResearcherRequest {
 
     @Schema(example = "Ivan2")
     private String firstName;
@@ -14,5 +14,4 @@ public class UpdateResearcherDto {
 
     @Schema(example = "2")
     private Long instituteId;
-
 }

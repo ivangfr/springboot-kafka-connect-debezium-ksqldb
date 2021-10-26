@@ -2,9 +2,9 @@ package com.mycompany.researchservice.rest;
 
 import com.mycompany.researchservice.mapper.ArticleMapper;
 import com.mycompany.researchservice.model.Article;
-import com.mycompany.researchservice.rest.dto.ArticleDto;
-import com.mycompany.researchservice.rest.dto.CreateArticleDto;
-import com.mycompany.researchservice.rest.dto.UpdateArticleDto;
+import com.mycompany.researchservice.rest.dto.ArticleResponse;
+import com.mycompany.researchservice.rest.dto.CreateArticleRequest;
+import com.mycompany.researchservice.rest.dto.UpdateArticleRequest;
 import com.mycompany.researchservice.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,40 +31,39 @@ public class ArticleController {
     private final ArticleMapper articleMapper;
 
     @GetMapping
-    public List<ArticleDto> getAllArticles() {
+    public List<ArticleResponse> getAllArticles() {
         return articleService.getAllArticles()
                 .stream()
-                .map(articleMapper::toArticleDto)
+                .map(articleMapper::toArticleResponse)
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public ArticleDto getArticle(@PathVariable Long id) {
+    public ArticleResponse getArticle(@PathVariable Long id) {
         Article article = articleService.validateAndGetArticle(id);
-        return articleMapper.toArticleDto(article);
+        return articleMapper.toArticleResponse(article);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public ArticleDto createArticle(@Valid @RequestBody CreateArticleDto createArticleDto) {
-        Article article = articleMapper.toArticle(createArticleDto);
+    public ArticleResponse createArticle(@Valid @RequestBody CreateArticleRequest createArticleRequest) {
+        Article article = articleMapper.toArticle(createArticleRequest);
         article = articleService.saveArticle(article);
-        return articleMapper.toArticleDto(article);
+        return articleMapper.toArticleResponse(article);
     }
 
     @PatchMapping("/{id}")
-    public ArticleDto updateArticle(@PathVariable Long id, @Valid @RequestBody UpdateArticleDto updateArticleDto) {
+    public ArticleResponse updateArticle(@PathVariable Long id, @Valid @RequestBody UpdateArticleRequest updateArticleRequest) {
         Article article = articleService.validateAndGetArticle(id);
-        articleMapper.updateArticleFromDto(updateArticleDto, article);
+        articleMapper.updateArticleFromRequest(updateArticleRequest, article);
         article = articleService.saveArticle(article);
-        return articleMapper.toArticleDto(article);
+        return articleMapper.toArticleResponse(article);
     }
 
     @DeleteMapping("/{id}")
-    public ArticleDto deleteArticle(@PathVariable Long id) {
+    public ArticleResponse deleteArticle(@PathVariable Long id) {
         Article article = articleService.validateAndGetArticle(id);
         articleService.deleteArticle(article);
-        return articleMapper.toArticleDto(article);
+        return articleMapper.toArticleResponse(article);
     }
-
 }

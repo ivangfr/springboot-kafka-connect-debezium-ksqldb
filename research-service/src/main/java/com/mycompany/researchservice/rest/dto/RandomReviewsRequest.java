@@ -6,12 +6,11 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class RandomReviewsDto {
+public class RandomReviewsRequest {
 
     @Schema(example = "10")
     private Integer total;
 
     @Schema(example = "100")
     private Integer sleep;
-
 }
