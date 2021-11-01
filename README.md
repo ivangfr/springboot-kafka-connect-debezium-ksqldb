@@ -35,7 +35,7 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
   > docker-compose build
   > ```
 
-- Wait for all containers to be with state `Up (healthy)`. To check it, run
+- Wait for all Docker containers to be up and running. To check it, run
   ```
   docker-compose ps
   ```
