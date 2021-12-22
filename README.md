@@ -103,7 +103,7 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
     --network springboot-kafka-connect-debezium-ksqldb_default \
     -v $PWD/docker/ksql/researchers-institutes.ksql:/tmp/researchers-institutes.ksql \
     -v $PWD/docker/ksql/reviews-researchers-institutes-articles.ksql:/tmp/reviews-researchers-institutes-articles.ksql \
-    confluentinc/cp-ksqldb-cli:6.1.1 http://ksqldb-server:8088
+    confluentinc/cp-ksqldb-cli:7.0.1 http://ksqldb-server:8088
   ```
 
 - On `ksqlDB-cli` command line, run the following commands
