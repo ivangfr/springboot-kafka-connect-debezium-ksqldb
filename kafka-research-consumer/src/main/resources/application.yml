@@ -17,7 +17,6 @@ spring:
       concurrency: 2
   data:
     elasticsearch:
-      cluster-name: docker-es-cluster
       cluster-nodes: ${ELASTICSEARCH_HOST:localhost}:${ELASTICSEARCH_PORT:9300}
   elasticsearch:
     rest:
