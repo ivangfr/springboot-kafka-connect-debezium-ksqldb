@@ -15,10 +15,12 @@ import org.apache.avro.message.SchemaStore;
 @org.apache.avro.specific.AvroGenerated
 public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
   private static final long serialVersionUID = -883489963287657117L;
+
+
   public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"ReviewMessage\",\"namespace\":\"com.mycompany.research.avro\",\"fields\":[{\"name\":\"REVIEW_ID\",\"type\":[\"null\",\"long\"],\"default\":null},{\"name\":\"ARTICLE_ID\",\"type\":[\"null\",\"long\"],\"default\":null},{\"name\":\"ARTICLE_TITLE\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"REVIEWER_ID\",\"type\":[\"null\",\"long\"],\"default\":null},{\"name\":\"REVIEWER_FIRST_NAME\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"REVIEWER_LAST_NAME\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"INSTITUTE_ID\",\"type\":[\"null\",\"long\"],\"default\":null},{\"name\":\"INSTITUTE_NAME\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"COMMENT\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"CREATED_AT\",\"type\":[\"null\",\"long\"],\"default\":null}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
-  private static SpecificData MODEL$ = new SpecificData();
+  private static final SpecificData MODEL$ = new SpecificData();
 
   private static final BinaryMessageEncoder<ReviewMessage> ENCODER =
       new BinaryMessageEncoder<ReviewMessage>(MODEL$, SCHEMA$);
@@ -71,16 +73,16 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
     return DECODER.decode(b);
   }
 
-   private java.lang.Long REVIEW_ID;
-   private java.lang.Long ARTICLE_ID;
-   private java.lang.CharSequence ARTICLE_TITLE;
-   private java.lang.Long REVIEWER_ID;
-   private java.lang.CharSequence REVIEWER_FIRST_NAME;
-   private java.lang.CharSequence REVIEWER_LAST_NAME;
-   private java.lang.Long INSTITUTE_ID;
-   private java.lang.CharSequence INSTITUTE_NAME;
-   private java.lang.CharSequence COMMENT;
-   private java.lang.Long CREATED_AT;
+  private java.lang.Long REVIEW_ID;
+  private java.lang.Long ARTICLE_ID;
+  private java.lang.CharSequence ARTICLE_TITLE;
+  private java.lang.Long REVIEWER_ID;
+  private java.lang.CharSequence REVIEWER_FIRST_NAME;
+  private java.lang.CharSequence REVIEWER_LAST_NAME;
+  private java.lang.Long INSTITUTE_ID;
+  private java.lang.CharSequence INSTITUTE_NAME;
+  private java.lang.CharSequence COMMENT;
+  private java.lang.Long CREATED_AT;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -376,7 +378,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
 
     /** Creates a new Builder */
     private Builder() {
-      super(SCHEMA$);
+      super(SCHEMA$, MODEL$);
     }
 
     /**
@@ -432,7 +434,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
      * @param other The existing instance to copy.
      */
     private Builder(com.mycompany.research.avro.ReviewMessage other) {
-      super(SCHEMA$);
+      super(SCHEMA$, MODEL$);
       if (isValidValue(fields()[0], other.REVIEW_ID)) {
         this.REVIEW_ID = data().deepCopy(fields()[0].schema(), other.REVIEW_ID);
         fieldSetFlags()[0] = true;
