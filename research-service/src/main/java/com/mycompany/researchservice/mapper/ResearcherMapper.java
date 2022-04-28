@@ -22,9 +22,15 @@ public interface ResearcherMapper {
     @Mapping(source = "institute.id", target = "instituteId")
     ResearcherResponse toResearcherResponse(Researcher researcher);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "institute", source = "instituteId")
     Researcher toResearcher(CreateResearcherRequest createResearcherRequest);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "institute", source = "instituteId")
     void updateResearcherFromRequest(UpdateResearcherRequest updateResearcherRequest, @MappingTarget Researcher researcher);
 }
