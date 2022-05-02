@@ -1,5 +1,3 @@
-Access
+Access https://www.confluent.io/hub/ to download updated version of
+confluentinc-kafka-connect-elasticsearch ZIP file
 
-https://www.confluent.io/hub/
-
-to download updated version of confluentinc-kafka-connect-elasticsearch ZIP file
