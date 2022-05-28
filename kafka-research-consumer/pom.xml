@@ -16,7 +16,6 @@
     <properties>
         <avro.version>1.11.0</avro.version>
         <confluent.version>7.0.1</confluent.version>
-        <springdoc-openapi.version>1.6.8</springdoc-openapi.version>
     </properties>
 
     <dependencies>
@@ -49,13 +48,6 @@
             <groupId>io.confluent</groupId>
             <artifactId>kafka-avro-serializer</artifactId>
             <version>${confluent.version}</version>
-        </dependency>
-
-        <!-- SpringDoc OpenApi -->
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>${springdoc-openapi.version}</version>
         </dependency>
 
         <dependency>
