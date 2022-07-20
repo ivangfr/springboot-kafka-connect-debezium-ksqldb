@@ -1,7 +1,7 @@
 {
   "type": "record",
   "name": "ReviewMessage",
-  "namespace": "com.mycompany.research.avro",
+  "namespace": "com.ivanfranchin.research.avro",
   "fields": [
     {
       "name": "REVIEW_ID",

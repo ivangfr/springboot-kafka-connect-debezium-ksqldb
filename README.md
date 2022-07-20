@@ -12,7 +12,7 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
 
   Monolithic [`Spring Boot`](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) application that exposes a REST API to manage `Institutes`, `Articles`, `Researchers` and `Reviews`. The data is saved in `MySQL`.
   
-  ![research-service-swagger](documentation/research-service-swagger.png)
+  ![research-service-swagger](documentation/research-service-swagger.jpeg)
 
 - ### kafka-research-consumer
 
@@ -30,7 +30,7 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
   ```
   docker-compose up -d
   ```
-  > **Note:** During the first run, an image for `mysql` and `kafka-connect` will be built, whose names are `springboot-kafka-connect-debezium-ksqldb_mysql` and `springboot-kafka-connect-debezium-ksqldb_kafka-connect`, respectively. To rebuild those images run
+  > **Note**: During the first run, an image for `mysql` and `kafka-connect` will be built, whose names are `springboot-kafka-connect-debezium-ksqldb_mysql` and `springboot-kafka-connect-debezium-ksqldb_kafka-connect`, respectively. To rebuild those images run
   > ```
   > docker-compose build
   > ```
@@ -88,7 +88,7 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
 
 - The Swagger link is http://localhost:9080/swagger-ui/index.html
 
-- **Important:** create at least one `review` so that `mysql.researchdb.reviews-key` and `mysql.researchdb.reviews-value` are created in `Schema Registry`. Below there is a sample request to create a review.
+- **Important**: create at least one `review` so that `mysql.researchdb.reviews-key` and `mysql.researchdb.reviews-value` are created in `Schema Registry`. Below there is a sample request to create a review.
   ```
   curl -i -X POST localhost:9080/api/reviews \
     -H "Content-Type: application/json" \
