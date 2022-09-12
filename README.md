@@ -20,7 +20,7 @@ The goal of this project is to play with [`Kafka`](https://kafka.apache.org), [`
 
 ## Prerequisites
 
-- [`Java 11+`](https://www.oracle.com/java/technologies/downloads/#java11)
+- [`Java 17+`](https://www.oracle.com/java/technologies/downloads/#java17)
 - [`Docker`](https://www.docker.com/)
 - [`Docker-Compose`](https://docs.docker.com/compose/install/)
 
@@ -86,7 +86,7 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
   ```
   It will create some articles, institutes and researchers. If you don't want it, just set to `false` the properties `load-samples.articles.enabled`, `load-samples.institutes.enabled` and `load-samples.researchers.enabled` in `application.yml`.
 
-- The Swagger link is http://localhost:9080/swagger-ui/index.html
+- The Swagger link is http://localhost:9080/swagger-ui.html
 
 - **Important**: create at least one `review` so that `mysql.researchdb.reviews-key` and `mysql.researchdb.reviews-value` are created in `Schema Registry`. Below there is a sample request to create a review.
   ```

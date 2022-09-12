@@ -1,3 +1,8 @@
 Access https://www.confluent.io/hub/ to download updated version of
 confluentinc-kafka-connect-elasticsearch ZIP file
 
+Note: when trying to upgrade confluentinc-kafka-connect-elasticsearch to a version above 11, the following sample of exception is thrown
+```
+ERROR WorkerSinkTask{id=elasticsearch-sink-institutes-0} Task threw an uncaught and unrecoverable exception. Task is being killed and will not recover until manually restarted. Error: Found a topic name 'institutes' that doesn't match assigned partitions. Connector doesn't support topic mutating SMTs (org.apache.kafka.connect.runtime.WorkerSinkTask)
+org.apache.kafka.connect.errors.ConnectException: Found a topic name 'institutes' that doesn't match assigned partitions. Connector doesn't support topic mutating SMTs
+```

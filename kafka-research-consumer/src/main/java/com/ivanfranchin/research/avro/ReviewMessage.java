@@ -23,10 +23,10 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
   private static final SpecificData MODEL$ = new SpecificData();
 
   private static final BinaryMessageEncoder<ReviewMessage> ENCODER =
-      new BinaryMessageEncoder<ReviewMessage>(MODEL$, SCHEMA$);
+      new BinaryMessageEncoder<>(MODEL$, SCHEMA$);
 
   private static final BinaryMessageDecoder<ReviewMessage> DECODER =
-      new BinaryMessageDecoder<ReviewMessage>(MODEL$, SCHEMA$);
+      new BinaryMessageDecoder<>(MODEL$, SCHEMA$);
 
   /**
    * Return the BinaryMessageEncoder instance used by this class.
@@ -50,7 +50,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
    * @return a BinaryMessageDecoder instance for this class backed by the given SchemaStore
    */
   public static BinaryMessageDecoder<ReviewMessage> createDecoder(SchemaStore resolver) {
-    return new BinaryMessageDecoder<ReviewMessage>(MODEL$, SCHEMA$, resolver);
+    return new BinaryMessageDecoder<>(MODEL$, SCHEMA$, resolver);
   }
 
   /**
@@ -117,9 +117,14 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
     this.CREATED_AT = CREATED_AT;
   }
 
+  @Override
   public org.apache.avro.specific.SpecificData getSpecificData() { return MODEL$; }
+
+  @Override
   public org.apache.avro.Schema getSchema() { return SCHEMA$; }
+
   // Used by DatumWriter.  Applications should not call.
+  @Override
   public java.lang.Object get(int field$) {
     switch (field$) {
     case 0: return REVIEW_ID;
@@ -137,6 +142,7 @@ public class ReviewMessage extends org.apache.avro.specific.SpecificRecordBase i
   }
 
   // Used by DatumReader.  Applications should not call.
+  @Override
   @SuppressWarnings(value="unchecked")
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
