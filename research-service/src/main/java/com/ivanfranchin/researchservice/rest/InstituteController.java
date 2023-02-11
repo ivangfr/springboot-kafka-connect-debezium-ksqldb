@@ -6,6 +6,7 @@ import com.ivanfranchin.researchservice.rest.dto.CreateInstituteRequest;
 import com.ivanfranchin.researchservice.rest.dto.InstituteResponse;
 import com.ivanfranchin.researchservice.rest.dto.UpdateInstituteRequest;
 import com.ivanfranchin.researchservice.service.InstituteService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,9 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -35,7 +34,7 @@ public class InstituteController {
         return instituteService.getAllInstitutes()
                 .stream()
                 .map(instituteMapper::toInstituteResponse)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @GetMapping("/{id}")

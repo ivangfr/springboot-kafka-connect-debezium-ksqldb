@@ -13,7 +13,6 @@ import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,7 +32,7 @@ public class ReviewsConsumer {
         List<Review> reviews = messages.stream()
                 .peek(this::logMessageReceived)
                 .map(message -> reviewMapper.toReview(message.getPayload()))
-                .collect(Collectors.toList());
+                .toList();
 
         reviewService.saveReviews(reviews).forEach(review -> log.info("Saved reviewId={}", review.getReviewId()));
         ack.acknowledge();
@@ -45,7 +44,7 @@ public class ReviewsConsumer {
                 message.getPayload().getREVIEWERFIRSTNAME(),
                 message.getPayload().getREVIEWERLASTNAME(),
                 message.getPayload().getARTICLETITLE(),
-                message.getHeaders().get(KafkaHeaders.RECEIVED_PARTITION_ID),
+                message.getHeaders().get(KafkaHeaders.RECEIVED_PARTITION),
                 message.getHeaders().get(KafkaHeaders.OFFSET));
     }
 }

@@ -103,7 +103,7 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
     --network springboot-kafka-connect-debezium-ksqldb_default \
     -v $PWD/docker/ksql/researchers-institutes.ksql:/tmp/researchers-institutes.ksql \
     -v $PWD/docker/ksql/reviews-researchers-institutes-articles.ksql:/tmp/reviews-researchers-institutes-articles.ksql \
-    confluentinc/cp-ksqldb-cli:7.0.1 http://ksqldb-server:8088
+    confluentinc/cp-ksqldb-cli:7.3.1 http://ksqldb-server:8088
   ```
 
 - On `ksqlDB-cli` command line, run the following commands
@@ -252,6 +252,7 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
 
   ```
   docker exec -it -e MYSQL_PWD=secret mysql mysql -uroot --database researchdb
+
   SELECT a.id AS review_id, c.id AS article_id, c.title AS article_title, b.id AS reviewer_id, b.first_name, b.last_name, b.institute_id, a.comment \
     FROM reviews a, researchers b, articles c \
     WHERE a.researcher_id = b.id and a.article_id = c.id;
