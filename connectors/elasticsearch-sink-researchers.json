@@ -6,6 +6,7 @@
     "topics": "researchers_institutes",
     "connection.url": "http://elasticsearch:9200",
     "type.name": "researcher",
+    "flush.synchronously": "true",
 
     "transforms":"dropPrefix,createKey,extractId",
     "transforms.dropPrefix.type":"org.apache.kafka.connect.transforms.RegexRouter",

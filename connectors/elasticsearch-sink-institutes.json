@@ -6,6 +6,7 @@
     "topics": "mysql.researchdb.institutes",
     "connection.url": "http://elasticsearch:9200",
     "type.name": "institute",
+    "flush.synchronously": "true",
 
     "transforms": "extractKey,dropPrefix",
     "transforms.extractKey.type": "org.apache.kafka.connect.transforms.ExtractField$Key",

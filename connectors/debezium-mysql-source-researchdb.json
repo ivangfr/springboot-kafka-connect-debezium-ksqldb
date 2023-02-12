@@ -14,6 +14,9 @@
     "database.history.kafka.recovery.attempts": "10000",
     "database.history.kafka.topic": "debezium.dbhistory.mysql",
     "include.schema.changes": "false",
+    "schema.history.internal.kafka.topic": "schema-history",
+    "schema.history.internal.kafka.bootstrap.servers": "kafka:9092",
+    "topic.prefix": "mysql",
 
     "transforms": "unwrap",
     "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState"
