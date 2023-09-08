@@ -30,22 +30,21 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 - [`Java 17+`](https://www.oracle.com/java/technologies/downloads/#java17)
 - [`Docker`](https://www.docker.com/)
-- [`Docker-Compose`](https://docs.docker.com/compose/install/)
 
 ## Start Environment
 
 - Open a terminal and, inside `springboot-kafka-connect-debezium-ksqldb` root folder, run the following command
   ```
-  docker-compose up -d
+  docker compose up -d
   ```
   > **Note**: During the first run, an image for `mysql` and `kafka-connect` will be built, whose names are `springboot-kafka-connect-debezium-ksqldb_mysql` and `springboot-kafka-connect-debezium-ksqldb_kafka-connect`, respectively. To rebuild those images run
   > ```
-  > docker-compose build
+  > docker compose build
   > ```
 
 - Wait for all Docker containers to be up and running. To check it, run
   ```
-  docker-compose ps
+  docker compose ps
   ```
   
 ## Create Kafka Topics
@@ -111,7 +110,7 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
     --network springboot-kafka-connect-debezium-ksqldb_default \
     -v $PWD/docker/ksql/researchers-institutes.ksql:/tmp/researchers-institutes.ksql \
     -v $PWD/docker/ksql/reviews-researchers-institutes-articles.ksql:/tmp/reviews-researchers-institutes-articles.ksql \
-    confluentinc/cp-ksqldb-cli:7.3.1 http://ksqldb-server:8088
+    confluentinc/cp-ksqldb-cli:7.4.1 http://ksqldb-server:8088
   ```
 
 - On `ksqlDB-cli` command line, run the following commands
@@ -275,9 +274,9 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
 
 - Go to the terminals where `research-service` and `kafka-research-consumer` are running and press `Ctrl+C` to stop them
 - Go to the terminal where `ksql-cli` is running and press `Ctrl+C` to stop the `SELECT`; then, type `exit`
-- To stop and remove docker-compose containers, network and volumes, go to a terminal and, inside `springboot-kafka-connect-debezium-ksqldb` root folder, run the command below
+- To stop and remove docker compose containers, network and volumes, go to a terminal and, inside `springboot-kafka-connect-debezium-ksqldb` root folder, run the command below
   ```
-  docker-compose down -v
+  docker compose down -v
   ```
 
 ## Cleanup
