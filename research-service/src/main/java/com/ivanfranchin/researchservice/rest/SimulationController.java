@@ -39,8 +39,8 @@ public class SimulationController {
 
     @PostMapping("/reviews")
     public List<Long> createRandomOrders(@RequestBody RandomReviewsRequest randomReviewsRequest) throws InterruptedException {
-        total = randomReviewsRequest.getTotal() == null ? total : randomReviewsRequest.getTotal();
-        sleep = randomReviewsRequest.getSleep() == null ? sleep : randomReviewsRequest.getSleep();
+        total = randomReviewsRequest.total() == null ? total : randomReviewsRequest.total();
+        sleep = randomReviewsRequest.sleep() == null ? sleep : randomReviewsRequest.sleep();
 
         log.info("## Running review simulation - total: {}, sleep: {}", total, sleep);
 
