@@ -1,6 +1,5 @@
 package com.ivanfranchin.researchservice.rest;
 
-import com.ivanfranchin.researchservice.mapper.ReviewMapper;
 import com.ivanfranchin.researchservice.model.Review;
 import com.ivanfranchin.researchservice.rest.dto.CreateReviewRequest;
 import com.ivanfranchin.researchservice.rest.dto.ReviewResponse;
@@ -25,34 +24,33 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReviewController {
 
     private final ReviewService reviewService;
-    private final ReviewMapper reviewMapper;
 
     @GetMapping("/{id}")
     public ReviewResponse getReview(@PathVariable Long id) {
         Review review = reviewService.validateAndGetReview(id);
-        return reviewMapper.toReviewResponse(review);
+        return ReviewResponse.from(review);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public ReviewResponse createReview(@Valid @RequestBody CreateReviewRequest createReviewRequest) {
-        Review review = reviewMapper.toReview(createReviewRequest);
+        Review review = Review.from(createReviewRequest);
         review = reviewService.saveReview(review);
-        return reviewMapper.toReviewResponse(review);
+        return ReviewResponse.from(review);
     }
 
     @PatchMapping("/{id}")
     public ReviewResponse updateReview(@PathVariable Long id, @Valid @RequestBody UpdateReviewRequest updateReviewRequest) {
         Review review = reviewService.validateAndGetReview(id);
-        reviewMapper.updateReviewFromRequest(updateReviewRequest, review);
+        Review.updateFrom(updateReviewRequest, review);
         review = reviewService.saveReview(review);
-        return reviewMapper.toReviewResponse(review);
+        return ReviewResponse.from(review);
     }
 
     @DeleteMapping("/{id}")
     public ReviewResponse deleteReview(@PathVariable Long id) {
         Review review = reviewService.validateAndGetReview(id);
         reviewService.deleteReview(review);
-        return reviewMapper.toReviewResponse(review);
+        return ReviewResponse.from(review);
     }
 }

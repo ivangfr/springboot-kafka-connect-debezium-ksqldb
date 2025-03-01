@@ -1,6 +1,5 @@
 package com.ivanfranchin.researchservice.rest;
 
-import com.ivanfranchin.researchservice.mapper.ArticleMapper;
 import com.ivanfranchin.researchservice.model.Article;
 import com.ivanfranchin.researchservice.rest.dto.ArticleResponse;
 import com.ivanfranchin.researchservice.rest.dto.CreateArticleRequest;
@@ -27,42 +26,41 @@ import java.util.List;
 public class ArticleController {
 
     private final ArticleService articleService;
-    private final ArticleMapper articleMapper;
 
     @GetMapping
     public List<ArticleResponse> getAllArticles() {
         return articleService.getAllArticles()
                 .stream()
-                .map(articleMapper::toArticleResponse)
+                .map(ArticleResponse::from)
                 .toList();
     }
 
     @GetMapping("/{id}")
     public ArticleResponse getArticle(@PathVariable Long id) {
         Article article = articleService.validateAndGetArticle(id);
-        return articleMapper.toArticleResponse(article);
+        return ArticleResponse.from(article);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public ArticleResponse createArticle(@Valid @RequestBody CreateArticleRequest createArticleRequest) {
-        Article article = articleMapper.toArticle(createArticleRequest);
+        Article article = Article.from(createArticleRequest);
         article = articleService.saveArticle(article);
-        return articleMapper.toArticleResponse(article);
+        return ArticleResponse.from(article);
     }
 
     @PatchMapping("/{id}")
     public ArticleResponse updateArticle(@PathVariable Long id, @Valid @RequestBody UpdateArticleRequest updateArticleRequest) {
         Article article = articleService.validateAndGetArticle(id);
-        articleMapper.updateArticleFromRequest(updateArticleRequest, article);
+        Article.updateFrom(updateArticleRequest, article);
         article = articleService.saveArticle(article);
-        return articleMapper.toArticleResponse(article);
+        return ArticleResponse.from(article);
     }
 
     @DeleteMapping("/{id}")
     public ArticleResponse deleteArticle(@PathVariable Long id) {
         Article article = articleService.validateAndGetArticle(id);
         articleService.deleteArticle(article);
-        return articleMapper.toArticleResponse(article);
+        return ArticleResponse.from(article);
     }
 }

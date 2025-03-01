@@ -1,5 +1,7 @@
 package com.ivanfranchin.researchservice.model;
 
+import com.ivanfranchin.researchservice.rest.dto.CreateInstituteRequest;
+import com.ivanfranchin.researchservice.rest.dto.UpdateInstituteRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -38,5 +40,17 @@ public class Institute {
     @PreUpdate
     public void onPreUpdate() {
         updatedAt = LocalDateTime.now();
+    }
+
+    public static Institute from(CreateInstituteRequest createInstituteRequest) {
+        Institute institute = new Institute();
+        institute.setName(createInstituteRequest.name());
+        return institute;
+    }
+
+    public static void updateFrom(UpdateInstituteRequest updateInstituteRequest, Institute institute) {
+        if (updateInstituteRequest.name() != null) {
+            institute.setName(updateInstituteRequest.name());
+        }
     }
 }

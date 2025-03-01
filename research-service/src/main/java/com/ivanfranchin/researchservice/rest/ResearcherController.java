@@ -1,6 +1,5 @@
 package com.ivanfranchin.researchservice.rest;
 
-import com.ivanfranchin.researchservice.mapper.ResearcherMapper;
 import com.ivanfranchin.researchservice.model.Researcher;
 import com.ivanfranchin.researchservice.rest.dto.CreateResearcherRequest;
 import com.ivanfranchin.researchservice.rest.dto.ResearcherResponse;
@@ -27,42 +26,41 @@ import java.util.List;
 public class ResearcherController {
 
     private final ResearcherService researcherService;
-    private final ResearcherMapper researcherMapper;
 
     @GetMapping
     public List<ResearcherResponse> getAllResearchers() {
         return researcherService.getAllResearchers()
                 .stream()
-                .map(researcherMapper::toResearcherResponse)
+                .map(ResearcherResponse::from)
                 .toList();
     }
 
     @GetMapping("/{id}")
     public ResearcherResponse getResearcher(@PathVariable Long id) {
         Researcher researcher = researcherService.validateAndGetResearcher(id);
-        return researcherMapper.toResearcherResponse(researcher);
+        return ResearcherResponse.from(researcher);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public ResearcherResponse createResearcher(@Valid @RequestBody CreateResearcherRequest createResearcherRequest) {
-        Researcher researcher = researcherMapper.toResearcher(createResearcherRequest);
+        Researcher researcher = Researcher.from(createResearcherRequest);
         researcher = researcherService.saveResearchers(researcher);
-        return researcherMapper.toResearcherResponse(researcher);
+        return ResearcherResponse.from(researcher);
     }
 
     @PatchMapping("/{id}")
     public ResearcherResponse updateResearcher(@PathVariable Long id, @Valid @RequestBody UpdateResearcherRequest updateResearcherRequest) {
         Researcher researcher = researcherService.validateAndGetResearcher(id);
-        researcherMapper.updateResearcherFromRequest(updateResearcherRequest, researcher);
+        Researcher.updateFrom(updateResearcherRequest, researcher);
         researcher = researcherService.saveResearchers(researcher);
-        return researcherMapper.toResearcherResponse(researcher);
+        return ResearcherResponse.from(researcher);
     }
 
     @DeleteMapping("/{id}")
     public ResearcherResponse deleteResearcher(@PathVariable Long id) {
         Researcher researcher = researcherService.validateAndGetResearcher(id);
         researcherService.deleteResearcher(researcher);
-        return researcherMapper.toResearcherResponse(researcher);
+        return ResearcherResponse.from(researcher);
     }
 }

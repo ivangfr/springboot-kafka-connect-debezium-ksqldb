@@ -1,6 +1,5 @@
 package com.ivanfranchin.researchservice.rest;
 
-import com.ivanfranchin.researchservice.mapper.InstituteMapper;
 import com.ivanfranchin.researchservice.model.Institute;
 import com.ivanfranchin.researchservice.rest.dto.CreateInstituteRequest;
 import com.ivanfranchin.researchservice.rest.dto.InstituteResponse;
@@ -27,42 +26,41 @@ import java.util.List;
 public class InstituteController {
 
     private final InstituteService instituteService;
-    private final InstituteMapper instituteMapper;
 
     @GetMapping
     public List<InstituteResponse> getAllInstitutes() {
         return instituteService.getAllInstitutes()
                 .stream()
-                .map(instituteMapper::toInstituteResponse)
+                .map(InstituteResponse::from)
                 .toList();
     }
 
     @GetMapping("/{id}")
     public InstituteResponse getInstitute(@PathVariable Long id) {
         Institute institute = instituteService.validateAndGetInstitute(id);
-        return instituteMapper.toInstituteResponse(institute);
+        return InstituteResponse.from(institute);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public InstituteResponse createInstitute(@Valid @RequestBody CreateInstituteRequest createInstituteRequest) {
-        Institute institute = instituteMapper.toInstitute(createInstituteRequest);
+        Institute institute = Institute.from(createInstituteRequest);
         institute = instituteService.saveInstitute(institute);
-        return instituteMapper.toInstituteResponse(institute);
+        return InstituteResponse.from(institute);
     }
 
     @PatchMapping("/{id}")
     public InstituteResponse updateResearcher(@PathVariable Long id, @Valid @RequestBody UpdateInstituteRequest updateInstituteRequest) {
         Institute institute = instituteService.validateAndGetInstitute(id);
-        instituteMapper.updateInstituteFromRequest(updateInstituteRequest, institute);
+        Institute.updateFrom(updateInstituteRequest, institute);
         institute = instituteService.saveInstitute(institute);
-        return instituteMapper.toInstituteResponse(institute);
+        return InstituteResponse.from(institute);
     }
 
     @DeleteMapping("/{id}")
     public InstituteResponse deleteResearcher(@PathVariable Long id) {
         Institute institute = instituteService.validateAndGetInstitute(id);
         instituteService.deleteInstitute(institute);
-        return instituteMapper.toInstituteResponse(institute);
+        return InstituteResponse.from(institute);
     }
 }

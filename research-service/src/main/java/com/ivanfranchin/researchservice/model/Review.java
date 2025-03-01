@@ -1,5 +1,7 @@
 package com.ivanfranchin.researchservice.model;
 
+import com.ivanfranchin.researchservice.rest.dto.CreateReviewRequest;
+import com.ivanfranchin.researchservice.rest.dto.UpdateReviewRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
@@ -49,5 +51,17 @@ public class Review {
     @PreUpdate
     public void onPreUpdate() {
         updatedAt = LocalDateTime.now();
+    }
+
+    public static Review from(CreateReviewRequest createReviewRequest) {
+        Review review = new Review();
+        review.setComment(createReviewRequest.comment());
+        return review;
+    }
+
+    public static void updateFrom(UpdateReviewRequest updateReviewRequest, Review review) {
+        if (updateReviewRequest.comment() != null) {
+            review.setComment(updateReviewRequest.comment());
+        }
     }
 }

@@ -1,6 +1,5 @@
 package com.ivanfranchin.kafkaresearchconsumer.kafka;
 
-import com.ivanfranchin.kafkaresearchconsumer.mapper.ReviewMapper;
 import com.ivanfranchin.kafkaresearchconsumer.model.Review;
 import com.ivanfranchin.kafkaresearchconsumer.service.ReviewService;
 import com.ivanfranchin.research.avro.ReviewMessage;
@@ -20,7 +19,6 @@ import java.util.List;
 public class ReviewsConsumer {
 
     private final ReviewService reviewService;
-    private final ReviewMapper reviewMapper;
 
     @KafkaListener(
             id = "${spring.kafka.consumer.client-id}",
@@ -31,7 +29,7 @@ public class ReviewsConsumer {
         log.info("Received batch of messages with size: {}", messages.size());
         List<Review> reviews = messages.stream()
                 .peek(this::logMessageReceived)
-                .map(message -> reviewMapper.toReview(message.getPayload()))
+                .map(message -> Review.from(message.getPayload()))
                 .toList();
 
         reviewService.saveReviews(reviews).forEach(review -> log.info("Saved reviewId={}", review.getReviewId()));

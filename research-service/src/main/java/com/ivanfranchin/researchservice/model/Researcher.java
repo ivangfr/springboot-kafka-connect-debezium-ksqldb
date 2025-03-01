@@ -1,5 +1,7 @@
 package com.ivanfranchin.researchservice.model;
 
+import com.ivanfranchin.researchservice.rest.dto.CreateResearcherRequest;
+import com.ivanfranchin.researchservice.rest.dto.UpdateResearcherRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -49,5 +51,21 @@ public class Researcher {
     @PreUpdate
     public void onPreUpdate() {
         updatedAt = LocalDateTime.now();
+    }
+
+    public static Researcher from(CreateResearcherRequest createResearcherRequest) {
+        Researcher researcher = new Researcher();
+        researcher.setFirstName(createResearcherRequest.firstName());
+        researcher.setLastName(createResearcherRequest.lastName());
+        return researcher;
+    }
+
+    public static void updateFrom(UpdateResearcherRequest updateResearcherRequest, Researcher researcher) {
+        if (updateResearcherRequest.firstName() != null) {
+            researcher.setFirstName(updateResearcherRequest.firstName());
+        }
+        if (updateResearcherRequest.lastName() != null) {
+            researcher.setLastName(updateResearcherRequest.lastName());
+        }
     }
 }
