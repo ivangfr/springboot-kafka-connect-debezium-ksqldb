@@ -1,11 +1,11 @@
 package com.ivanfranchin.researchservice.runner;
 
-import com.ivanfranchin.researchservice.service.ResearcherService;
-import com.ivanfranchin.researchservice.model.Article;
-import com.ivanfranchin.researchservice.model.Institute;
-import com.ivanfranchin.researchservice.model.Researcher;
-import com.ivanfranchin.researchservice.service.ArticleService;
-import com.ivanfranchin.researchservice.service.InstituteService;
+import com.ivanfranchin.researchservice.researcher.ResearcherService;
+import com.ivanfranchin.researchservice.article.model.Article;
+import com.ivanfranchin.researchservice.institute.model.Institute;
+import com.ivanfranchin.researchservice.researcher.model.Researcher;
+import com.ivanfranchin.researchservice.article.ArticleService;
+import com.ivanfranchin.researchservice.institute.InstituteService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
