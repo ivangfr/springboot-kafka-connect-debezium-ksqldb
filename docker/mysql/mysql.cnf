@@ -3,4 +3,4 @@ server-id         = 223344
 log_bin           = mysql-bin
 binlog_format     = row
 binlog_row_image  = full
-expire_logs_days  = 1
+binlog_expire_logs_seconds = 86400 # 1 day

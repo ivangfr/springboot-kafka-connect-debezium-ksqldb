@@ -34,7 +34,7 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 ## Start Environment
 
-- Open a terminal and, inside the `springboot-kafka-connect-debezium-ksqldb` root folder, run the following command
+- Open a terminal and, inside the `springboot-kafka-connect-debezium-ksqldb` root folder, run the following command:
   ```bash
   docker compose up -d
   ```
@@ -43,18 +43,18 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
   > docker compose build
   > ```
 
-- Wait for all Docker containers to be up and running. To check it, run
+- Wait for all Docker containers to be up and running. To check it, run:
   ```bash
   docker ps -a
   ```
   
 ## Create Kafka Topics
 
-In order to have topics in `Kafka` with more than `1` partition, we must create them manually and not wait for the connectors to create for us. So, for it
+In order to have topics in `Kafka` with more than `1` partition, we must create them manually and not wait for the connectors to create for us. So, for it:
 
-- In a terminal, make sure you are in the `springboot-kafka-connect-debezium-ksqldb` root folder
+- In a terminal, make sure you are in the `springboot-kafka-connect-debezium-ksqldb` root folder.
 
-- Run the script below
+- Run the script below:
   ```bash
   ./create-kafka-topics.sh
   ```
@@ -63,32 +63,32 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
 
 ## Create connectors (3/4)
 
-- In a terminal, make sure you are in the `springboot-kafka-connect-debezium-ksqldb` root folder
+- In a terminal, make sure you are in the `springboot-kafka-connect-debezium-ksqldb` root folder.
 
-- Run the following `curl` commands to create one `Debezium` and two `Elasticsearch-Sink` connectors in `kafka-connect`
+- Run the following `curl` commands to create one `Debezium` and two `Elasticsearch-Sink` connectors in `kafka-connect`:
   ```bash
   curl -i -X POST localhost:8083/connectors -H 'Content-Type: application/json' -d @connectors/debezium-mysql-source-researchdb.json
   curl -i -X POST localhost:8083/connectors -H 'Content-Type: application/json' -d @connectors/elasticsearch-sink-institutes.json
   curl -i -X POST localhost:8083/connectors -H 'Content-Type: application/json' -d @connectors/elasticsearch-sink-articles.json
   ```
 
-- You can check the state of the connectors and their tasks on `Kafka Connect UI` (http://localhost:8086) or calling `kafka-connect` endpoint
+- You can check the state of the connectors and their tasks on `Kafka Connect UI` (http://localhost:8086) or calling `kafka-connect` endpoint:
   ```bash
   curl localhost:8083/connectors/debezium-mysql-source-researchdb/status
   curl localhost:8083/connectors/elasticsearch-sink-institutes/status
   curl localhost:8083/connectors/elasticsearch-sink-articles/status
   ```
 
-- The state of the connectors and their tasks must be `RUNNING`. If there is any problem, you can check `kafka-connect` container logs.
+- The state of the connectors and their tasks must be `RUNNING`. If there is any problem, you can check `kafka-connect` container logs:
   ```bash
   docker logs kafka-connect
   ```
 
 ## Run research-service
 
-- Open a new terminal and navigate to the `springboot-kafka-connect-debezium-ksqldb` root folder
+- Open a new terminal and navigate to the `springboot-kafka-connect-debezium-ksqldb` root folder.
 
-- Run the command below to start the application
+- Run the command below to start the application:
   ```bash
   ./mvnw clean spring-boot:run --projects research-service -Dspring-boot.run.jvmArguments="-Dserver.port=9080"
   ```
@@ -105,39 +105,39 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
 
 ## Run ksqlDB-cli
 
-- Open a new terminal and, inside the `springboot-kafka-connect-debezium-ksqldb` root folder, run the `docker` command below to start `ksqlDB-cli`
+- Open a new terminal and, inside the `springboot-kafka-connect-debezium-ksqldb` root folder, run the `docker` command below to start `ksqlDB-cli`:
   ```bash
   docker run -it --rm --name ksqldb-cli \
     --network springboot-kafka-connect-debezium-ksqldb_default \
     -v $PWD/docker/ksql/researchers-institutes.ksql:/tmp/researchers-institutes.ksql \
     -v $PWD/docker/ksql/reviews-researchers-institutes-articles.ksql:/tmp/reviews-researchers-institutes-articles.ksql \
-    confluentinc/cp-ksqldb-cli:7.8.0 http://ksqldb-server:8088
+    confluentinc/cp-ksqldb-cli:7.9.5 http://ksqldb-server:8088
   ```
 
-- On `ksqlDB-cli` command line, run the following commands
+- On `ksqlDB-cli` command line, run the following commands:
 
-  - Set `auto.offset.reset` value
+  - Set `auto.offset.reset` value:
     ```bash
     SET 'auto.offset.reset' = 'earliest';
     ```
   
-  - Run the following script. It will create `researchers_institutes` topic
+  - Run the following script. It will create `researchers_institutes` topic:
     ```bash
     RUN SCRIPT '/tmp/researchers-institutes.ksql';
     ```
   
-  - Check whether the topic was created 
+  - Check whether the topic was created:
     ```bash
     DESCRIBE "researchers_institutes";
     SELECT * FROM "researchers_institutes" EMIT CHANGES LIMIT 5;
     ```
   
-  - Run the script below. It will create `reviews_researchers_institutes_articles` topic
+  - Run the script below. It will create `reviews_researchers_institutes_articles` topic:
     ```bash
     RUN SCRIPT '/tmp/reviews-researchers-institutes-articles.ksql';
     ```
   
-  - Check whether the topic was created
+  - Check whether the topic was created:
     ```bash
     DESCRIBE "reviews_researchers_institutes_articles";
     SELECT * FROM "reviews_researchers_institutes_articles" EMIT CHANGES LIMIT 1;
@@ -145,48 +145,48 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
 
 ## Create connectors (4/4)
 
-- In a terminal, make sure you are in the `springboot-kafka-connect-debezium-ksqldb` root folder
+- In a terminal, make sure you are in the `springboot-kafka-connect-debezium-ksqldb` root folder.
 
-- Run the `curl` command below to create `elasticsearch-sink-researchers` connector in `kafka-connect`
+- Run the `curl` command below to create `elasticsearch-sink-researchers` connector in `kafka-connect`:
   ```bash
   curl -i -X POST localhost:8083/connectors -H 'Content-Type: application/json' -d @connectors/elasticsearch-sink-researchers.json
   ```
 
-- You can check the state of the connector and its task on `Kafka Connect UI` (http://localhost:8086) or calling `kafka-connect` endpoint
+- You can check the state of the connector and its task on `Kafka Connect UI` (http://localhost:8086) or calling `kafka-connect` endpoint:
   ```bash
   curl localhost:8083/connectors/elasticsearch-sink-researchers/status
   ```
 
 ## Run kafka-research-consumer
 
-- Open a new terminal and navigate to the `springboot-kafka-connect-debezium-ksqldb` root folder
+- Open a new terminal and navigate to the `springboot-kafka-connect-debezium-ksqldb` root folder.
 
-- Run the command below to start the application
+- Run the command below to start the application:
   ```bash
   ./mvnw clean spring-boot:run --projects kafka-research-consumer -Dspring-boot.run.jvmArguments="-Dserver.port=9081"
   ```
-  > The command below generates the Java class `ReviewMessage` from Avro file present in `src/main/resources/avro`
+  > The command below generates the Java class `ReviewMessage` from Avro file present in `src/main/resources/avro`.
   > ```bash
   > ./mvnw generate-sources --projects kafka-research-consumer
   > ```
 
 - This service runs on port `9081`. The `health` endpoint is http://localhost:9081/actuator/health
 
-- \[Optional\] We can start another `kafka-research-consumer` instance by opening another terminal and running
+- \[Optional\] We can start another `kafka-research-consumer` instance by opening another terminal and running:
   ```bash
   ./mvnw clean spring-boot:run --projects kafka-research-consumer -Dspring-boot.run.jvmArguments="-Dserver.port=9082"
   ```
 
 ## Testing
 
-- Go to the terminal where `ksql-cli` is running
+- Go to the terminal where `ksql-cli` is running.
   
-- On `ksql-cli` command line, run the following query
+- On `ksql-cli` command line, run the following query:
   ```bash
   SELECT * FROM "reviews_researchers_institutes_articles" EMIT CHANGES;
   ```
 
-- In another terminal, call the `research-service` simulation endpoint
+- In another terminal, call the `research-service` simulation endpoint:
   ```bash
   curl -X POST localhost:9080/api/simulation/reviews \
     -H "Content-Type: application/json" \
@@ -197,7 +197,7 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
 
   ![execution-example](documentation/execution-example.gif)
 
-- You can also query `Elasticsearch`
+- You can also query `Elasticsearch`:
   ```bash
   curl "localhost:9200/reviews/_search?pretty"
   ```
@@ -218,13 +218,13 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
 
 - **Schema Registry**
 
-  You can use `curl` to check the subjects in `Schema Registry`
+  You can use `curl` to check the subjects in `Schema Registry`.
 
-  - Get the list of subjects
+  - Get the list of subjects:
     ```bash
     curl localhost:8081/subjects
     ```
-  - Get the latest version of the subject `mysql.researchdb.researchers-value`
+  - Get the latest version of the subject `mysql.researchdb.researchers-value`:
     ```bash
     curl localhost:8081/subjects/mysql.researchdb.researchers-value/versions/latest
     ```
@@ -234,21 +234,21 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
   `Kafka Manager` can be accessed at http://localhost:9000
 
   _Configuration_
-  - First, you must create a new cluster. Click on `Cluster` (dropdown on the header) and then on `Add Cluster`
-  - Type the name of your cluster in `Cluster Name` field, for example: `MyCluster`
-  - Type `zookeeper:2181` in `Cluster Zookeeper Hosts` field
-  - Enable checkbox `Poll consumer information (Not recommended for large # of consumers if ZK is used for offsets tracking on older Kafka versions)`
+  - First, you must create a new cluster. Click on `Cluster` (dropdown on the header) and then on `Add Cluster`.
+  - Type the name of your cluster in `Cluster Name` field, for example: `MyCluster`.
+  - Type `zookeeper:2181` in `Cluster Zookeeper Hosts` field.
+  - Enable checkbox `Poll consumer information (Not recommended for large # of consumers if ZK is used for offsets tracking on older Kafka versions)`.
   - Click on `Save` button at the bottom of the page.
 
 - **Elasticsearch**
 
   `Elasticsearch` can be accessed at http://localhost:9200
 
-  - Get all indices
+  - Get all indices:
     ```bash
     curl "localhost:9200/_cat/indices?v"
     ```
-  - Search for documents
+  - Search for documents:
     ```bash
     curl "localhost:9200/articles/_search?pretty"
     curl "localhost:9200/institutes/_search?pretty"
@@ -258,12 +258,12 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
 
 - **MySQL**
 
-  - Access `MySQL monitor`
+  - Access `MySQL monitor`:
     ```bash
     docker exec -it -e MYSQL_PWD=secret mysql mysql -uroot --database researchdb
     ```
 
-  - Inside the monitor, run the following `SELECT` command
+  - Inside the monitor, run the following `SELECT` command:
     ```bash
     SELECT a.id AS review_id, c.id AS article_id, c.title AS article_title, b.id AS reviewer_id, b.first_name, b.last_name, b.institute_id, a.comment \
     FROM reviews a, researchers b, articles c \
@@ -273,16 +273,16 @@ In order to have topics in `Kafka` with more than `1` partition, we must create 
 
 ## Shutdown
 
-- Go to the terminals where `research-service` and `kafka-research-consumer` are running and press `Ctrl+C` to stop them
-- Go to the terminal where `ksql-cli` is running and press `Ctrl+C` to stop the `SELECT`; then, type `exit`
-- To stop and remove docker compose containers, network and volumes, go to a terminal and, inside the `springboot-kafka-connect-debezium-ksqldb` root folder, run the command below
+- Go to the terminals where `research-service` and `kafka-research-consumer` are running and press `Ctrl+C` to stop them.
+- Go to the terminal where `ksql-cli` is running and press `Ctrl+C` to stop the `SELECT`; then, type `exit`.
+- To stop and remove docker compose containers, network and volumes, go to a terminal and, inside the `springboot-kafka-connect-debezium-ksqldb` root folder, run the command below.
   ```bash
   docker compose down -v
   ```
 
 ## Cleanup
 
-To remove the Docker images created by this project, go to a terminal and, inside the `springboot-kafka-connect-debezium-ksqldb` root folder, run the following script
+To remove the Docker images created by this project, go to a terminal and, inside the `springboot-kafka-connect-debezium-ksqldb` root folder, run the following script:
 ```bash
 ./remove-docker-images.sh
 ```
